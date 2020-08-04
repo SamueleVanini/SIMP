@@ -28,8 +28,8 @@ SOURCES += \
 		view/source/mainwindow.cpp \
 		model/source/entity.cpp \
 		model/source/line.cpp \
-    view/source/canvas.cpp \
-    model/source/drawlinetool.cpp
+		view/source/canvas.cpp \
+		model/source/drawlinetool.cpp
 
 HEADERS += \
 		view/header/mainwindow.h \
@@ -38,6 +38,6 @@ HEADERS += \
 		model/header/drawable.h \
 		model/header/entity.h \
 		model/header/line.h \
-    view/header/canvas.h \
-    model/header/tool.h \
-    model/header/drawlinetool.h
+		view/header/canvas.h \
+		model/header/tool.h \
+		model/header/drawlinetool.h

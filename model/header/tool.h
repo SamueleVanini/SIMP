@@ -8,13 +8,12 @@ class Canvas;
 class Tool
 {
 public:
-    virtual ~Tool();
+    Tool(Canvas *canvas) : _canvas(canvas) {}
+    virtual ~Tool() {}
 
     virtual bool handleEvent(QEvent *event) =0;
 
 protected:
-
-    Tool(Canvas *canvas) : _canvas(canvas) {}
 
     virtual void mousePress(QMouseEvent*) =0;
     virtual void mouseMove(QMouseEvent*) =0;
