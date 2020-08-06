@@ -4,16 +4,41 @@
 #include <QMenu>
 #include <QMenuBar>
 #include <QtWidgets>
+#include <QMessageBox>
+#include <QIcon>
+#include <QToolButton>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
+    QMainWindow::setMinimumSize(600, 300);
     createAction();
     createMenu();
+    createLeftToolbar();
 }
 
 MainWindow::~MainWindow()
 {
+
+}
+
+void MainWindow::createLeftToolbar()
+{
+    leftToolbar=new QToolBar();
+    QMainWindow::addToolBar(Qt::LeftToolBarArea, leftToolbar);
+    leftToolbar->setOrientation(Qt::Vertical);
+
+    QAction* select = new QAction(QIcon(":/rec/Icons/CursorIcon.png"), "Select");
+    leftToolbar->addAction(select);
+    connect(select, &QAction::triggered, this, &MainWindow::on_selectAction_triggered);
+
+    QAction* drawLine = new QAction(QIcon(":/rec/Icons/LineIcon.png"), "Draw");
+    leftToolbar->addAction(drawLine);
+    connect(drawLine, &QAction::triggered, this, &MainWindow::on_drawLineAction_triggered);
+
+    QAction* deleteLine = new QAction(QIcon(":/rec/Icons/trash_can.png"), "Delete");
+    leftToolbar->addAction(deleteLine);
+    connect(deleteLine, &QAction::triggered, this, &MainWindow::on_deleteAction_triggered);
 
 }
 
@@ -92,13 +117,13 @@ void MainWindow::createAction()
     sendToBackAction = new QAction(tr("&Send to back"), this);
     //sendToBackAction->setShortcuts(QKeySequence::Delete); da inserire eventuale shortcut
     sendToBackAction->setStatusTip(tr("Send to back"));
-    connect(sendToBackAction, SIGNAL(triggered()), this, SLOT(on_SendToBackAction_triggered()));
+    connect(sendToBackAction, SIGNAL(triggered()), this, SLOT(on_sendToBackAction_triggered()));
 
     //bringForward
     bringForwardAction = new QAction(tr("&Bring forward"), this);
     //bringForwardAction->setShortcuts(QKeySequence::Delete); da inserire eventuale shortcut
     bringForwardAction->setStatusTip(tr("Bring forward"));
-    connect(bringForwardAction, SIGNAL(triggered()), this, SLOT(on_BringForwardAction_triggered()));
+    connect(bringForwardAction, SIGNAL(triggered()), this, SLOT(on_bringForwardAction_triggered()));
 
     //sendBackward
     sendBackwardAction = new QAction(tr("&sendBackward"), this);
@@ -106,11 +131,18 @@ void MainWindow::createAction()
     sendBackwardAction->setStatusTip(tr("Send backward"));
     connect(sendBackwardAction, SIGNAL(triggered()), this, SLOT(on_sendBackwardAction_triggered()));
 
+    //select
+    selectAction = new QAction(tr("&Select"), this);
+    //drawLineAction->setShortcuts(QKeySequence::Delete); da inserire eventuale shortcut
+    selectAction->setStatusTip(tr("Select"));
+    connect(selectAction, SIGNAL(triggered()), this, SLOT(on_selectAction_triggered()));
+
     //drawLine
     drawLineAction = new QAction(tr("&Draw line"), this);
     //drawLineAction->setShortcuts(QKeySequence::Delete); da inserire eventuale shortcut
     drawLineAction->setStatusTip(tr("Draw line"));
     connect(drawLineAction, SIGNAL(triggered()), this, SLOT(on_drawLineAction_triggered()));
+
 }
 
 //azioni menu file
@@ -162,9 +194,15 @@ void MainWindow::on_sendBackwardAction_triggered()
     return;
 }
 //azioni menu Draw
+void MainWindow::on_selectAction_triggered()
+{
+    return;
+}
+
 void MainWindow::on_drawLineAction_triggered()
 {
     return;
 }
+
 
 //azioni di supporto

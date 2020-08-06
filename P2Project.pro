@@ -41,3 +41,6 @@ HEADERS += \
 		view/header/canvas.h \
 		model/header/tool.h \
 		model/header/drawlinetool.h
+
+RESOURCES += \
+    resources.qrc
