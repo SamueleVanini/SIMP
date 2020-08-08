@@ -14,5 +14,6 @@
         <file>Icons/sendToBack.png</file>
         <file>Icons/trash_can.png</file>
         <file>Icons/undo.png</file>
+        <file>Icons/colorPalette.png</file>
     </qresource>
 </RCC>

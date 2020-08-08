@@ -1,15 +1,19 @@
 #include "view/header/mainwindow.h"
 #include "view/header/canvas.h"
 
+#include <iostream>
+
+
 #include <QMenu>
 #include <QMenuBar>
 #include <QtWidgets>
 #include <QMessageBox>
 #include <QIcon>
 #include <QToolButton>
+#include <QColorDialog>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
+    : QMainWindow(parent), lineColor(Qt::black)
 {
     QMainWindow::setMinimumSize(600, 300);
     createAction();
@@ -40,7 +44,14 @@ void MainWindow::createLeftToolbar()
     leftToolbar->addAction(deleteLine);
     connect(deleteLine, &QAction::triggered, this, &MainWindow::on_deleteAction_triggered);
 
+    leftToolbar->addSeparator();
+
+    QAction* getLineColor = new QAction(QIcon(":/rec/Icons/colorPalette.png"), "Pick a ");
+    leftToolbar->addAction(getLineColor);
+    connect(getLineColor, &QAction::triggered, this, &MainWindow::on_pickColorAction_triggered);
 }
+
+
 
 void MainWindow::createMenu()
 {
@@ -148,14 +159,17 @@ void MainWindow::createAction()
 //azioni menu file
 void MainWindow::on_newAction_triggered()
 {
+    std::cout<<"New Action"<<std::endl;
     return;
 }
 void MainWindow::on_openAction_triggered()
 {
+    std::cout<<"Open Action"<<std::endl;
     return;
 }
 void MainWindow::on_saveAction_triggered()
 {
+    std::cout<<"Save Action"<<std::endl;
     return;
 }
 void MainWindow::on_exitAction_triggered()
@@ -166,43 +180,63 @@ void MainWindow::on_exitAction_triggered()
 //azioni menu Edit
 void MainWindow::on_undoAction_triggered()
 {
+    std::cout<<"Undo Action"<<std::endl;
     return;
 }
 void MainWindow::on_redoAction_triggered()
 {
+    std::cout<<"Redo Action"<<std::endl;
     return;
 }
 void MainWindow::on_deleteAction_triggered()
 {
+    std::cout<<"Delete Action"<<std::endl;
     return;
 }
 //azioni menu arrange
 void MainWindow::on_bringToFrontAction_triggered()
 {
+    std::cout<<"Bring to front Action"<<std::endl;
     return;
 }
 void MainWindow::on_sendToBackAction_triggered()
 {
+    std::cout<<"Send to Back Action"<<std::endl;
     return;
 }
 void MainWindow::on_bringForwardAction_triggered()
 {
+    std::cout<<"Bring Forward Action"<<std::endl;
     return;
 }
 void MainWindow::on_sendBackwardAction_triggered()
 {
+    std::cout<<"Send Backward Action"<<std::endl;
     return;
 }
 //azioni menu Draw
 void MainWindow::on_selectAction_triggered()
 {
+    std::cout<<"Select Action"<<std::endl;
     return;
 }
 
 void MainWindow::on_drawLineAction_triggered()
 {
+    std::cout<<"Draw Line Action"<<std::endl;
     return;
 }
 
 
 //azioni di supporto
+
+void MainWindow::on_pickColorAction_triggered()
+{
+    QColor colorPicked = QColorDialog::getColor(Qt::black, this, "Choose Color");
+    if (colorPicked.isValid())
+    {
+        lineColor=colorPicked;
+        std::cout<<lineColor.name().toStdString()<<std::endl;
+    }
+
+}

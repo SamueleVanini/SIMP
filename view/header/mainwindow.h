@@ -8,6 +8,7 @@
 #include <QToolBar>
 #include <QMessageBox>
 #include <QIcon>
+#include <QColorDialog>
 
 class MainWindow : public QMainWindow
 {
@@ -37,6 +38,7 @@ private slots:
     void on_drawLineAction_triggered();
 
     //azioni di supporto
+    void on_pickColorAction_triggered();
 
 private:
     void createMenu(); //crea il menu` superiore
@@ -44,6 +46,10 @@ private:
     void createLeftToolbar();//crea la toolbar sinistra
     QMenu *menu;
     QToolBar *leftToolbar;
+
+    QColor lineColor; //colore della linea
+    //QColor fillColor; //se vengono implementate figure che siano fillable
+    unsigned int lineWidth;
 
     QAction *newAction;
     QAction *openAction;
