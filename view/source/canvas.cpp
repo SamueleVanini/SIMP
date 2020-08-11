@@ -42,6 +42,11 @@ void Canvas::addEntity(Entity* entity)
     scene.push_back(entity);
 }
 
+Entity* Canvas::getLastInsertedEntity()
+{
+    return scene.back();
+}
+
 void Canvas::paintEvent(QPaintEvent *pe)
 {
     QPainter *painter = new QPainter(this);

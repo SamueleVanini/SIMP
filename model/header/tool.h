@@ -1,7 +1,7 @@
 #ifndef TOOL_H
 #define TOOL_H
 
-class QEvent;
+#include "QEvent"
 class QMouseEvent;
 class Canvas;
 
@@ -11,7 +11,27 @@ public:
     Tool(Canvas *canvas) : _canvas(canvas) {}
     virtual ~Tool() {}
 
-    virtual bool handleEvent(QEvent *event) =0;
+    virtual bool handleEvent(QEvent *event)
+    {
+        QMouseEvent *me;
+        switch(event->type())
+        {
+            case QEvent::MouseButtonPress:
+                me = reinterpret_cast<QMouseEvent *>(event);
+                mousePress(me);
+                return true;
+            case QEvent::MouseMove:
+                me = reinterpret_cast<QMouseEvent *>(event);
+                mouseMove(me);
+                return true;
+            case QEvent::MouseButtonRelease:
+                me = reinterpret_cast<QMouseEvent *>(event);
+                mouseRelease(me);
+                return true;
+            default:
+                return false;
+        }
+     }
 
 protected:
 
