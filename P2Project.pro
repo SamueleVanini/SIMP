@@ -30,7 +30,8 @@ SOURCES += \
 		model/source/line.cpp \
 		view/source/canvas.cpp \
 		model/source/drawlinetool.cpp \
-    model/source/selectiontool.cpp
+		model/source/selectiontool.cpp \
+		controller/source/envstyle.cpp
 
 HEADERS += \
 		view/header/mainwindow.h \
@@ -42,4 +43,5 @@ HEADERS += \
 		view/header/canvas.h \
 		model/header/tool.h \
 		model/header/drawlinetool.h \
-    model/header/selectiontool.h
+		model/header/selectiontool.h \
+		controller/header/envstyle.h

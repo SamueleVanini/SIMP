@@ -4,6 +4,7 @@
 #include "QEvent"
 class QMouseEvent;
 class Canvas;
+class EnvStyle;
 
 class Tool
 {
@@ -40,6 +41,7 @@ protected:
     virtual void mouseRelease(QMouseEvent*) =0;
 
     Canvas *_canvas;
+    EnvStyle *_style;
 };
 
 #endif // TOOL_H
