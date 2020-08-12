@@ -11,9 +11,10 @@
 #include <QIcon>
 #include <QToolButton>
 #include <QColorDialog>
+#include <QLabel>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), lineColor(Qt::black)
+    : QMainWindow(parent), lineColor(Qt::black), lineWidth(2)
 {
     QMainWindow::setMinimumSize(600, 300);
     createAction();
@@ -46,9 +47,19 @@ void MainWindow::createLeftToolbar()
 
     leftToolbar->addSeparator();
 
-    QAction* getLineColor = new QAction(QIcon(":/rec/Icons/colorPalette.png"), "Pick a ");
+    QLabel *label = new QLabel(QString("Pen properties"));
+    leftToolbar->addWidget(label);
+
+    QAction* getLineColor = new QAction(QIcon(":/rec/Icons/colorPalette.png"), "Pick a color");
     leftToolbar->addAction(getLineColor);
     connect(getLineColor, &QAction::triggered, this, &MainWindow::on_pickColorAction_triggered);
+
+    QSpinBox *lineWidthSpinBox = new QSpinBox;
+    lineWidthSpinBox->setRange(0, 10);
+    lineWidthSpinBox->setSingleStep(1);
+    lineWidthSpinBox->setValue(lineWidth);
+
+    leftToolbar->addWidget(lineWidthSpinBox);
 }
 
 
