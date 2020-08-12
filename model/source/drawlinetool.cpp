@@ -5,7 +5,7 @@
 #include <QMouseEvent>
 
 
-DrawLineTool::DrawLineTool(Canvas *canvas) : Tool(canvas), _clickPressed(false) {}
+DrawLineTool::DrawLineTool(Canvas *canvas, EnvStyle *style) : Tool(canvas, style), _clickPressed(false) {}
 
 DrawLineTool::~DrawLineTool() {}
 
@@ -17,6 +17,10 @@ void DrawLineTool::mousePress(QMouseEvent *event)
     _line = new Line(_startPosition, _startPosition);
     _line->setLineColor(_style->getLineColor());
     _line->setLineThickness(_style->getThickness());
+    //Se inserisco una nuova shape l'ultima inserta nel canvas va deselezionata
+    Entity *lastInsertedEntity = _canvas->getLastInsertedEntity();
+    if(lastInsertedEntity)
+        lastInsertedEntity->setSelected(false);
     _canvas->addEntity(_line);
 }
 

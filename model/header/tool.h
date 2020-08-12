@@ -9,10 +9,10 @@ class EnvStyle;
 class Tool
 {
 public:
-    Tool(Canvas *canvas) : _canvas(canvas) {}
+    Tool(Canvas *canvas, EnvStyle *style) : _canvas(canvas), _style(style) {}
     virtual ~Tool() {}
 
-    virtual bool handleEvent(QEvent *event)
+    bool handleEvent(QEvent *event)
     {
         QMouseEvent *me;
         switch(event->type())

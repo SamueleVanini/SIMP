@@ -16,7 +16,7 @@ class VisualEntity;
 class SelectionTool : public Tool
 {
 public:
-    SelectionTool(Canvas *canvas);
+    SelectionTool(Canvas *canvas, EnvStyle *style);
     ~SelectionTool();
 
 protected:

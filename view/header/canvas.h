@@ -12,7 +12,7 @@ class Canvas : public QWidget
     Q_OBJECT
 
 public:
-    Canvas(QWidget *parent = 0);
+    Canvas(QWidget *parent = 0, Tool *activeTool = nullptr);
     virtual ~Canvas();
     Entity* getEntityFromPosition(int x, int y);
     void setBackgroundColor(QColor color);

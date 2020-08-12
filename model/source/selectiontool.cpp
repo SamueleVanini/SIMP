@@ -2,7 +2,7 @@
 #include "view/header/canvas.h"
 #include <QMouseEvent>
 
-SelectionTool::SelectionTool(Canvas *canvas) : Tool(canvas), _entityClicked(nullptr), _isMousePressed(false), _hasMoved(false) {}
+SelectionTool::SelectionTool(Canvas *canvas, EnvStyle *style) : Tool(canvas, style), _entityClicked(nullptr), _isMousePressed(false), _hasMoved(false) {}
 
 SelectionTool::~SelectionTool()
 {
@@ -23,7 +23,7 @@ void SelectionTool::mousePress(QMouseEvent *event)
 
 void SelectionTool::mouseMove(QMouseEvent *event)
 {
-    if (_isMousePressed) {
+    if (_isMousePressed && _entityClicked) {
         _entityClicked->setPosition(event->pos());
         _hasMoved = true;
     }
@@ -32,7 +32,11 @@ void SelectionTool::mouseMove(QMouseEvent *event)
 void SelectionTool::mouseRelease(QMouseEvent *event)
 {
     if(_entityClicked == nullptr)
-        _canvas->getLastInsertedEntity()->setSelected(false);
+    {
+        Entity *lastInsertedEntity = _canvas->getLastInsertedEntity();
+        if(lastInsertedEntity)
+            lastInsertedEntity->setSelected(false);
+    }
     _hasMoved = false;
     _isMousePressed = false;
 }

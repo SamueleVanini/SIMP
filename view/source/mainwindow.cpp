@@ -1,4 +1,5 @@
 #include "view/header/mainwindow.h"
+#include "controller/header/envstyle.h"
 #include <iostream>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -8,6 +9,12 @@ MainWindow::MainWindow(QWidget *parent)
     createAction();
     createMenu();
     createLeftToolbar();
+    canvas = new Canvas(this);
+    auto style = new EnvStyle();
+    _selectionTool = new SelectionTool(canvas, style);
+    _drawLineTool = new DrawLineTool(canvas, style);
+    canvas->setActiveTool(_selectionTool);
+    setCentralWidget(canvas);
 }
 
 MainWindow::~MainWindow()
@@ -137,6 +144,9 @@ void MainWindow::on_exitAction_triggered()
 //azioni menu Draw
 void MainWindow::on_selectAction_triggered()
 {
+    uncheckAllToolbar();
+    selectAction->setChecked(true);
+    canvas->setActiveTool(_selectionTool);
     std::cout<<"Select Action"<<std::endl;
     return;
 }
@@ -149,6 +159,9 @@ void MainWindow::on_deleteAction_triggered()
 
 void MainWindow::on_drawLineAction_triggered()
 {
+    uncheckAllToolbar();
+    drawLineAction->setChecked(true);
+    canvas->setActiveTool(_drawLineTool);
     std::cout<<"Draw Line Action"<<std::endl;
     return;
 }
@@ -166,4 +179,10 @@ void MainWindow::on_pickColorAction_triggered()
         std::cout<<lineColor.name().toStdString()<<std::endl;
     }
 
+}
+
+void MainWindow::uncheckAllToolbar()
+{
+    drawLineAction->setChecked(false);
+    selectAction->setChecked(false);
 }

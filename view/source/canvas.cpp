@@ -3,7 +3,7 @@
 #include "QPainter"
 #include "QMouseEvent"
 
-Canvas::Canvas(QWidget *parent) : QWidget(parent)
+Canvas::Canvas(QWidget *parent, Tool *activeTool) : QWidget(parent), _activeTool(activeTool)
 {
     setBackgroundColor(Qt::white);
 }
@@ -44,7 +44,10 @@ void Canvas::addEntity(Entity* entity)
 
 Entity* Canvas::getLastInsertedEntity()
 {
-    return scene.back();
+    Entity *last = nullptr;
+    if(!scene.empty())
+        last = scene.back();
+    return last;
 }
 
 void Canvas::paintEvent(QPaintEvent *pe)

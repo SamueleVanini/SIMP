@@ -3,6 +3,8 @@
 
 #include "view/header/canvas.h"
 #include "view/header/colorbutton.h"
+#include "model/header/selectiontool.h"
+#include "model/header/drawlinetool.h"
 
 #include <QtWidgets>
 #include <QMainWindow>
@@ -42,6 +44,9 @@ private:
     void createMenu(); //crea il menu` superiore
     void createAction();//collega ogni action al suo corrispondente slot
     void createLeftToolbar();//crea la toolbar sinistra
+    void uncheckAllToolbar();
+
+    Canvas *canvas;
     QMenu *menu;
     QToolBar *leftToolbar;
     colorButton *getLineColor;
@@ -55,6 +60,9 @@ private:
     QAction *deleteAction;
     QAction *selectAction;
     QAction *drawLineAction;
+
+    SelectionTool *_selectionTool;
+    DrawLineTool *_drawLineTool;
 };
 
 

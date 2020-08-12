@@ -45,7 +45,8 @@ HEADERS += \
 		model/header/tool.h \
 		model/header/drawlinetool.h \
     model/header/selectiontool.h \
-		controller/header/envstyle.h
+		controller/header/envstyle.h \
+    view/header/colorbutton.h
     view/header/colorbutton.h
 
 RESOURCES += \
