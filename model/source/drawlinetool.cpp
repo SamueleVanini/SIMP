@@ -1,7 +1,9 @@
 #include "model/header/drawlinetool.h"
+#include "model/header/tool.h"
 #include "view/header/canvas.h"
 #include "controller/header/envstyle.h"
 #include <QMouseEvent>
+
 
 DrawLineTool::DrawLineTool(Canvas *canvas) : Tool(canvas), _clickPressed(false) {}
 

@@ -30,8 +30,9 @@ SOURCES += \
 		model/source/line.cpp \
 		view/source/canvas.cpp \
 		model/source/drawlinetool.cpp \
-		model/source/selectiontool.cpp \
-		controller/source/envstyle.cpp
+    model/source/selectiontool.cpp \
+		controller/source/envstyle.cpp \
+    view/source/colorbutton.cpp
 
 HEADERS += \
 		view/header/mainwindow.h \
@@ -43,5 +44,9 @@ HEADERS += \
 		view/header/canvas.h \
 		model/header/tool.h \
 		model/header/drawlinetool.h \
-		model/header/selectiontool.h \
+    model/header/selectiontool.h \
 		controller/header/envstyle.h
+    view/header/colorbutton.h
+
+RESOURCES += \
+    resources.qrc
