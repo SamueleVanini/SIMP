@@ -10,6 +10,11 @@ Canvas::Canvas(QWidget *parent, Tool *activeTool) : QWidget(parent), _activeTool
 
 Canvas::~Canvas()
 {
+    delete _activeTool;
+    for(auto ci = scene.begin(); ci != scene.end(); ci++)
+    {
+        delete *ci;
+    }
 }
 
 Entity* Canvas::getEntityFromPosition(int x, int y)
@@ -52,6 +57,8 @@ Entity* Canvas::getLastInsertedEntity()
 
 void Canvas::paintEvent(QPaintEvent *pe)
 {
+    Q_UNUSED(pe)
+
     QPainter *painter = new QPainter(this);
 
     for(auto cit = scene.begin(); cit != scene.end(); ++cit)

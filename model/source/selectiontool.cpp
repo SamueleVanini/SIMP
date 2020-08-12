@@ -2,40 +2,44 @@
 #include "view/header/canvas.h"
 #include <QMouseEvent>
 
-SelectionTool::SelectionTool(Canvas *canvas, EnvStyle *style) : Tool(canvas, style), _entityClicked(nullptr), _isMousePressed(false), _hasMoved(false) {}
+SelectionTool::SelectionTool(Canvas *canvas, EnvStyle *style) : Tool(canvas, style), _isMousePressed(false), _hasMoved(false) {}
 
 SelectionTool::~SelectionTool()
 {
-
 }
 
 void SelectionTool::mousePress(QMouseEvent *event)
 {
     _isMousePressed = true;
-    _mousePressedLoc = event->pos();
+    //_mousePressedLoc = event->pos();
 
-    _entityClicked = _canvas->getEntityFromPosition(event->pos().x(), event->pos().y());
+    //deseleziona l'ultima entità selezionata prima di selezionare quella nuova
+    if (_lastEntity != nullptr) {
+        _lastEntity->setSelected(false);
+    }
 
-    if (_entityClicked != nullptr) {
-        _entityClicked->toogleSelect();
+    _lastEntity = _canvas->getEntityFromPosition(event->pos().x(), event->pos().y());
+
+    if (_lastEntity != nullptr) {
+        _lastEntity->toogleSelect();
     }
 }
 
 void SelectionTool::mouseMove(QMouseEvent *event)
 {
-    if (_isMousePressed && _entityClicked) {
-        _entityClicked->setPosition(event->pos());
+    if (_isMousePressed && _lastEntity) {
+        _lastEntity->setPosition(event->pos());
         _hasMoved = true;
     }
 }
 
 void SelectionTool::mouseRelease(QMouseEvent *event)
 {
-    if(_entityClicked == nullptr)
+    Q_UNUSED(event)
+    if(_lastEntity == nullptr)
     {
-        Entity *lastInsertedEntity = _canvas->getLastInsertedEntity();
-        if(lastInsertedEntity)
-            lastInsertedEntity->setSelected(false);
+        if(_lastEntity)
+            _lastEntity->setSelected(false);
     }
     _hasMoved = false;
     _isMousePressed = false;

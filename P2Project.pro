@@ -26,28 +26,28 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
 		view/source/mainwindow.cpp \
+		view/source/canvas.cpp \
+		view/source/colorbutton.cpp \
 		model/source/entity.cpp \
 		model/source/line.cpp \
-		view/source/canvas.cpp \
 		model/source/drawlinetool.cpp \
-    model/source/selectiontool.cpp \
+		model/source/selectiontool.cpp \
 		controller/source/envstyle.cpp \
-    view/source/colorbutton.cpp
+    model/source/tool.cpp
 
 HEADERS += \
 		view/header/mainwindow.h \
+		view/header/canvas.h \
+		view/header/colorbutton.h \
 		model/header/trasformable.h \
 		model/header/selectable.h \
 		model/header/drawable.h \
 		model/header/entity.h \
 		model/header/line.h \
-		view/header/canvas.h \
 		model/header/tool.h \
 		model/header/drawlinetool.h \
-    model/header/selectiontool.h \
-		controller/header/envstyle.h \
-    view/header/colorbutton.h
-    view/header/colorbutton.h
+		model/header/selectiontool.h \
+		controller/header/envstyle.h
 
 RESOURCES += \
     resources.qrc

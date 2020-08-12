@@ -25,6 +25,9 @@ public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+signals:
+    void lineColorChaneged(QColor color);
+
 private slots:
     //slot menu file
     void on_newAction_triggered();

@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
     createMenu();
     createLeftToolbar();
     canvas = new Canvas(this);
-    auto style = new EnvStyle();
+    auto style = new EnvStyle(this);
     _selectionTool = new SelectionTool(canvas, style);
     _drawLineTool = new DrawLineTool(canvas, style);
     canvas->setActiveTool(_selectionTool);
@@ -177,6 +177,7 @@ void MainWindow::on_pickColorAction_triggered()
         lineColor=colorPicked;
         getLineColor->setColor(lineColor);
         std::cout<<lineColor.name().toStdString()<<std::endl;
+        emit lineColorChaneged(lineColor);
     }
 
 }

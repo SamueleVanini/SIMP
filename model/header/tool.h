@@ -5,34 +5,14 @@
 class QMouseEvent;
 class Canvas;
 class EnvStyle;
+class Entity;
 
 class Tool
 {
 public:
-    Tool(Canvas *canvas, EnvStyle *style) : _canvas(canvas), _style(style) {}
-    virtual ~Tool() {}
-
-    bool handleEvent(QEvent *event)
-    {
-        QMouseEvent *me;
-        switch(event->type())
-        {
-            case QEvent::MouseButtonPress:
-                me = reinterpret_cast<QMouseEvent *>(event);
-                mousePress(me);
-                return true;
-            case QEvent::MouseMove:
-                me = reinterpret_cast<QMouseEvent *>(event);
-                mouseMove(me);
-                return true;
-            case QEvent::MouseButtonRelease:
-                me = reinterpret_cast<QMouseEvent *>(event);
-                mouseRelease(me);
-                return true;
-            default:
-                return false;
-        }
-     }
+    Tool(Canvas *canvas, EnvStyle *style);
+    virtual ~Tool();
+    bool handleEvent(QEvent *event);
 
 protected:
 
@@ -42,6 +22,8 @@ protected:
 
     Canvas *_canvas;
     EnvStyle *_style;
+
+    static Entity *_lastEntity;
 };
 
 #endif // TOOL_H

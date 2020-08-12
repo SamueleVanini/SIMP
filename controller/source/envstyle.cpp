@@ -1,8 +1,10 @@
 #include "controller/header/envstyle.h"
 
-EnvStyle::EnvStyle(QColor lineColor, QColor fillColor, int thickness): _lineColor(lineColor), _fillColor(fillColor), _thickness(thickness)
-{
+// PUBLIC
 
+EnvStyle::EnvStyle(MainWindow *ui, QColor lineColor, QColor fillColor, int thickness): _ui(ui), _lineColor(lineColor), _fillColor(fillColor), _thickness(thickness)
+{
+    connect(_ui, SIGNAL(lineColorChaneged(QColor)), this, SLOT(changeLineColor(QColor)));
 }
 
 QColor EnvStyle::getLineColor()
@@ -20,6 +22,10 @@ int EnvStyle::getThickness()
     return _thickness;
 }
 
+// END PUBLIC
+
+// SLOT
+
 void EnvStyle::changeLineColor(QColor color)
 {
     setLineColor(color);
@@ -36,6 +42,10 @@ void EnvStyle::changeLineThikness(int value)
     setThickness(value);
 }
 
+// END SLOT
+
+// PRIVATE
+
 void EnvStyle::setLineColor(QColor color)
 {
     _lineColor = color;
@@ -50,3 +60,5 @@ void EnvStyle::setThickness(int value)
 {
     _thickness = value;
 }
+
+// END PRIVATE
