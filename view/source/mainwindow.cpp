@@ -1,18 +1,5 @@
 #include "view/header/mainwindow.h"
-#include "view/header/canvas.h"
-#include "view/header/colorbutton.h"
-
 #include <iostream>
-
-
-#include <QMenu>
-#include <QMenuBar>
-#include <QtWidgets>
-#include <QMessageBox>
-#include <QIcon>
-#include <QPushButton>
-#include <QColorDialog>
-#include <QLabel>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), lineColor(Qt::black), lineWidth(2)
@@ -48,26 +35,21 @@ void MainWindow::createLeftToolbar()
 
     leftToolbar->addSeparator();
 
-
-
-    QLabel *label = new QLabel(QString("Pen properties"));
-    leftToolbar->addWidget(label);
+    QLabel *label1 = new QLabel(QString("Line color"));
+    leftToolbar->addWidget(label1);
 
     getLineColor = new colorButton();
-
-
     leftToolbar->addWidget(getLineColor);
-
     QAction* setColor= new QAction(lineColor.name());
     getLineColor->setAction(setColor);
-
     connect(setColor, &QAction::triggered, this, &MainWindow::on_pickColorAction_triggered);
 
+    QLabel *label2 = new QLabel(QString("Line width"));
+    leftToolbar->addWidget(label2);
     QSpinBox *lineWidthSpinBox = new QSpinBox;
-    lineWidthSpinBox->setRange(0, 10);
+    lineWidthSpinBox->setRange(1, 10);
     lineWidthSpinBox->setSingleStep(1);
     lineWidthSpinBox->setValue(lineWidth);
-
     leftToolbar->addWidget(lineWidthSpinBox);
 }
 
@@ -81,14 +63,7 @@ void MainWindow::createMenu()
     menu->addAction(saveAction);
     menu->addAction(exitAction);
     menu = menuBar()->addMenu(tr("&Edit"));
-    menu->addAction(undoAction);
-    menu->addAction(redoAction);
     menu->addAction(deleteAction);
-    menu = menuBar()->addMenu(tr("&Arrange"));
-    menu->addAction(bringToFrontAction);
-    menu->addAction(sendToBackAction);
-    menu->addAction(bringForwardAction);
-    menu->addAction(sendBackwardAction);
     menu = menuBar()->addMenu(tr("&Draw"));
     menu->addAction(drawLineAction);
 }
@@ -120,57 +95,19 @@ void MainWindow::createAction()
     exitAction->setStatusTip(tr("Quit"));
     connect(exitAction, SIGNAL(triggered()), this, SLOT(on_exitAction_triggered()));
 
-    //undo
-    undoAction = new QAction(tr("&Undo"), this);
-    undoAction->setShortcuts(QKeySequence::Undo);
-    undoAction->setStatusTip(tr("Undo"));
-    connect(undoAction, SIGNAL(triggered()), this, SLOT(on_undoAction_triggered()));
-
-    //redo
-    redoAction = new QAction(tr("&Redo"), this);
-    redoAction->setShortcuts(QKeySequence::Redo);
-    redoAction->setStatusTip(tr("Redo"));
-    connect(redoAction, SIGNAL(triggered()), this, SLOT(on_redoAction_triggered()));
-
     //delete
     deleteAction = new QAction(tr("&Delete"), this);
     deleteAction->setShortcuts(QKeySequence::Delete);
     deleteAction->setStatusTip(tr("delete"));
     connect(deleteAction, SIGNAL(triggered()), this, SLOT(on_deleteAction_triggered()));
 
-    //bringToFront
-    bringToFrontAction = new QAction(tr("&Bring to front"), this);
-    //bringToFrontAction->setShortcuts(QKeySequence::Delete); da inserire eventuale shortcut
-    bringToFrontAction->setStatusTip(tr("Bring to front"));
-    connect(bringToFrontAction, SIGNAL(triggered()), this, SLOT(on_bringToFrontAction_triggered()));
-
-    //sendToBack
-    sendToBackAction = new QAction(tr("&Send to back"), this);
-    //sendToBackAction->setShortcuts(QKeySequence::Delete); da inserire eventuale shortcut
-    sendToBackAction->setStatusTip(tr("Send to back"));
-    connect(sendToBackAction, SIGNAL(triggered()), this, SLOT(on_sendToBackAction_triggered()));
-
-    //bringForward
-    bringForwardAction = new QAction(tr("&Bring forward"), this);
-    //bringForwardAction->setShortcuts(QKeySequence::Delete); da inserire eventuale shortcut
-    bringForwardAction->setStatusTip(tr("Bring forward"));
-    connect(bringForwardAction, SIGNAL(triggered()), this, SLOT(on_bringForwardAction_triggered()));
-
-    //sendBackward
-    sendBackwardAction = new QAction(tr("&sendBackward"), this);
-    //sendBackwardAction->setShortcuts(QKeySequence::Delete); da inserire eventuale shortcut
-    sendBackwardAction->setStatusTip(tr("Send backward"));
-    connect(sendBackwardAction, SIGNAL(triggered()), this, SLOT(on_sendBackwardAction_triggered()));
-
     //select
     selectAction = new QAction(tr("&Select"), this);
-    //drawLineAction->setShortcuts(QKeySequence::Delete); da inserire eventuale shortcut
     selectAction->setStatusTip(tr("Select"));
     connect(selectAction, SIGNAL(triggered()), this, SLOT(on_selectAction_triggered()));
 
     //drawLine
     drawLineAction = new QAction(tr("&Draw line"), this);
-    //drawLineAction->setShortcuts(QKeySequence::Delete); da inserire eventuale shortcut
     drawLineAction->setStatusTip(tr("Draw line"));
     connect(drawLineAction, SIGNAL(triggered()), this, SLOT(on_drawLineAction_triggered()));
 
@@ -197,47 +134,16 @@ void MainWindow::on_exitAction_triggered()
     close();
 }
 
-//azioni menu Edit
-void MainWindow::on_undoAction_triggered()
-{
-    std::cout<<"Undo Action"<<std::endl;
-    return;
-}
-void MainWindow::on_redoAction_triggered()
-{
-    std::cout<<"Redo Action"<<std::endl;
-    return;
-}
-void MainWindow::on_deleteAction_triggered()
-{
-    std::cout<<"Delete Action"<<std::endl;
-    return;
-}
-//azioni menu arrange
-void MainWindow::on_bringToFrontAction_triggered()
-{
-    std::cout<<"Bring to front Action"<<std::endl;
-    return;
-}
-void MainWindow::on_sendToBackAction_triggered()
-{
-    std::cout<<"Send to Back Action"<<std::endl;
-    return;
-}
-void MainWindow::on_bringForwardAction_triggered()
-{
-    std::cout<<"Bring Forward Action"<<std::endl;
-    return;
-}
-void MainWindow::on_sendBackwardAction_triggered()
-{
-    std::cout<<"Send Backward Action"<<std::endl;
-    return;
-}
 //azioni menu Draw
 void MainWindow::on_selectAction_triggered()
 {
     std::cout<<"Select Action"<<std::endl;
+    return;
+}
+
+void MainWindow::on_deleteAction_triggered()
+{
+    std::cout<<"Delete Action"<<std::endl;
     return;
 }
 

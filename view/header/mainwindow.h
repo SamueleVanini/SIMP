@@ -1,15 +1,19 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
 #include "view/header/canvas.h"
 #include "view/header/colorbutton.h"
+
+#include <QtWidgets>
+#include <QMainWindow>
 #include <QMenu>
 #include <QMenuBar>
 #include <QToolBar>
 #include <QMessageBox>
 #include <QIcon>
 #include <QColorDialog>
+#include <QPushButton>
+#include <QLabel>
 
 class MainWindow : public QMainWindow
 {
@@ -26,14 +30,7 @@ private slots:
     void on_saveAction_triggered();
     void on_exitAction_triggered();
     //slot menu Edit
-    void on_undoAction_triggered();
-    void on_redoAction_triggered();
     void on_deleteAction_triggered();
-    //slot menu arrange
-    void on_bringToFrontAction_triggered();
-    void on_sendToBackAction_triggered();
-    void on_bringForwardAction_triggered();
-    void on_sendBackwardAction_triggered();
     //slot menu Draw
     void on_selectAction_triggered();
     void on_drawLineAction_triggered();
@@ -55,13 +52,7 @@ private:
     QAction *openAction;
     QAction *saveAction;
     QAction *exitAction;
-    QAction *undoAction;
-    QAction *redoAction;
     QAction *deleteAction;
-    QAction *bringToFrontAction;
-    QAction *sendToBackAction;
-    QAction *bringForwardAction;
-    QAction *sendBackwardAction;
     QAction *selectAction;
     QAction *drawLineAction;
 };
