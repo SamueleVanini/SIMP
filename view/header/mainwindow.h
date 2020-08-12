@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "view/header/canvas.h"
+#include "view/header/colorbutton.h"
 #include <QMenu>
 #include <QMenuBar>
 #include <QToolBar>
@@ -46,10 +47,9 @@ private:
     void createLeftToolbar();//crea la toolbar sinistra
     QMenu *menu;
     QToolBar *leftToolbar;
-
+    colorButton *getLineColor;
     QColor lineColor; //colore della linea
-    //QColor fillColor; //se vengono implementate figure che siano fillable
-    unsigned int lineWidth;
+    unsigned int lineWidth; //spessore della linea
 
     QAction *newAction;
     QAction *openAction;

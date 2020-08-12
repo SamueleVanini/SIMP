@@ -1,5 +1,6 @@
 #include "view/header/mainwindow.h"
 #include "view/header/canvas.h"
+#include "view/header/colorbutton.h"
 
 #include <iostream>
 
@@ -9,7 +10,7 @@
 #include <QtWidgets>
 #include <QMessageBox>
 #include <QIcon>
-#include <QToolButton>
+#include <QPushButton>
 #include <QColorDialog>
 #include <QLabel>
 
@@ -47,12 +48,20 @@ void MainWindow::createLeftToolbar()
 
     leftToolbar->addSeparator();
 
+
+
     QLabel *label = new QLabel(QString("Pen properties"));
     leftToolbar->addWidget(label);
 
-    QAction* getLineColor = new QAction(QIcon(":/rec/Icons/colorPalette.png"), "Pick a color");
-    leftToolbar->addAction(getLineColor);
-    connect(getLineColor, &QAction::triggered, this, &MainWindow::on_pickColorAction_triggered);
+    getLineColor = new colorButton();
+
+
+    leftToolbar->addWidget(getLineColor);
+
+    QAction* setColor= new QAction(lineColor.name());
+    getLineColor->setAction(setColor);
+
+    connect(setColor, &QAction::triggered, this, &MainWindow::on_pickColorAction_triggered);
 
     QSpinBox *lineWidthSpinBox = new QSpinBox;
     lineWidthSpinBox->setRange(0, 10);
@@ -247,6 +256,7 @@ void MainWindow::on_pickColorAction_triggered()
     if (colorPicked.isValid())
     {
         lineColor=colorPicked;
+        getLineColor->setColor(lineColor);
         std::cout<<lineColor.name().toStdString()<<std::endl;
     }
 
