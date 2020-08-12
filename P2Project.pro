@@ -30,6 +30,8 @@ SOURCES += \
 		model/source/line.cpp \
 		view/source/canvas.cpp \
 		model/source/drawlinetool.cpp \
+    model/source/selectiontool.cpp \
+		controller/source/envstyle.cpp \
     view/source/colorbutton.cpp
 
 HEADERS += \
@@ -42,6 +44,8 @@ HEADERS += \
 		view/header/canvas.h \
 		model/header/tool.h \
 		model/header/drawlinetool.h \
+    model/header/selectiontool.h \
+		controller/header/envstyle.h
     view/header/colorbutton.h
 
 RESOURCES += \

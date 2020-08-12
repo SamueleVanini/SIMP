@@ -1,6 +1,7 @@
 #include "model/header/drawlinetool.h"
 #include "model/header/tool.h"
 #include "view/header/canvas.h"
+#include "controller/header/envstyle.h"
 #include <QMouseEvent>
 
 
@@ -14,6 +15,8 @@ void DrawLineTool::mousePress(QMouseEvent *event)
     _startPosition = event->pos();
 
     _line = new Line(_startPosition, _startPosition);
+    _line->setLineColor(_style->getLineColor());
+    _line->setLineThickness(_style->getThickness());
     _canvas->addEntity(_line);
 }
 
@@ -28,8 +31,5 @@ void DrawLineTool::mouseRelease(QMouseEvent *)
 {
     _clickPressed = false;
     _line->setSelected(true);
-
-    //DrawCommand *comm = new DrawCommand(m_line);
-    //comm->addtoCommandStack();
 }
 

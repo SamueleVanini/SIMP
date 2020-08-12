@@ -17,6 +17,7 @@ public:
     Entity* getEntityFromPosition(int x, int y);
     void setBackgroundColor(QColor color);
     void addEntity(Entity *entity);
+    Entity* getLastInsertedEntity();
     void setActiveTool(Tool *tool);
 
 protected:
