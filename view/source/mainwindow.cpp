@@ -31,7 +31,7 @@ bool MainWindow::exitPrompt()
         exitDialog->setText("There are unsaved changes. Do you want to save before exit?");
         QAbstractButton *save = exitDialog->addButton("Exit and save", QMessageBox::AcceptRole);
         QAbstractButton *cancel = exitDialog->addButton("Cancel", QMessageBox::RejectRole);
-        QAbstractButton *exit = exitDialog->addButton("Exit whitout saving", QMessageBox::DestructiveRole);
+        exitDialog->addButton("Exit whitout saving", QMessageBox::DestructiveRole);
         exitDialog->exec();
         if (exitDialog->clickedButton()== cancel)
             return false;
@@ -95,7 +95,6 @@ void MainWindow::createMenu()
 {
     menu = menuBar()->addMenu(tr("&File"));
     menu->addAction(newAction);
-    menu->addAction(openAction);
     menu->addAction(saveAction);
     menu->addAction(exitAction);
     menu = menuBar()->addMenu(tr("&Edit"));
@@ -112,12 +111,6 @@ void MainWindow::createAction()
     newAction->setShortcuts(QKeySequence::New);
     newAction->setStatusTip(tr("New"));
     connect(newAction, SIGNAL(triggered()), this, SLOT(on_newAction_triggered()));
-
-    //open
-    openAction = new QAction(tr("&Open"), this);
-    openAction->setShortcuts(QKeySequence::Open);
-    openAction->setStatusTip(tr("Open"));
-    connect(openAction, SIGNAL(triggered()), this, SLOT(on_openAction_triggered()));
 
     //save
     saveAction = new QAction(tr("&Save"), this);
@@ -155,11 +148,7 @@ void MainWindow::on_newAction_triggered()
     std::cout<<"New Action"<<std::endl;
     return;
 }
-void MainWindow::on_openAction_triggered()
-{
-    std::cout<<"Open Action"<<std::endl;
-    return;
-}
+
 void MainWindow::on_saveAction_triggered()
 {
     std::cout<<"Save Action"<<std::endl;

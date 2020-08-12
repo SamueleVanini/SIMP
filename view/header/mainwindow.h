@@ -31,7 +31,6 @@ protected:
 private slots:
     //slot menu file
     void on_newAction_triggered();
-    void on_openAction_triggered();
     void on_saveAction_triggered();
     void on_exitAction_triggered();
     //slot menu Edit
@@ -61,7 +60,6 @@ private:
     bool isDirty; //dirty bit per segnalare la presenza di modifiche non salvate
 
     QAction *newAction;
-    QAction *openAction;
     QAction *saveAction;
     QAction *exitAction;
     QAction *deleteAction;
