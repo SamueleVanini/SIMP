@@ -3,7 +3,7 @@
 #include <iostream>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), lineColor(Qt::black), lineWidth(2)
+    : QMainWindow(parent), lineColor(Qt::black), lineWidth(2), isDirty(false)
 {
     QMainWindow::setMinimumSize(600, 300);
     createAction();
@@ -20,6 +20,35 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
 
+}
+
+//ritorna vero se esce, falso altrimenti
+bool MainWindow::exitPrompt()
+{
+    if (isDirty) {
+
+        QMessageBox *exitDialog = new QMessageBox(this);
+        exitDialog->setText("There are unsaved changes. Do you want to save before exit?");
+        QAbstractButton *save = exitDialog->addButton("Exit and save", QMessageBox::AcceptRole);
+        QAbstractButton *cancel = exitDialog->addButton("Cancel", QMessageBox::RejectRole);
+        QAbstractButton *exit = exitDialog->addButton("Exit whitout saving", QMessageBox::DestructiveRole);
+        exitDialog->exec();
+        if (exitDialog->clickedButton()== cancel)
+            return false;
+        if (exitDialog->clickedButton()== save)
+        {
+            on_saveAction_triggered();
+            return true;
+        }
+    }
+    return true;
+}
+
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    if (!exitPrompt())
+        event->ignore();
 }
 
 void MainWindow::createLeftToolbar()
@@ -162,6 +191,8 @@ void MainWindow::on_drawLineAction_triggered()
     uncheckAllToolbar();
     drawLineAction->setChecked(true);
     canvas->setActiveTool(_drawLineTool);
+    if (isDirty == false)
+        isDirty = true;
     std::cout<<"Draw Line Action"<<std::endl;
     return;
 }

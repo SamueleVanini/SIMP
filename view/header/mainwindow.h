@@ -25,6 +25,9 @@ public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+protected:
+    void closeEvent(QCloseEvent *event) override;
+
 private slots:
     //slot menu file
     void on_newAction_triggered();
@@ -46,12 +49,16 @@ private:
     void createLeftToolbar();//crea la toolbar sinistra
     void uncheckAllToolbar();
 
+    bool exitPrompt();
+
     Canvas *canvas;
     QMenu *menu;
     QToolBar *leftToolbar;
     colorButton *getLineColor;
     QColor lineColor; //colore della linea
     unsigned int lineWidth; //spessore della linea
+
+    bool isDirty; //dirty bit per segnalare la presenza di modifiche non salvate
 
     QAction *newAction;
     QAction *openAction;
