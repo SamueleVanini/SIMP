@@ -3,7 +3,7 @@
 #include "QPainter"
 #include "QMouseEvent"
 
-Canvas::Canvas(QWidget *parent, Tool *activeTool) : QWidget(parent), _activeTool(activeTool)
+Canvas::Canvas(QWidget *parent, Scene *scene, Tool *activeTool) : QWidget(parent), _scene(scene), _activeTool(activeTool)
 {
     setBackgroundColor(Qt::white);
 }
@@ -11,22 +11,6 @@ Canvas::Canvas(QWidget *parent, Tool *activeTool) : QWidget(parent), _activeTool
 Canvas::~Canvas()
 {
     delete _activeTool;
-    for(auto ci = scene.begin(); ci != scene.end(); ci++)
-    {
-        delete *ci;
-    }
-}
-
-Entity* Canvas::getEntityFromPosition(int x, int y)
-{
-    for(auto cit = scene.begin(); cit != scene.end(); ++cit)
-    {
-        if((*cit)->contains(x,y))
-        {
-            return *cit;
-        }
-    }
-    return nullptr;
 }
 
 void Canvas::setBackgroundColor(QColor color)
@@ -42,29 +26,13 @@ void Canvas::setActiveTool(Tool *tool)
     _activeTool = tool;
 }
 
-void Canvas::addEntity(Entity* entity)
-{
-    scene.push_back(entity);
-}
-
-Entity* Canvas::getLastInsertedEntity()
-{
-    Entity *last = nullptr;
-    if(!scene.empty())
-        last = scene.back();
-    return last;
-}
-
 void Canvas::paintEvent(QPaintEvent *pe)
 {
     Q_UNUSED(pe)
 
     QPainter *painter = new QPainter(this);
 
-    for(auto cit = scene.begin(); cit != scene.end(); ++cit)
-    {
-        (*cit)->draw(painter);
-    }
+    _scene->drawAllEntity(painter);
 
     delete painter;
 }

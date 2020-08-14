@@ -3,7 +3,7 @@
 #include <cmath>
 
 Line::Line(const QPoint &p1, const QPoint &p2, QColor lineColor, int lineThickness, bool selected)
-    : Entity(lineColor, lineThickness, selected), _p1(p1), _p2(p2) {}
+    : Entity(lineColor, Qt::black, lineThickness, selected), _p1(p1), _p2(p2) {}
 
 void Line::draw(QPainter *painter) const
 {

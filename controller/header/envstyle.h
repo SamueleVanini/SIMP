@@ -1,7 +1,7 @@
 #ifndef ENVSTYLE_H
 #define ENVSTYLE_H
 
-#include "view/header/mainwindow.h"
+class MainWindow;
 
 #include <QColor>
 #include <QObject>
@@ -19,7 +19,12 @@ public:
 public slots:
     void changeLineColor(QColor color);
     void changeFillColor(QColor color);
-    void changeLineThikness(int value);
+    void changeLineThickness(int value);
+
+signals:
+    void lineColorChanged(QColor);
+    void fillColorChanged(QColor);
+    void thicknessChanged(int);
 
 private:
 

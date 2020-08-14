@@ -9,7 +9,7 @@
 class DrawLineTool : public Tool
 {
 public:
-    DrawLineTool(Canvas *canvas, EnvStyle *style);
+    DrawLineTool(Scene *scene, EnvStyle *style);
     virtual ~DrawLineTool();
 
 protected:

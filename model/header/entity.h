@@ -15,7 +15,7 @@ class Entity : public Drawable, public Selectable, public Transformable
 {
 public:
 
-    Entity(QColor lineColor = Qt::black, int lineThickness = 4, bool selected = false);
+    Entity(QColor lineColor = Qt::black, QColor fillColor = Qt::white, int lineThickness = 4, bool selected = false);
 
     virtual ~Entity();
 
@@ -68,8 +68,13 @@ public:
      */
     int getLineThickness() const;
 
+    void setFillColor(const QColor &color);
+
+    QColor getFillColor() const;
+
 protected:
     QColor _lineColor;
+    QColor _fillColor;
     int _lineThickness;
 };
 

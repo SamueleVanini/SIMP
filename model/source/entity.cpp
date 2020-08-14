@@ -2,8 +2,8 @@
 
 #include <QPainter>
 
-Entity::Entity(QColor lineColor, int lineThickness, bool selected)
-    : Selectable(selected), _lineColor(lineColor), _lineThickness(lineThickness) {}
+Entity::Entity(QColor lineColor, QColor fillColor, int lineThickness, bool selected)
+    : Selectable(selected), _lineColor(lineColor), _fillColor(fillColor), _lineThickness(lineThickness) {}
 
 Entity::~Entity()
 {
@@ -71,3 +71,14 @@ int Entity::getLineThickness() const
 {
     return _lineThickness;
 }
+
+QColor Entity::getFillColor() const
+{
+    return _fillColor;
+}
+
+void Entity::setFillColor(const QColor &color)
+{
+    _fillColor = color;
+}
+

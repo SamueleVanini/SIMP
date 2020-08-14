@@ -1,5 +1,4 @@
 #include "view/header/mainwindow.h"
-#include "controller/header/envstyle.h"
 #include <iostream>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -9,10 +8,11 @@ MainWindow::MainWindow(QWidget *parent)
     createAction();
     createMenu();
     createLeftToolbar();
-    canvas = new Canvas(this);
+    scene = new Scene();
+    canvas = new Canvas(this, scene);
     auto style = new EnvStyle(this);
-    _selectionTool = new SelectionTool(canvas, style);
-    _drawLineTool = new DrawLineTool(canvas, style);
+    _selectionTool = new SelectionTool(scene, style);
+    _drawLineTool = new DrawLineTool(scene, style);
     canvas->setActiveTool(_selectionTool);
     setCentralWidget(canvas);
 }
@@ -58,6 +58,7 @@ void MainWindow::createLeftToolbar()
     lineWidthSpinBox->setSingleStep(1);
     lineWidthSpinBox->setValue(lineWidth);
     leftToolbar->addWidget(lineWidthSpinBox);
+    connect(lineWidthSpinBox, SIGNAL(valueChanged(int)), this, SIGNAL(lineThicknessChanged(int)));
 }
 
 

@@ -2,15 +2,18 @@
 #define TOOL_H
 
 #include "QEvent"
+#include "model/header/scene.h"
+#include "controller/header/envstyle.h"
+
 class QMouseEvent;
-class Canvas;
-class EnvStyle;
+class Scene;
 class Entity;
+class QColor;
 
 class Tool
 {
 public:
-    Tool(Canvas *canvas, EnvStyle *style);
+    Tool(Scene *scene, EnvStyle *style);
     virtual ~Tool();
     bool handleEvent(QEvent *event);
 
@@ -20,7 +23,7 @@ protected:
     virtual void mouseMove(QMouseEvent*) =0;
     virtual void mouseRelease(QMouseEvent*) =0;
 
-    Canvas *_canvas;
+    Scene *_scene;
     EnvStyle *_style;
 
     static Entity *_lastEntity;

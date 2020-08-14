@@ -1,10 +1,10 @@
 #include "model/header/tool.h"
 
-Tool::Tool(Canvas *canvas, EnvStyle *style) : _canvas(canvas), _style(style) {}
+Tool::Tool(Scene *scene, EnvStyle *style) : _scene(scene), _style(style) {}
 
 Tool::~Tool()
 {
-    delete _canvas;
+    delete _scene;
     delete _style;
 }
 

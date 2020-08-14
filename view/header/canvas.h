@@ -3,18 +3,17 @@
 
 #include "model/header/entity.h"
 #include "model/header/tool.h"
+#include "model/header/scene.h"
 
 #include "QWidget"
-#include <vector>
 
 class Canvas : public QWidget
 {
     Q_OBJECT
 
 public:
-    Canvas(QWidget *parent = 0, Tool *activeTool = nullptr);
+    Canvas(QWidget *parent = 0, Scene *scene = nullptr, Tool *activeTool = nullptr);
     virtual ~Canvas();
-    Entity* getEntityFromPosition(int x, int y);
     void setBackgroundColor(QColor color);
     void addEntity(Entity *entity);
     Entity* getLastInsertedEntity();
@@ -25,7 +24,7 @@ protected:
     bool event(QEvent *event) override;
 
 private:
-    std::vector<Entity*> scene;
+    Scene *_scene;
     Tool *_activeTool;
 };
 

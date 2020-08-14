@@ -3,8 +3,10 @@
 
 #include "view/header/canvas.h"
 #include "view/header/colorbutton.h"
+#include "model/header/scene.h"
 #include "model/header/selectiontool.h"
 #include "model/header/drawlinetool.h"
+#include "controller/header/envstyle.h"
 
 #include <QtWidgets>
 #include <QMainWindow>
@@ -27,6 +29,7 @@ public:
 
 signals:
     void lineColorChaneged(QColor color);
+    void lineThicknessChanged(int value);
 
 private slots:
     //slot menu file
@@ -50,6 +53,7 @@ private:
     void uncheckAllToolbar();
 
     Canvas *canvas;
+    Scene *scene;
     QMenu *menu;
     QToolBar *leftToolbar;
     colorButton *getLineColor;
