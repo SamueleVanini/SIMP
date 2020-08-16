@@ -10,12 +10,17 @@ class Scene;
 class Entity;
 class QColor;
 
-class Tool
+class Tool : public QObject
 {
+    Q_OBJECT
+
 public:
     Tool(Scene *scene, EnvStyle *style);
     virtual ~Tool();
     bool handleEvent(QEvent *event);
+
+signals:
+    void canvasModified();
 
 protected:
 

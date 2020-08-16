@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent)
     auto style = new EnvStyle(this);
     _selectionTool = new SelectionTool(scene, style);
     _drawLineTool = new DrawLineTool(scene, style);
+    _deleteTool = new DeleteTool(scene, style);
     canvas->setActiveTool(_selectionTool);
     setCentralWidget(canvas);
 }
@@ -154,6 +155,9 @@ void MainWindow::on_selectAction_triggered()
 
 void MainWindow::on_deleteAction_triggered()
 {
+    uncheckAllToolbar();
+    deleteAction->setChecked(true);
+    canvas->setActiveTool(_deleteTool);
     std::cout<<"Delete Action"<<std::endl;
     return;
 }
@@ -187,4 +191,5 @@ void MainWindow::uncheckAllToolbar()
 {
     drawLineAction->setChecked(false);
     selectAction->setChecked(false);
+    deleteAction->setChecked(false);
 }

@@ -27,6 +27,18 @@ Entity* Scene::getEntityFromPosition(int x, int y)
     return nullptr;
 }
 
+void Scene::deleteEntityFromPosition(int x, int y)
+{
+    for(auto it = _scene.begin(); it != _scene.end(); ++it)
+    {
+        if((*it)->contains(x,y))
+        {
+            _scene.erase(it);
+            return;
+        }
+    }
+}
+
 void Scene::addEntity(Entity* entity)
 {
     _scene.push_back(entity);

@@ -10,6 +10,7 @@ Canvas::Canvas(QWidget *parent, Scene *scene, Tool *activeTool) : QWidget(parent
 
 Canvas::~Canvas()
 {
+    delete _scene;
     delete _activeTool;
 }
 

@@ -13,6 +13,7 @@ public:
     void drawAllEntity(QPainter *painter);
     Entity* getLastInsertedEntity();
     Entity* getEntityFromPosition(int x, int y);
+    void deleteEntityFromPosition(int x, int y);
     Entity* findSelectedEntity();
 
 private:

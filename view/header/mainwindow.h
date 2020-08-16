@@ -6,6 +6,7 @@
 #include "model/header/scene.h"
 #include "model/header/selectiontool.h"
 #include "model/header/drawlinetool.h"
+#include "controller/header/deletetool.h"
 #include "controller/header/envstyle.h"
 
 #include <QtWidgets>
@@ -70,6 +71,7 @@ private:
 
     SelectionTool *_selectionTool;
     DrawLineTool *_drawLineTool;
+    DeleteTool *_deleteTool;
 };
 
 

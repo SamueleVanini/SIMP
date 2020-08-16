@@ -6,7 +6,7 @@
 #include <QPoint>
 #include <QObject>
 
-class SelectionTool : public QObject, public Tool
+class SelectionTool : public Tool
 {
     Q_OBJECT
 

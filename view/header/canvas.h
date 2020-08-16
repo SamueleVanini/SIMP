@@ -15,8 +15,6 @@ public:
     Canvas(QWidget *parent = 0, Scene *scene = nullptr, Tool *activeTool = nullptr);
     virtual ~Canvas();
     void setBackgroundColor(QColor color);
-    void addEntity(Entity *entity);
-    Entity* getLastInsertedEntity();
     void setActiveTool(Tool *tool);
 
 protected:
