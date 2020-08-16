@@ -23,8 +23,9 @@ MainWindow::~MainWindow()
 
 }
 
+
 void MainWindow::saveDialog() {
-    QWidget *welcomeDialog = new QWidget(this);
+    /*QWidget *welcomeDialog = new QWidget(this);
     welcomeDialog->setText("Before saving you need to enter canvas resolution. Default resolution is 600x300");
     unsigned int widthRatio = 2;
     unsigned int heightRatio = 1;
@@ -38,8 +39,10 @@ void MainWindow::saveDialog() {
     QAbstractButton *cancel = exitDialog->addButton("Cancel", QMessageBox::RejectRole);
     exitDialog->exec();
     if (exitDialog->clickedButton()== ok)
-        on_saveAction_triggered();
+        on_saveAction_triggered();*/
+    return;
 }
+
 
 //ritorna vero se esce, falso altrimenti
 bool MainWindow::exitPrompt()
@@ -67,7 +70,8 @@ bool MainWindow::exitPrompt()
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     if (exitPrompt() == false)
-        event->ignore(); //ignoro la chiu
+        event->ignore();
+
 }
 
 void MainWindow::createLeftToolbar()
@@ -75,22 +79,26 @@ void MainWindow::createLeftToolbar()
     leftToolbar=new QToolBar();
     QMainWindow::addToolBar(Qt::LeftToolBarArea, leftToolbar);
     leftToolbar->setOrientation(Qt::Vertical);
+    QActionGroup *group = new QActionGroup(leftToolbar);
 
-    QAction* select = new QAction(QIcon(":/rec/Icons/CursorIcon.png"), "Select");
+    QAction* select = new QAction("select", group);
     select->setCheckable(true);
-    leftToolbar->addAction(select);
+    select->setChecked(true);
+    select->setIcon(QIcon(":/rec/Icons/CursorIcon.png"));
     connect(select, &QAction::triggered, this, &MainWindow::on_selectAction_triggered);
 
-    QAction* drawLine = new QAction(QIcon(":/rec/Icons/LineIcon.png"), "Draw");
+    QAction* drawLine = new QAction("Draw", group);
     drawLine->setCheckable(true);
-    leftToolbar->addAction(drawLine);
+    drawLine->setIcon(QIcon(":/rec/Icons/LineIcon.png"));
     connect(drawLine, &QAction::triggered, this, &MainWindow::on_drawLineAction_triggered);
 
-    QAction* deleteLine = new QAction(QIcon(":/rec/Icons/trash_can.png"), "Delete");
+    QAction* deleteLine = new QAction("Delete", group);
     deleteLine->setCheckable(true);
-    leftToolbar->addAction(deleteLine);
+    deleteLine->setIcon(QIcon(":/rec/Icons/trash_can.png"));
     connect(deleteLine, &QAction::triggered, this, &MainWindow::on_deleteAction_triggered);
 
+
+    leftToolbar->addActions(group->actions());
     leftToolbar->addSeparator();
 
     QLabel *label1 = new QLabel(QString("Line color"));
@@ -110,6 +118,9 @@ void MainWindow::createLeftToolbar()
     lineWidthSpinBox->setValue(lineWidth);
     leftToolbar->addWidget(lineWidthSpinBox);
     connect(lineWidthSpinBox, SIGNAL(valueChanged(int)), this, SIGNAL(lineThicknessChanged(int)));
+
+
+
 }
 
 
@@ -118,7 +129,6 @@ void MainWindow::createMenu()
 {
     menu = menuBar()->addMenu(tr("&File"));
     menu->addAction(newAction);
-    menu->addAction(openAction);
     menu->addAction(saveAction);
     menu->addAction(exitAction);
     menu = menuBar()->addMenu(tr("&Edit"));
@@ -135,12 +145,6 @@ void MainWindow::createAction()
     newAction->setShortcuts(QKeySequence::New);
     newAction->setStatusTip(tr("New"));
     connect(newAction, SIGNAL(triggered()), this, SLOT(on_newAction_triggered()));
-
-    //open
-    openAction = new QAction(tr("&Open"), this);
-    openAction->setShortcuts(QKeySequence::Open);
-    openAction->setStatusTip(tr("Open"));
-    connect(openAction, SIGNAL(triggered()), this, SLOT(on_openAction_triggered()));
 
     //save
     saveAction = new QAction(tr("&Save"), this);
@@ -178,11 +182,7 @@ void MainWindow::on_newAction_triggered()
     std::cout<<"New Action"<<std::endl;
     return;
 }
-void MainWindow::on_openAction_triggered()
-{
-    std::cout<<"Open Action"<<std::endl;
-    return;
-}
+
 void MainWindow::on_saveAction_triggered()
 {
     std::cout<<"Save Action"<<std::endl;
@@ -206,6 +206,7 @@ void MainWindow::on_selectAction_triggered()
 
 void MainWindow::on_deleteAction_triggered()
 {
+    uncheckAllToolbar();
     std::cout<<"Delete Action"<<std::endl;
     return;
 }
@@ -235,8 +236,14 @@ void MainWindow::on_pickColorAction_triggered()
 
 }
 
+void MainWindow::on_canvasChanged()
+{
+    return;
+}
+
 void MainWindow::uncheckAllToolbar()
 {
     drawLineAction->setChecked(false);
     selectAction->setChecked(false);
+    deleteAction->setChecked(false);
 }

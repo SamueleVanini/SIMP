@@ -21,6 +21,7 @@
 #include <QColorDialog>
 #include <QPushButton>
 #include <QLabel>
+#include <QActionGroup>
 
 class MainWindow : public QMainWindow
 {
@@ -30,6 +31,7 @@ public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+
 signals:
     void lineColorChaneged(QColor color);
     void lineThicknessChanged(int value);
@@ -37,7 +39,6 @@ signals:
 private slots:
     //slot menu file
     void on_newAction_triggered();
-    void on_openAction_triggered();
     void on_saveAction_triggered();
     void on_exitAction_triggered();
     //slot menu Edit
@@ -48,6 +49,7 @@ private slots:
 
     //azioni di supporto
     void on_pickColorAction_triggered();
+    void on_canvasChanged();
 
 protected:
     void closeEvent(QCloseEvent *event) override;
@@ -76,7 +78,6 @@ private:
     bool isDirty; //dirty bit per segnalare la presenza di modifiche non salvate
 
     QAction *newAction;
-    QAction *openAction;
     QAction *saveAction;
     QAction *exitAction;
     QAction *deleteAction;
