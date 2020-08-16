@@ -2,9 +2,10 @@
 #include <iostream>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), lineColor(Qt::black), lineWidth(2)
+    : QMainWindow(parent), lineColor(Qt::black), lineWidth(2), isDirty(false)
 {
     QMainWindow::setMinimumSize(600, 300);
+    MainWindow::saveDialog();
     createAction();
     createMenu();
     createLeftToolbar();
@@ -22,6 +23,53 @@ MainWindow::~MainWindow()
 
 }
 
+void MainWindow::saveDialog() {
+    QWidget *welcomeDialog = new QWidget(this);
+    welcomeDialog->setText("Before saving you need to enter canvas resolution. Default resolution is 600x300");
+    unsigned int widthRatio = 2;
+    unsigned int heightRatio = 1;
+    unsigned int size = STD_CANVAS_HEIGHT;
+    unsigned int xSize;
+    unsigned int ySize;
+
+
+
+    QAbstractButton *ok= exitDialog->addButton("Set Resolution and Save", QMessageBox::AcceptRole);
+    QAbstractButton *cancel = exitDialog->addButton("Cancel", QMessageBox::RejectRole);
+    exitDialog->exec();
+    if (exitDialog->clickedButton()== ok)
+        on_saveAction_triggered();
+}
+
+//ritorna vero se esce, falso altrimenti
+bool MainWindow::exitPrompt()
+{
+    if (isDirty) {
+
+        QMessageBox *exitDialog = new QMessageBox(this);
+        exitDialog->setText("There are unsaved changes. Do you want to save before exit?");
+        QAbstractButton *save = exitDialog->addButton("Exit and save", QMessageBox::AcceptRole);
+        QAbstractButton *cancel = exitDialog->addButton("Cancel", QMessageBox::RejectRole);
+        exitDialog->addButton("Exit whitout saving", QMessageBox::DestructiveRole);
+        exitDialog->exec();
+        if (exitDialog->clickedButton()== cancel)
+            return false;
+        if (exitDialog->clickedButton()== save)
+        {
+            on_saveAction_triggered();
+            return true;
+        }
+    }
+    return true;
+}
+
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    if (exitPrompt() == false)
+        event->ignore(); //ignoro la chiu
+}
+
 void MainWindow::createLeftToolbar()
 {
     leftToolbar=new QToolBar();
@@ -29,14 +77,17 @@ void MainWindow::createLeftToolbar()
     leftToolbar->setOrientation(Qt::Vertical);
 
     QAction* select = new QAction(QIcon(":/rec/Icons/CursorIcon.png"), "Select");
+    select->setCheckable(true);
     leftToolbar->addAction(select);
     connect(select, &QAction::triggered, this, &MainWindow::on_selectAction_triggered);
 
     QAction* drawLine = new QAction(QIcon(":/rec/Icons/LineIcon.png"), "Draw");
+    drawLine->setCheckable(true);
     leftToolbar->addAction(drawLine);
     connect(drawLine, &QAction::triggered, this, &MainWindow::on_drawLineAction_triggered);
 
     QAction* deleteLine = new QAction(QIcon(":/rec/Icons/trash_can.png"), "Delete");
+    deleteLine->setCheckable(true);
     leftToolbar->addAction(deleteLine);
     connect(deleteLine, &QAction::triggered, this, &MainWindow::on_deleteAction_triggered);
 
@@ -139,6 +190,7 @@ void MainWindow::on_saveAction_triggered()
 }
 void MainWindow::on_exitAction_triggered()
 {
+    std::cout<<"Fin qui tutto bene"<<std::endl;
     close();
 }
 
@@ -146,7 +198,7 @@ void MainWindow::on_exitAction_triggered()
 void MainWindow::on_selectAction_triggered()
 {
     uncheckAllToolbar();
-    selectAction->setChecked(true);
+    selectAction->setEnabled(true);
     canvas->setActiveTool(_selectionTool);
     std::cout<<"Select Action"<<std::endl;
     return;
@@ -161,7 +213,7 @@ void MainWindow::on_deleteAction_triggered()
 void MainWindow::on_drawLineAction_triggered()
 {
     uncheckAllToolbar();
-    drawLineAction->setChecked(true);
+    drawLineAction->setEnabled(true);
     canvas->setActiveTool(_drawLineTool);
     std::cout<<"Draw Line Action"<<std::endl;
     return;

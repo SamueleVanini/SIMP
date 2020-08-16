@@ -1,6 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#define STD_CANVAS_LENGHT 600
+#define STD_CANVAS_HEIGHT 300
+
 #include "view/header/canvas.h"
 #include "view/header/colorbutton.h"
 #include "model/header/scene.h"
@@ -46,19 +49,31 @@ private slots:
     //azioni di supporto
     void on_pickColorAction_triggered();
 
+protected:
+    void closeEvent(QCloseEvent *event) override;
+
 private:
     void createMenu(); //crea il menu` superiore
     void createAction();//collega ogni action al suo corrispondente slot
     void createLeftToolbar();//crea la toolbar sinistra
     void uncheckAllToolbar();
+    void saveDialog();
+
+    bool exitPrompt();
 
     Canvas *canvas;
+
+    unsigned int canvasWidth;
+    unsigned int canvasHeight;
+
     Scene *scene;
     QMenu *menu;
     QToolBar *leftToolbar;
     colorButton *getLineColor;
     QColor lineColor; //colore della linea
     unsigned int lineWidth; //spessore della linea
+
+    bool isDirty; //dirty bit per segnalare la presenza di modifiche non salvate
 
     QAction *newAction;
     QAction *openAction;
@@ -67,6 +82,8 @@ private:
     QAction *deleteAction;
     QAction *selectAction;
     QAction *drawLineAction;
+
+    //ho appena realizzato che serve uno slot tipo on_lineDrawn_triggered per modificare il valore di isDirty
 
     SelectionTool *_selectionTool;
     DrawLineTool *_drawLineTool;
