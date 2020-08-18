@@ -35,7 +35,8 @@ SOURCES += \
 		model/source/tool.cpp \
 		model/source/scene.cpp \
 		controller/source/envstyle.cpp \
-		controller/source/deletetool.cpp
+		controller/source/deletetool.cpp \
+    controller/source/saveimage.cpp
 
 HEADERS += \
 		view/header/mainwindow.h \
@@ -51,7 +52,8 @@ HEADERS += \
 		model/header/selectiontool.h \
 		model/header/scene.h \
 		controller/header/envstyle.h \
-		controller/header/deletetool.h
+		controller/header/deletetool.h \
+    controller/header/saveimage.h
 
 RESOURCES += \
     resources.qrc

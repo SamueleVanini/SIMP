@@ -8,10 +8,15 @@ Scene::Scene()
 
 Scene::~Scene()
 {
-    for(auto ci = _scene.begin(); ci != _scene.end(); ci++)
+    bool isSceneEmpty = _scene.empty();
+    if(!isSceneEmpty)
     {
-        delete *ci;
-        *ci = nullptr;
+        for(auto ci = _scene.begin(); ci != _scene.end(); ci++)
+        {
+            delete *ci;
+            *ci = nullptr;
+        }
+        _scene.clear();
     }
 }
 

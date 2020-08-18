@@ -55,6 +55,7 @@ private:
 
     Canvas *canvas;
     Scene *scene;
+    EnvStyle *style;
     QMenu *menu;
     QToolBar *leftToolbar;
     colorButton *getLineColor;
