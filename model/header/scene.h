@@ -7,8 +7,6 @@
 class Scene
 {
 public:
-    Scene();
-    ~Scene();
     void addEntity(Entity *entity);
     void drawAllEntity(QPainter *painter);
     Entity* getLastInsertedEntity();
@@ -17,7 +15,11 @@ public:
     Entity* findSelectedEntity();
 
 private:
+    Scene();
+    ~Scene();
     std::vector<Entity*> _scene;
+
+    friend class Singleton;
 };
 
 #endif // SCENE_H

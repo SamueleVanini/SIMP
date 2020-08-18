@@ -4,7 +4,7 @@
 #include "view/header/canvas.h"
 #include <QMouseEvent>
 
-DeleteTool::DeleteTool(Scene *scene, EnvStyle *style) : Tool(scene, style) {}
+DeleteTool::DeleteTool(){}
 
 DeleteTool::~DeleteTool()
 {
@@ -22,5 +22,5 @@ void DeleteTool::mouseMove(QMouseEvent *event)
 
 void DeleteTool::mouseRelease(QMouseEvent *event)
 {
-    _scene->deleteEntityFromPosition(event->pos().x(), event->pos().y());
+    Singleton::getInstance(nullptr)->getActualSceneInstance().deleteEntityFromPosition(event->pos().x(), event->pos().y());
 }

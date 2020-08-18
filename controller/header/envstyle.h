@@ -11,7 +11,6 @@ class EnvStyle : public QObject
     Q_OBJECT
 
 public:
-    EnvStyle(MainWindow *ui, QColor lineColor = Qt::black, QColor fillColor = Qt::white, int thickness = 2);
     QColor getLineColor();
     QColor getFillColor();
     int getThickness();
@@ -27,7 +26,8 @@ signals:
     void thicknessChanged(int);
 
 private:
-
+    EnvStyle(MainWindow *ui, QColor lineColor = Qt::black, QColor fillColor = Qt::white, int thickness = 2);
+    EnvStyle(const EnvStyle&);
     void setLineColor(QColor color);
     void setFillColor(QColor color);
     void setThickness(int value);
@@ -36,6 +36,8 @@ private:
     QColor _lineColor;
     QColor _fillColor;
     int _thickness;
+
+    friend class Singleton;
 };
 
 #endif // ENVSTYLE_H

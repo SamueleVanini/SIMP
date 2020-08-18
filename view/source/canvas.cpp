@@ -1,18 +1,18 @@
 #include "view/header/canvas.h"
+#include "model/header/singleton.h"
 
 #include "QPainter"
 #include "QMouseEvent"
 
 #include <iostream>
 
-Canvas::Canvas(QWidget *parent, Scene *scene, Tool *activeTool, int width, int height) : QWidget(parent), _scene(scene), _activeTool(activeTool), _width(width), _height(height)
+Canvas::Canvas(QWidget *parent, Tool *activeTool, int width, int height) : QWidget(parent), _activeTool(activeTool), _width(width), _height(height)
 {
     setBackgroundColor(Qt::white);
 }
 
 Canvas::~Canvas()
 {
-    delete _scene;
     delete _activeTool;
 }
 
@@ -35,7 +35,7 @@ void Canvas::paintEvent(QPaintEvent *pe)
 
     QPainter *painter = new QPainter(this);
 
-    _scene->drawAllEntity(painter);
+    Singleton::getInstance(nullptr)->getActualSceneInstance().drawAllEntity(painter);
 
     delete painter;
 }

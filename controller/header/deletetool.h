@@ -10,7 +10,7 @@ class DeleteTool : public Tool
 {
 
 public:
-    DeleteTool(Scene *scene, EnvStyle *style);
+    DeleteTool();
     ~DeleteTool();
 
 protected:

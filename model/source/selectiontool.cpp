@@ -2,11 +2,11 @@
 #include "view/header/canvas.h"
 #include <QMouseEvent>
 
-SelectionTool::SelectionTool(Scene *scene, EnvStyle *style) : Tool(scene, style), _isMousePressed(false), _hasMoved(false)
+SelectionTool::SelectionTool() : _isMousePressed(false), _hasMoved(false)
 {
-    connect(_style, SIGNAL(lineColorChanged(QColor)), this, SLOT(changeLineColor(QColor)));
-    connect(_style, SIGNAL(fillColorChanged(QColor)), this, SLOT(changeFillColor(QColor)));
-    connect(_style, SIGNAL(thicknessChanged(int)), this, SLOT(changeLineThickness(int)));
+    connect(&(Singleton::getInstance(nullptr)->getActualStyleInstance()), SIGNAL(lineColorChanged(QColor)), this, SLOT(changeLineColor(QColor)));
+    connect(&(Singleton::getInstance(nullptr)->getActualStyleInstance()), SIGNAL(fillColorChanged(QColor)), this, SLOT(changeFillColor(QColor)));
+    connect(&(Singleton::getInstance(nullptr)->getActualStyleInstance()), SIGNAL(thicknessChanged(int)), this, SLOT(changeLineThickness(int)));
 
 }
 
@@ -24,7 +24,7 @@ void SelectionTool::mousePress(QMouseEvent *event)
         _lastEntity->setSelected(false);
     }
 
-    _lastEntity = _scene->getEntityFromPosition(event->pos().x(), event->pos().y());
+    _lastEntity = Singleton::getInstance(nullptr)->getActualSceneInstance().getEntityFromPosition(event->pos().x(), event->pos().y());
 
     if (_lastEntity != nullptr) {
         _lastEntity->toogleSelect();
@@ -80,5 +80,5 @@ void SelectionTool::changeLineThickness(int value)
 
 Entity* SelectionTool::getSelectedEntity()
 {
-    return _scene->findSelectedEntity();
+    return Singleton::getInstance(nullptr)->getActualSceneInstance().findSelectedEntity();
 }

@@ -11,7 +11,7 @@ class SelectionTool : public Tool
     Q_OBJECT
 
 public:
-    SelectionTool(Scene *scene, EnvStyle *style);
+    SelectionTool();
     ~SelectionTool();
 
 public slots:
