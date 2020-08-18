@@ -19,8 +19,7 @@ protected:
 
 private:
     Line *_line;
-    bool _clickPressed;
-    QPoint _startPosition;
+    bool _clickPressed;    
 };
 
 #endif // DRAWLINETOOL_H

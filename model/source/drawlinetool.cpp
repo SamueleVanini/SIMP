@@ -15,9 +15,8 @@ DrawLineTool::~DrawLineTool()
 void DrawLineTool::mousePress(QMouseEvent *event)
 {
     _clickPressed = true;
-    _startPosition = event->pos();
 
-    _line = new Line(_startPosition, _startPosition);
+    _line = new Line(event->pos(), event->pos());
     _line->setLineColor(_style->getLineColor());
     _line->setLineThickness(_style->getThickness());
     //Se inserisco una nuova shape l'ultima inserta nella scena va deselezionata

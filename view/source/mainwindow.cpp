@@ -9,8 +9,8 @@ MainWindow::MainWindow(QWidget *parent)
     createMenu();
     createLeftToolbar();
     scene = new Scene();
-    canvas = new Canvas(this, scene);
-    auto style = new EnvStyle(this);
+    canvas = new Canvas(this, scene, nullptr, 800, 600);
+    style = new EnvStyle(this);
     _selectionTool = new SelectionTool(scene, style);
     _drawLineTool = new DrawLineTool(scene, style);
     _deleteTool = new DeleteTool(scene, style);
@@ -20,7 +20,12 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-
+    delete canvas;
+    delete scene;
+    delete style;
+    delete _selectionTool;
+    delete _drawLineTool;
+    delete _deleteTool;
 }
 
 void MainWindow::createLeftToolbar()

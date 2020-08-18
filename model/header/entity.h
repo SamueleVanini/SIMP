@@ -8,8 +8,6 @@
 #include "QColor"
 
 class QPainter;
-class Group;
-class ActiveSelection;
 
 class Entity : public Drawable, public Selectable, public Transformable
 {

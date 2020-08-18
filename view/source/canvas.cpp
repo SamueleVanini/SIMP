@@ -3,7 +3,9 @@
 #include "QPainter"
 #include "QMouseEvent"
 
-Canvas::Canvas(QWidget *parent, Scene *scene, Tool *activeTool) : QWidget(parent), _scene(scene), _activeTool(activeTool)
+#include <iostream>
+
+Canvas::Canvas(QWidget *parent, Scene *scene, Tool *activeTool, int width, int height) : QWidget(parent), _scene(scene), _activeTool(activeTool), _width(width), _height(height)
 {
     setBackgroundColor(Qt::white);
 }
@@ -51,4 +53,10 @@ bool Canvas::event(QEvent *event)
     repaint();
 
     return result;
+}
+
+void Canvas::resizeEvent(QResizeEvent *event)
+{
+    QWidget::resizeEvent(event);
+    std::cout << width() << " " << height();
 }
