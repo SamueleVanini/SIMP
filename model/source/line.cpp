@@ -76,7 +76,7 @@ void Line::setPosition(const QPoint &pos)
     _p2 += diff;
 }
 
-QPoint Line::getPosition()
+QPoint Line::getPosition() const
 {
     return QPoint((_p1.x() + _p2.x())/2,
                   (_p1.y() + _p2.y())/2);

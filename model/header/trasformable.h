@@ -17,7 +17,7 @@ public:
      * @brief getPosition ritorna la posizione dell'oggetto
      * @return QPoint
      */
-    virtual QPoint getPosition() = 0;
+    virtual QPoint getPosition() const = 0;
 
     /**
      * @brief Distruttore

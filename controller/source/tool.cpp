@@ -1,11 +1,9 @@
-#include "model/header/tool.h"
+#include "controller/header/tool.h"
 
-Tool::Tool(Scene *scene, EnvStyle *style) : _scene(scene), _style(style) {}
+Tool::Tool() {}
 
 Tool::~Tool()
 {
-    delete _scene;
-    delete _style;
 }
 
 bool Tool::handleEvent(QEvent *event)

@@ -8,10 +8,15 @@ Scene::Scene()
 
 Scene::~Scene()
 {
-    for(auto ci = _scene.begin(); ci != _scene.end(); ci++)
+    bool isSceneEmpty = _scene.empty();
+    if(!isSceneEmpty)
     {
-        delete *ci;
-        *ci = nullptr;
+        for(auto ci = _scene.begin(); ci != _scene.end(); ci++)
+        {
+            delete *ci;
+            *ci = nullptr;
+        }
+        _scene.clear();
     }
 }
 
@@ -25,6 +30,18 @@ Entity* Scene::getEntityFromPosition(int x, int y)
         }
     }
     return nullptr;
+}
+
+void Scene::deleteEntityFromPosition(int x, int y)
+{
+    for(auto it = _scene.begin(); it != _scene.end(); ++it)
+    {
+        if((*it)->contains(x,y))
+        {
+            _scene.erase(it);
+            return;
+        }
+    }
 }
 
 void Scene::addEntity(Entity* entity)

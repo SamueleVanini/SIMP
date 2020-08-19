@@ -6,18 +6,8 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), lineColor(Qt::black), lineWidth(2), isDirty(false), isCanvasDimensioned(false)
 {
-    /*QMainWindow::setMinimumSize(600, 300);
-    createAction();
-    createMenu();
-    createLeftToolbar();
-    scene = new Scene();
-    canvas = new Canvas(this, scene);
-    auto style = new EnvStyle(this);
-    _selectionTool = new SelectionTool(scene, style);
-    _drawLineTool = new DrawLineTool(scene, style);
-    canvas->setActiveTool(_selectionTool);
-    setCentralWidget(canvas);*/
 
+/*
     QMainWindow::setMinimumSize(600, 300);
     createAction();
     createMenu();
@@ -36,14 +26,27 @@ MainWindow::MainWindow(QWidget *parent)
     _drawLineTool = new DrawLineTool(scene, style);
     canvas->setActiveTool(_selectionTool);
     setCentralWidget(scrollArea);
-    scrollArea->show();
+    scrollArea->show();*/
 
+
+
+    QMainWindow::setMinimumSize(800, 600);
+    createAction();
+    createMenu();
+    createLeftToolbar();
+    singleton = Singleton::getInstance(this);
+    _selectionTool = std::make_shared<SelectionTool>();
+    _drawLineTool = std::make_shared<DrawLineTool>();
+    _deleteTool = std::make_shared<DeleteTool>();
+    _drawCircleTool = std::make_shared<DrawCircleTool>();
+    canvas = new Canvas(this, _selectionTool, 800, 600);
+    setCentralWidget(canvas);
 
 }
 
 MainWindow::~MainWindow()
 {
-
+    delete canvas;
 }
 
 
@@ -145,11 +148,10 @@ void MainWindow::createLeftToolbar()
     drawLine->setCheckable(true);
     drawLine->setIcon(QIcon(":/rec/Icons/LineIcon.png"));
     connect(drawLine, &QAction::triggered, this, &MainWindow::on_drawLineAction_triggered);
-
     QAction* drawCircle= new QAction("Circle", group);
     drawCircle->setCheckable(true);
     drawCircle->setIcon(QIcon(":/rec/Icons/CircleIcon.png"));
-    connect(drawCircle, &QAction::triggered, this, &MainWindow::on_drawLineAction_triggered);
+    connect(drawCircle, &QAction::triggered, this, &MainWindow::on_drawCircleAction_triggered);
 
     QAction* drawRectangle = new QAction("Rectangle", group);
     drawRectangle->setCheckable(true);
@@ -181,10 +183,10 @@ void MainWindow::createLeftToolbar()
 
     getFillColor = new colorButton();
     leftToolbar->addWidget(getFillColor);
-    QAction* setFillColor= new QAction(lineColor.name());
+    QAction* setFillColor= new QAction(fillColor.name());
     getFillColor->setAction(setFillColor);
-    getLineColor->setColor(lineColor.name());
-    connect(setFillColor, &QAction::triggered, this, &MainWindow::on_pickColorAction_triggered);
+    getFillColor->setColor(fillColor.name());
+    connect(setFillColor, &QAction::triggered, this, &MainWindow::on_pickFillColorAction_triggered);
 
     QLabel *label3 = new QLabel(QString("Line width"));
     leftToolbar->addWidget(label3);
@@ -251,6 +253,10 @@ void MainWindow::createAction()
     drawLineAction->setStatusTip(tr("Draw line"));
     connect(drawLineAction, SIGNAL(triggered()), this, SLOT(on_drawLineAction_triggered()));
 
+    //drawCircle
+    drawCircleAction = new QAction(tr("&Draw circle"), this);
+    drawCircleAction->setStatusTip(tr("Draw circle"));
+    connect(drawCircleAction, SIGNAL(triggered()), this, SLOT(on_drawCircleAction_triggered()));
 }
 
 //azioni menu file
@@ -289,6 +295,8 @@ void MainWindow::on_selectAction_triggered()
 void MainWindow::on_deleteAction_triggered()
 {
     uncheckAllToolbar();
+    deleteAction->setChecked(true);
+    canvas->setActiveTool(_deleteTool);
     std::cout<<"Delete Action"<<std::endl;
     return;
 }
@@ -302,6 +310,14 @@ void MainWindow::on_drawLineAction_triggered()
     return;
 }
 
+void MainWindow::on_drawCircleAction_triggered()
+{
+    uncheckAllToolbar();
+    drawCircleAction->setChecked(true);
+    canvas->setActiveTool(_drawCircleTool);
+    std::cout<<"Draw Circle Action"<<std::endl;
+    return;
+}
 
 //azioni di supporto
 
@@ -314,6 +330,19 @@ void MainWindow::on_pickColorAction_triggered()
         getLineColor->setColor(lineColor);
         std::cout<<lineColor.name().toStdString()<<std::endl;
         emit lineColorChaneged(lineColor);
+    }
+
+}
+
+void MainWindow::on_pickFillColorAction_triggered()
+{
+    QColor colorPicked = QColorDialog::getColor(Qt::black, this, "Choose Color");
+    if (colorPicked.isValid())
+    {
+        fillColor=colorPicked;
+        getFillColor->setColor(fillColor);
+        std::cout<<fillColor.name().toStdString()<<std::endl;
+        emit lineColorChaneged(fillColor);
     }
 
 }

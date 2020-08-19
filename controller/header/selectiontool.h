@@ -1,17 +1,17 @@
 #ifndef SELECTIONTOOL_H
 #define SELECTIONTOOL_H
 
-#include "model/header/tool.h"
+#include "controller/header/tool.h"
 #include "model/header/entity.h"
 #include <QPoint>
 #include <QObject>
 
-class SelectionTool : public QObject, public Tool
+class SelectionTool : public Tool
 {
     Q_OBJECT
 
 public:
-    SelectionTool(Scene *scene, EnvStyle *style);
+    SelectionTool();
     ~SelectionTool();
 
 public slots:
@@ -25,7 +25,6 @@ protected:
     void mouseRelease(QMouseEvent *event) override;
 
 private:
-    Entity* getSelectedEntity();
     bool _isMousePressed;
     bool _hasMoved;
 };

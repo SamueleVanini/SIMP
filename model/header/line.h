@@ -39,7 +39,7 @@ public:
      * @brief getPosition ritorna la posizione della linea
      * @return QPoint posizione della linea
      */
-    virtual QPoint getPosition() override;
+    virtual QPoint getPosition() const override;
 
     /**
      * @brief getP1 ritorna il primo punto che forma la linea

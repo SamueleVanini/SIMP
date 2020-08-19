@@ -30,11 +30,16 @@ SOURCES += \
 		view/source/colorbutton.cpp \
 		model/source/entity.cpp \
 		model/source/line.cpp \
-		model/source/drawlinetool.cpp \
-		model/source/selectiontool.cpp \
-		model/source/tool.cpp \
+		controller/source/drawlinetool.cpp \
+		controller/source/selectiontool.cpp \
+		controller/source/tool.cpp \
 		model/source/scene.cpp \
-		controller/source/envstyle.cpp
+		controller/source/envstyle.cpp \
+		controller/source/deletetool.cpp \
+		controller/source/saveimage.cpp \
+		model/source/singleton.cpp \
+    model/source/circle.cpp \
+    controller/source/drawcircletool.cpp
 
 HEADERS += \
 		view/header/mainwindow.h \
@@ -45,11 +50,16 @@ HEADERS += \
 		model/header/drawable.h \
 		model/header/entity.h \
 		model/header/line.h \
-		model/header/tool.h \
-		model/header/drawlinetool.h \
-		model/header/selectiontool.h \
+		controller/header/tool.h \
+		controller/header/drawlinetool.h \
+		controller/header/selectiontool.h \
 		model/header/scene.h \
-		controller/header/envstyle.h
+		controller/header/envstyle.h \
+		controller/header/deletetool.h \
+		controller/header/saveimage.h \
+		model/header/singleton.h \
+    model/header/circle.h \
+    controller/header/drawcircletool.h
 
 RESOURCES += \
     resources.qrc

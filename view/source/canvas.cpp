@@ -1,18 +1,20 @@
 #include "view/header/canvas.h"
+#include "model/header/singleton.h"
 
 #include "QPainter"
 #include "QMouseEvent"
 #include <QScrollArea>
 #include <QLayout>
 
-Canvas::Canvas(QWidget *parent, Scene *scene, Tool *activeTool) : QWidget(parent), _scene(scene), _activeTool(activeTool)
+#include <iostream>
+
+Canvas::Canvas(QWidget *parent, const std::shared_ptr<Tool>& activeTool, int width, int height) : QWidget(parent), _activeTool(activeTool), _width(width), _height(height)
 {
     setBackgroundColor(Qt::white);
 }
 
 Canvas::~Canvas()
 {
-    delete _activeTool;
 }
 
 void Canvas::setBackgroundColor(QColor color)
@@ -23,7 +25,7 @@ void Canvas::setBackgroundColor(QColor color)
     this->setPalette(Pal);
 }
 
-void Canvas::setActiveTool(Tool *tool)
+void Canvas::setActiveTool(const std::shared_ptr<Tool>& tool)
 {
     _activeTool = tool;
 }
@@ -34,7 +36,7 @@ void Canvas::paintEvent(QPaintEvent *pe)
 
     QPainter *painter = new QPainter(this);
 
-    _scene->drawAllEntity(painter);
+    Singleton::getInstance(nullptr)->getActualSceneInstance().drawAllEntity(painter);
 
     delete painter;
 }
@@ -52,4 +54,10 @@ bool Canvas::event(QEvent *event)
     repaint();
 
     return result;
+}
+
+void Canvas::resizeEvent(QResizeEvent *event)
+{
+    QWidget::resizeEvent(event);
+    std::cout << width() << " " << height();
 }

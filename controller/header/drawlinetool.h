@@ -2,14 +2,14 @@
 #define DRAWLINETOOL_H
 
 #include "model/header/line.h"
-#include "model/header/tool.h"
+#include "controller/header/tool.h"
 
 #include <QPoint>
 
 class DrawLineTool : public Tool
 {
 public:
-    DrawLineTool(Scene *scene, EnvStyle *style);
+    DrawLineTool();
     virtual ~DrawLineTool();
 
 protected:
@@ -20,7 +20,6 @@ protected:
 private:
     Line *_line;
     bool _clickPressed;
-    QPoint _startPosition;
 };
 
 #endif // DRAWLINETOOL_H

@@ -1,11 +1,10 @@
-#include "model/header/drawlinetool.h"
-#include "model/header/tool.h"
+#include "controller/header/drawlinetool.h"
 #include "view/header/canvas.h"
 #include "controller/header/envstyle.h"
 #include <QMouseEvent>
 
 
-DrawLineTool::DrawLineTool(Scene *scene, EnvStyle *style) : Tool(scene, style), _clickPressed(false) {}
+DrawLineTool::DrawLineTool() : _line(nullptr), _clickPressed(false) {}
 
 DrawLineTool::~DrawLineTool()
 {
@@ -15,16 +14,15 @@ DrawLineTool::~DrawLineTool()
 void DrawLineTool::mousePress(QMouseEvent *event)
 {
     _clickPressed = true;
-    _startPosition = event->pos();
 
-    _line = new Line(_startPosition, _startPosition);
-    _line->setLineColor(_style->getLineColor());
-    _line->setLineThickness(_style->getThickness());
+    _line = new Line(event->pos(), event->pos());
+    _line->setLineColor(Singleton::getInstance(nullptr)->getActualStyleInstance().getLineColor());
+    _line->setLineThickness(Singleton::getInstance(nullptr)->getActualStyleInstance().getThickness());
     //Se inserisco una nuova shape l'ultima inserta nella scena va deselezionata
     if(_lastEntity)
         _lastEntity->setSelected(false);
     _lastEntity = _line;
-    _scene->addEntity(_line);
+    Singleton::getInstance(nullptr)->getActualSceneInstance().addEntity(_line);
 }
 
 void DrawLineTool::mouseMove(QMouseEvent *event)
