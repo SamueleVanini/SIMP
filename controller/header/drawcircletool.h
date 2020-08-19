@@ -1,16 +1,15 @@
-#ifndef DRAWLINETOOL_H
-#define DRAWLINETOOL_H
+#ifndef DRAWCIRCLETOOL_H
+#define DRAWCIRCLETOOL_H
 
-#include "model/header/line.h"
+#include "model/header/circle.h"
 #include "controller/header/tool.h"
+#include <QMouseEvent>
 
-#include <QPoint>
-
-class DrawLineTool : public Tool
+class DrawCircleTool : public Tool
 {
 public:
-    DrawLineTool();
-    virtual ~DrawLineTool();
+    DrawCircleTool();
+    virtual ~DrawCircleTool();
 
 protected:
     virtual void mousePress(QMouseEvent *event) override;
@@ -18,8 +17,8 @@ protected:
     virtual void mouseRelease(QMouseEvent *event) override;
 
 private:
-    Line *_line;
+    Circle *_circle;
     bool _clickPressed;
 };
 
-#endif // DRAWLINETOOL_H
+#endif // DRAWCIRCLETOOL_H

@@ -37,7 +37,9 @@ SOURCES += \
 		controller/source/envstyle.cpp \
 		controller/source/deletetool.cpp \
 		controller/source/saveimage.cpp \
-		model/source/singleton.cpp
+		model/source/singleton.cpp \
+    model/source/circle.cpp \
+    controller/source/drawcircletool.cpp
 
 HEADERS += \
 		view/header/mainwindow.h \
@@ -55,7 +57,9 @@ HEADERS += \
 		controller/header/envstyle.h \
 		controller/header/deletetool.h \
 		controller/header/saveimage.h \
-		model/header/singleton.h
+		model/header/singleton.h \
+    model/header/circle.h \
+    controller/header/drawcircletool.h
 
 RESOURCES += \
     resources.qrc

@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
     _selectionTool = std::make_shared<SelectionTool>();
     _drawLineTool = std::make_shared<DrawLineTool>();
     _deleteTool = std::make_shared<DeleteTool>();
+    _drawCircleTool = std::make_shared<DrawCircleTool>();
     canvas = new Canvas(this, _selectionTool, 800, 600);
     setCentralWidget(canvas);
 }
@@ -34,6 +35,10 @@ void MainWindow::createLeftToolbar()
     QAction* drawLine = new QAction(QIcon(":/rec/Icons/LineIcon.png"), "Draw");
     leftToolbar->addAction(drawLine);
     connect(drawLine, &QAction::triggered, this, &MainWindow::on_drawLineAction_triggered);
+
+    QAction* drawCircle = new QAction(QIcon(":/rec/Icons/CircleIcon.png"), "Draw");
+    leftToolbar->addAction(drawCircle);
+    connect(drawCircle, &QAction::triggered, this, &MainWindow::on_drawCircleAction_triggered);
 
     QAction* deleteLine = new QAction(QIcon(":/rec/Icons/trash_can.png"), "Delete");
     leftToolbar->addAction(deleteLine);
@@ -118,6 +123,10 @@ void MainWindow::createAction()
     drawLineAction->setStatusTip(tr("Draw line"));
     connect(drawLineAction, SIGNAL(triggered()), this, SLOT(on_drawLineAction_triggered()));
 
+    //drawCircle
+    drawCircleAction = new QAction(tr("&Draw circle"), this);
+    drawCircleAction->setStatusTip(tr("Draw circle"));
+    connect(drawCircleAction, SIGNAL(triggered()), this, SLOT(on_drawCircleAction_triggered()));
 }
 
 //azioni menu file
@@ -169,6 +178,14 @@ void MainWindow::on_drawLineAction_triggered()
     return;
 }
 
+void MainWindow::on_drawCircleAction_triggered()
+{
+    uncheckAllToolbar();
+    drawCircleAction->setChecked(true);
+    canvas->setActiveTool(_drawCircleTool);
+    std::cout<<"Draw Circle Action"<<std::endl;
+    return;
+}
 
 //azioni di supporto
 

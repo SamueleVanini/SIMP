@@ -6,6 +6,7 @@
 #include "model/header/scene.h"
 #include "controller/header/selectiontool.h"
 #include "controller/header/drawlinetool.h"
+#include "controller/header/drawcircletool.h"
 #include "model/header/singleton.h"
 #include "controller/header/deletetool.h"
 #include "controller/header/envstyle.h"
@@ -45,6 +46,7 @@ private slots:
     //slot menu Draw
     void on_selectAction_triggered();
     void on_drawLineAction_triggered();
+    void on_drawCircleAction_triggered();
 
     //azioni di supporto
     void on_pickColorAction_triggered();
@@ -70,10 +72,12 @@ private:
     QAction *deleteAction;
     QAction *selectAction;
     QAction *drawLineAction;
+    QAction *drawCircleAction;
 
     std::shared_ptr<SelectionTool> _selectionTool;
     std::shared_ptr<DrawLineTool> _drawLineTool;
     std::shared_ptr<DeleteTool> _deleteTool;
+    std::shared_ptr<DrawCircleTool> _drawCircleTool;
 };
 
 
