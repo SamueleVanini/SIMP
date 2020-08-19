@@ -4,28 +4,21 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), lineColor(Qt::black), lineWidth(2)
 {
-    QMainWindow::setMinimumSize(600, 300);
+    QMainWindow::setMinimumSize(800, 600);
     createAction();
     createMenu();
     createLeftToolbar();
-    scene = new Scene();
-    canvas = new Canvas(this, scene, nullptr, 800, 600);
-    style = new EnvStyle(this);
-    _selectionTool = new SelectionTool(scene, style);
-    _drawLineTool = new DrawLineTool(scene, style);
-    _deleteTool = new DeleteTool(scene, style);
-    canvas->setActiveTool(_selectionTool);
+    singleton = Singleton::getInstance(this);
+    _selectionTool = std::make_shared<SelectionTool>();
+    _drawLineTool = std::make_shared<DrawLineTool>();
+    _deleteTool = std::make_shared<DeleteTool>();
+    canvas = new Canvas(this, _selectionTool, 800, 600);
     setCentralWidget(canvas);
 }
 
 MainWindow::~MainWindow()
 {
     delete canvas;
-    delete scene;
-    delete style;
-    delete _selectionTool;
-    delete _drawLineTool;
-    delete _deleteTool;
 }
 
 void MainWindow::createLeftToolbar()

@@ -1,12 +1,12 @@
-#include "model/header/selectiontool.h"
+#include "controller/header/selectiontool.h"
 #include "view/header/canvas.h"
 #include <QMouseEvent>
 
-SelectionTool::SelectionTool(Scene *scene, EnvStyle *style) : Tool(scene, style), _isMousePressed(false), _hasMoved(false)
+SelectionTool::SelectionTool() : _isMousePressed(false), _hasMoved(false)
 {
-    connect(_style, SIGNAL(lineColorChanged(QColor)), this, SLOT(changeLineColor(QColor)));
-    connect(_style, SIGNAL(fillColorChanged(QColor)), this, SLOT(changeFillColor(QColor)));
-    connect(_style, SIGNAL(thicknessChanged(int)), this, SLOT(changeLineThickness(int)));
+    connect(&(Singleton::getInstance(nullptr)->getActualStyleInstance()), SIGNAL(lineColorChanged(QColor)), this, SLOT(changeLineColor(QColor)));
+    connect(&(Singleton::getInstance(nullptr)->getActualStyleInstance()), SIGNAL(fillColorChanged(QColor)), this, SLOT(changeFillColor(QColor)));
+    connect(&(Singleton::getInstance(nullptr)->getActualStyleInstance()), SIGNAL(thicknessChanged(int)), this, SLOT(changeLineThickness(int)));
 
 }
 
@@ -24,7 +24,8 @@ void SelectionTool::mousePress(QMouseEvent *event)
         _lastEntity->setSelected(false);
     }
 
-    _lastEntity = _scene->getEntityFromPosition(event->pos().x(), event->pos().y());
+    //cerca la entity che si vuole selezionare per applicare lo stato di selezionata
+    _lastEntity = Singleton::getInstance(nullptr)->getActualSceneInstance().getEntityFromPosition(event->pos().x(), event->pos().y());
 
     if (_lastEntity != nullptr) {
         _lastEntity->toogleSelect();
@@ -33,6 +34,7 @@ void SelectionTool::mousePress(QMouseEvent *event)
 
 void SelectionTool::mouseMove(QMouseEvent *event)
 {
+    //sposta l'Entity selezionata
     if (_isMousePressed && _lastEntity) {
         _lastEntity->setPosition(event->pos());
         _hasMoved = true;
@@ -42,18 +44,13 @@ void SelectionTool::mouseMove(QMouseEvent *event)
 void SelectionTool::mouseRelease(QMouseEvent *event)
 {
     Q_UNUSED(event)
-    if(_lastEntity == nullptr)
-    {
-        if(_lastEntity)
-            _lastEntity->setSelected(false);
-    }
     _hasMoved = false;
     _isMousePressed = false;
 }
 
 void SelectionTool::changeLineColor(QColor color)
 {
-    Entity *e = getSelectedEntity();
+    Entity *e = Singleton::getInstance(nullptr)->getActualSceneInstance().findSelectedEntity();
     if(e)
     {
         e->setLineColor(color);
@@ -62,7 +59,7 @@ void SelectionTool::changeLineColor(QColor color)
 
 void SelectionTool::changeFillColor(QColor color)
 {
-    Entity *e = getSelectedEntity();
+    Entity *e = Singleton::getInstance(nullptr)->getActualSceneInstance().findSelectedEntity();
     if(e)
     {
         e->setFillColor(color);
@@ -71,14 +68,9 @@ void SelectionTool::changeFillColor(QColor color)
 
 void SelectionTool::changeLineThickness(int value)
 {
-    Entity *e = getSelectedEntity();
+    Entity *e = Singleton::getInstance(nullptr)->getActualSceneInstance().findSelectedEntity();
     if(e)
     {
         e->setLineThickness(value);
     }
-}
-
-Entity* SelectionTool::getSelectedEntity()
-{
-    return _scene->findSelectedEntity();
 }

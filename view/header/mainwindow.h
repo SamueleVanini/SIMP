@@ -4,11 +4,13 @@
 #include "view/header/canvas.h"
 #include "view/header/colorbutton.h"
 #include "model/header/scene.h"
-#include "model/header/selectiontool.h"
-#include "model/header/drawlinetool.h"
+#include "controller/header/selectiontool.h"
+#include "controller/header/drawlinetool.h"
+#include "model/header/singleton.h"
 #include "controller/header/deletetool.h"
 #include "controller/header/envstyle.h"
 
+#include <memory>
 #include <QtWidgets>
 #include <QMainWindow>
 #include <QMenu>
@@ -53,9 +55,8 @@ private:
     void createLeftToolbar();//crea la toolbar sinistra
     void uncheckAllToolbar();
 
+    Singleton *singleton;
     Canvas *canvas;
-    Scene *scene;
-    EnvStyle *style;
     QMenu *menu;
     QToolBar *leftToolbar;
     colorButton *getLineColor;
@@ -70,9 +71,9 @@ private:
     QAction *selectAction;
     QAction *drawLineAction;
 
-    SelectionTool *_selectionTool;
-    DrawLineTool *_drawLineTool;
-    DeleteTool *_deleteTool;
+    std::shared_ptr<SelectionTool> _selectionTool;
+    std::shared_ptr<DrawLineTool> _drawLineTool;
+    std::shared_ptr<DeleteTool> _deleteTool;
 };
 
 
