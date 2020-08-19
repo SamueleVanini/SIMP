@@ -39,8 +39,46 @@ MainWindow::MainWindow(QWidget *parent)
     _drawLineTool = std::make_shared<DrawLineTool>();
     _deleteTool = std::make_shared<DeleteTool>();
     _drawCircleTool = std::make_shared<DrawCircleTool>();
-    canvas = new Canvas(this, _selectionTool, 800, 600);
-    setCentralWidget(canvas);
+    canvas = new Canvas(this, _selectionTool, 600, 300);
+
+    /*QHBoxLayout *layout = new QHBoxLayout();
+    layout->addWidget(canvas);
+
+    QWidget *contenitore = new QWidget(this);
+    contenitore->setLayout(layout);*/
+
+    QScrollArea *scrollArea = new QScrollArea();
+
+    scrollArea->setBackgroundRole(QPalette::Dark);
+    //scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    //scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    canvas->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    scrollArea->setWidget(canvas);
+    scrollArea->setVisible(false);
+    setCentralWidget(scrollArea);
+    //scrollArea->show();
+
+
+
+    /*QWidget *myCanvas = new QWidget(this);
+
+
+
+    QHBoxLayout *myLayout = new QHBoxLayout(myCanvas);
+    myLayout->addWidget(canvas);
+
+
+    /*QScrollArea *scrollArea = new QScrollArea(myCanvas);
+    scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+
+    /*scrollArea->setBackgroundRole(QPalette::Dark);
+    scrollArea->setLayout(myLayout);
+    scrollArea->setWidget(canvas);
+    scrollArea->show();
+
+    setCentralWidget(myCanvas);
+    //myCanvas->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);*/
 
 }
 

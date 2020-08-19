@@ -1,9 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#define STD_CANVAS_LENGHT 600
-#define STD_CANVAS_HEIGHT 300
-
 #include "view/header/canvas.h"
 #include "view/header/colorbutton.h"
 #include "model/header/scene.h"
