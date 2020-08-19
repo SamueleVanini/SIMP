@@ -77,6 +77,8 @@ private:
 
     Scene *scene;
 
+    QScrollArea *scrollArea;
+
     QMenu *menu;
     QToolBar *leftToolbar;
     colorButton *getLineColor;

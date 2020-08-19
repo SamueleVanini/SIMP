@@ -51,7 +51,7 @@ bool Canvas::event(QEvent *event)
 
     bool result = _activeTool->handleEvent(event);
 
-    repaint();
+    update();
 
     return result;
 }

@@ -4,7 +4,7 @@
 #include <iostream>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), lineColor(Qt::black), lineWidth(2), isDirty(false), isCanvasDimensioned(false)
+    : QMainWindow(parent), lineColor(Qt::black), lineWidth(2), isDirty(false), isCanvasDimensioned(false), scrollArea(new QScrollArea)
 {
 
 /*
@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
 
-    QMainWindow::setMinimumSize(800, 600);
+    QMainWindow::setMinimumSize(600, 300);
     createAction();
     createMenu();
     createLeftToolbar();
@@ -39,24 +39,28 @@ MainWindow::MainWindow(QWidget *parent)
     _drawLineTool = std::make_shared<DrawLineTool>();
     _deleteTool = std::make_shared<DeleteTool>();
     _drawCircleTool = std::make_shared<DrawCircleTool>();
-    canvas = new Canvas(this, _selectionTool, 600, 300);
 
-    /*QHBoxLayout *layout = new QHBoxLayout();
-    layout->addWidget(canvas);
+    canvas = new Canvas(nullptr, _selectionTool, 600, 300);
+    canvas->setBackgroundColor(Qt::white);
+    QHBoxLayout *layout = new QHBoxLayout(canvas);
 
-    QWidget *contenitore = new QWidget(this);
+    /*QWidget *contenitore = new QWidget(this);
     contenitore->setLayout(layout);*/
 
-    QScrollArea *scrollArea = new QScrollArea();
 
-    scrollArea->setBackgroundRole(QPalette::Dark);
+    scrollArea->setBackgroundRole(QPalette::Background);
     //scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     //scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    canvas->setFixedSize(QSize(800,600));
     canvas->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    //QWidget *a = new QWidget();
+    //canvas->show();
     scrollArea->setWidget(canvas);
-    scrollArea->setVisible(false);
+    scrollArea->setWidgetResizable(true);
+    scrollArea->setVisible(true);
     setCentralWidget(scrollArea);
-    //scrollArea->show();
+
+    scrollArea->show();
 
 
 
@@ -67,12 +71,11 @@ MainWindow::MainWindow(QWidget *parent)
     QHBoxLayout *myLayout = new QHBoxLayout(myCanvas);
     myLayout->addWidget(canvas);
 
-
-    /*QScrollArea *scrollArea = new QScrollArea(myCanvas);
+    QScrollArea *scrollArea = new QScrollArea(myCanvas);
     scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 
-    /*scrollArea->setBackgroundRole(QPalette::Dark);
+    scrollArea->setBackgroundRole(QPalette::Dark);
     scrollArea->setLayout(myLayout);
     scrollArea->setWidget(canvas);
     scrollArea->show();
