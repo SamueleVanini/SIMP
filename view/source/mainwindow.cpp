@@ -1,11 +1,12 @@
 #include "view/header/mainwindow.h"
+#include <QInputDialog>
+
 #include <iostream>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), lineColor(Qt::black), lineWidth(2), isDirty(false)
+    : QMainWindow(parent), lineColor(Qt::black), lineWidth(2), isDirty(false), isCanvasDimensioned(false)
 {
     QMainWindow::setMinimumSize(600, 300);
-    MainWindow::saveDialog();
     createAction();
     createMenu();
     createLeftToolbar();
@@ -16,6 +17,8 @@ MainWindow::MainWindow(QWidget *parent)
     _drawLineTool = new DrawLineTool(scene, style);
     canvas->setActiveTool(_selectionTool);
     setCentralWidget(canvas);
+
+
 }
 
 MainWindow::~MainWindow()
@@ -24,24 +27,55 @@ MainWindow::~MainWindow()
 }
 
 
-void MainWindow::saveDialog() {
-    /*QWidget *welcomeDialog = new QWidget(this);
-    welcomeDialog->setText("Before saving you need to enter canvas resolution. Default resolution is 600x300");
-    unsigned int widthRatio = 2;
-    unsigned int heightRatio = 1;
-    unsigned int size = STD_CANVAS_HEIGHT;
-    unsigned int xSize;
-    unsigned int ySize;
+void MainWindow::canvasDimensionDialog()
+{
+    QDialog dialog(this);
+    QFormLayout form(&dialog);
 
+    form.addRow(new QLabel("You need to dimension your canvas before saving. \n"
+                           "Please enter width and heigth or set default dimensions."));
 
+    int dimensions[2];
 
-    QAbstractButton *ok= exitDialog->addButton("Set Resolution and Save", QMessageBox::AcceptRole);
-    QAbstractButton *cancel = exitDialog->addButton("Cancel", QMessageBox::RejectRole);
-    exitDialog->exec();
-    if (exitDialog->clickedButton()== ok)
-        on_saveAction_triggered();*/
-    return;
+    QSpinBox *width = new QSpinBox(&dialog);
+    width->setRange(1, 100000);
+    width->setSingleStep(1);
+    width->setValue(600);
+    QString label1 = QString("Width");
+    form.addRow(label1, width);
+
+    QSpinBox *height = new QSpinBox(&dialog);
+    height->setRange(1, 100000);
+    height->setValue(300);
+    QString label2 = QString("Heigth");
+    form.addRow(label2, height);
+
+    dimensions[0] = width->value();
+    dimensions[1] = height->value();
+
+    // Add some standard buttons (Cancel/Ok) at the bottom of the dialog
+    QDialogButtonBox buttonBox(QDialogButtonBox::Save | QDialogButtonBox::Close,
+                               Qt::Horizontal, &dialog);
+    form.addRow(&buttonBox);
+    QObject::connect(&buttonBox, SIGNAL(accepted()), &dialog, SLOT(accept()));
+    QObject::connect(&buttonBox, SIGNAL(rejected()), &dialog, SLOT(reject()));
+
+    // Show the dialog as modal
+    if (dialog.exec() == QDialog::Accepted)
+    {
+        canvasWidth=dimensions[0];
+        canvasHeight=dimensions[1];
+        return;
+
+    }else
+    {
+        canvasWidth=600;
+        canvasHeight=300;
+        return;
+    }
 }
+
+
 
 
 //ritorna vero se esce, falso altrimenti
@@ -185,12 +219,13 @@ void MainWindow::on_newAction_triggered()
 
 void MainWindow::on_saveAction_triggered()
 {
+    if (!isCanvasDimensioned)
+        canvasDimensionDialog();
     std::cout<<"Save Action"<<std::endl;
     return;
 }
 void MainWindow::on_exitAction_triggered()
 {
-    std::cout<<"Fin qui tutto bene"<<std::endl;
     close();
 }
 

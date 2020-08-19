@@ -36,6 +36,7 @@ signals:
     void lineColorChaneged(QColor color);
     void lineThicknessChanged(int value);
 
+
 private slots:
     //slot menu file
     void on_newAction_triggered();
@@ -51,6 +52,7 @@ private slots:
     void on_pickColorAction_triggered();
     void on_canvasChanged();
 
+
 protected:
     void closeEvent(QCloseEvent *event) override;
 
@@ -59,8 +61,7 @@ private:
     void createAction();//collega ogni action al suo corrispondente slot
     void createLeftToolbar();//crea la toolbar sinistra
     void uncheckAllToolbar();
-    void saveDialog();
-
+    void canvasDimensionDialog();
     bool exitPrompt();
 
     Canvas *canvas;
@@ -76,6 +77,7 @@ private:
     unsigned int lineWidth; //spessore della linea
 
     bool isDirty; //dirty bit per segnalare la presenza di modifiche non salvate
+    bool isCanvasDimensioned;//fornisce l' informazione se il canvas e` gia` stato dimensionato definitivamente
 
     QAction *newAction;
     QAction *saveAction;
