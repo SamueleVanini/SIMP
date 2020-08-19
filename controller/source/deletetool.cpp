@@ -1,6 +1,5 @@
 #include "controller/header/deletetool.h"
 
-#include "model/header/selectiontool.h"
 #include "view/header/canvas.h"
 #include <QMouseEvent>
 

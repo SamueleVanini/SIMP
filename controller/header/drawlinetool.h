@@ -2,7 +2,7 @@
 #define DRAWLINETOOL_H
 
 #include "model/header/line.h"
-#include "model/header/tool.h"
+#include "controller/header/tool.h"
 
 #include <QPoint>
 

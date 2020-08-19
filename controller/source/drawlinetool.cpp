@@ -1,5 +1,4 @@
-#include "model/header/drawlinetool.h"
-#include "model/header/tool.h"
+#include "controller/header/drawlinetool.h"
 #include "view/header/canvas.h"
 #include "controller/header/envstyle.h"
 #include <QMouseEvent>

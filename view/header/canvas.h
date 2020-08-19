@@ -2,7 +2,7 @@
 #define CANVAS_H
 
 #include "model/header/entity.h"
-#include "model/header/tool.h"
+#include "controller/header/tool.h"
 #include "model/header/scene.h"
 
 #include <memory>
