@@ -27,7 +27,8 @@ void DrawLineTool::mousePress(QMouseEvent *event)
 
 void DrawLineTool::mouseMove(QMouseEvent *event)
 {
-    if (_clickPressed) {
+    if (_clickPressed)
+    {
         _line->setP2(event->pos());
     }
 }

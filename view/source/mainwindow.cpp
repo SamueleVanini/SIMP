@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent)
     _drawLineTool = std::make_shared<DrawLineTool>();
     _deleteTool = std::make_shared<DeleteTool>();
     _drawCircleTool = std::make_shared<DrawCircleTool>();
+    _drawRectangleTool = std::make_shared<DrawRectangleTool>();
     canvas = new Canvas(this, _selectionTool, 800, 600);
     setCentralWidget(canvas);
 }
@@ -39,6 +40,10 @@ void MainWindow::createLeftToolbar()
     QAction* drawCircle = new QAction(QIcon(":/rec/Icons/CircleIcon.png"), "Draw");
     leftToolbar->addAction(drawCircle);
     connect(drawCircle, &QAction::triggered, this, &MainWindow::on_drawCircleAction_triggered);
+
+    QAction* drawRectangle = new QAction(QIcon(":/rec/Icons/RectangleIcon.png"), "Draw");
+    leftToolbar->addAction(drawRectangle);
+    connect(drawRectangle, &QAction::triggered, this, &MainWindow::on_drawRectangleAction_triggered);
 
     QAction* deleteLine = new QAction(QIcon(":/rec/Icons/trash_can.png"), "Delete");
     leftToolbar->addAction(deleteLine);
@@ -127,6 +132,11 @@ void MainWindow::createAction()
     drawCircleAction = new QAction(tr("&Draw circle"), this);
     drawCircleAction->setStatusTip(tr("Draw circle"));
     connect(drawCircleAction, SIGNAL(triggered()), this, SLOT(on_drawCircleAction_triggered()));
+
+    //drawRectangle
+    drawRectangleAction = new QAction(tr("&Draw Rectangle"), this);
+    drawRectangleAction->setStatusTip(tr("Draw Rectangle"));
+    connect(drawRectangleAction, SIGNAL(triggered()), this, SLOT(on_drawRectangleAction_triggered()));
 }
 
 //azioni menu file
@@ -184,6 +194,15 @@ void MainWindow::on_drawCircleAction_triggered()
     drawCircleAction->setChecked(true);
     canvas->setActiveTool(_drawCircleTool);
     std::cout<<"Draw Circle Action"<<std::endl;
+    return;
+}
+
+void MainWindow::on_drawRectangleAction_triggered()
+{
+    uncheckAllToolbar();
+    drawRectangleAction->setChecked(true);
+    canvas->setActiveTool(_drawRectangleTool);
+    std::cout<<"Draw Rectangle Action"<<std::endl;
     return;
 }
 

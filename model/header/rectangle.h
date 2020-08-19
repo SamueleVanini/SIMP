@@ -1,13 +1,12 @@
-#ifndef CIRCLE_H
-#define CIRCLE_H
+#ifndef RECTANGLE_H
+#define RECTANGLE_H
 
 #include "model/header/entity.h"
 
-class Circle : public Entity
+class Rectangle : public Entity
 {
 public:
-
-    Circle(const QPoint &p1, int radius = 1, QColor lineColor = Qt::black, int lineThickness = 4, bool selected = false);
+    Rectangle(const QPoint &vertex, int width = 1, int height = 1, QColor lineColor = Qt::black, int lineThickness = 4, bool selected = false);
 
     /**
      * @brief draw metodo impiegato per disegnare il cerchio
@@ -45,30 +44,44 @@ public:
      * @brief getCentre ritorna il centro del cerchio
      * @return QPoint centro del cerchio
      */
-    QPoint getCentre() const;
+    QPoint getTopLeftVertex() const;
 
     /**
      * @brief setCentre setta il nuovo centro del cerchio
      * @param p punto QPoint
      */
-    void setCentre(const QPoint &p);
+    void setTopLeftVertex(const QPoint &p);
 
     /**
      * @brief getRadius ritorna il raggio del cerchio
      * @return int raggio del cerchio
      */
-    int getRadius() const;
+    int getWidth() const;
 
     /**
      * @brief setRadius setta il nuovo raggio del cerchio
      * @param radius raggio del cerchio
      */
-    void setRadius(int radius);
+    void setWidth(int width);
+
+    /**
+     * @brief getRadius ritorna il raggio del cerchio
+     * @return int raggio del cerchio
+     */
+    int getHeight() const;
+
+    /**
+     * @brief setRadius setta il nuovo raggio del cerchio
+     * @param radius raggio del cerchio
+     */
+    void setHeight(int height);
+
 
 
 private:
-    QPoint _centre;
-    int _radius;
+    QPoint _topLeftVertex;
+    int _width;
+    int _height;
 };
 
-#endif // CIRCLE_H
+#endif // RECTANGLE_H

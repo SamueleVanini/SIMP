@@ -39,7 +39,9 @@ SOURCES += \
 		controller/source/saveimage.cpp \
 		model/source/singleton.cpp \
     model/source/circle.cpp \
-    controller/source/drawcircletool.cpp
+    controller/source/drawcircletool.cpp \
+    model/source/rectangle.cpp \
+    controller/source/drawrectangletool.cpp
 
 HEADERS += \
 		view/header/mainwindow.h \
@@ -59,7 +61,9 @@ HEADERS += \
 		controller/header/saveimage.h \
 		model/header/singleton.h \
     model/header/circle.h \
-    controller/header/drawcircletool.h
+    controller/header/drawcircletool.h \
+    model/header/rectangle.h \
+    controller/header/drawrectangletool.h
 
 RESOURCES += \
     resources.qrc

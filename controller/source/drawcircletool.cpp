@@ -25,7 +25,8 @@ void DrawCircleTool::mousePress(QMouseEvent *event)
 
 void DrawCircleTool::mouseMove(QMouseEvent *event)
 {
-    if (_clickPressed) {
+    if (_clickPressed)
+    {
         QPoint centre = _circle->getPosition();
         _circle->setRadius((centre - event->pos()).manhattanLength());
     }
