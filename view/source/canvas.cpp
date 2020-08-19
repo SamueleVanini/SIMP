@@ -6,14 +6,13 @@
 
 #include <iostream>
 
-Canvas::Canvas(QWidget *parent, Tool *activeTool, int width, int height) : QWidget(parent), _activeTool(activeTool), _width(width), _height(height)
+Canvas::Canvas(QWidget *parent, const std::shared_ptr<Tool>& activeTool, int width, int height) : QWidget(parent), _activeTool(activeTool), _width(width), _height(height)
 {
     setBackgroundColor(Qt::white);
 }
 
 Canvas::~Canvas()
 {
-    delete _activeTool;
 }
 
 void Canvas::setBackgroundColor(QColor color)
@@ -24,7 +23,7 @@ void Canvas::setBackgroundColor(QColor color)
     this->setPalette(Pal);
 }
 
-void Canvas::setActiveTool(Tool *tool)
+void Canvas::setActiveTool(const std::shared_ptr<Tool>& tool)
 {
     _activeTool = tool;
 }

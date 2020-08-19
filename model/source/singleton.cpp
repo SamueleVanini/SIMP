@@ -29,4 +29,4 @@ EnvStyle& Singleton::getActualStyleInstance()
     return _style;
 }
 
-Singleton::Singleton(MainWindow *ui) : _scene(), _style(EnvStyle(ui)) {}
+Singleton::Singleton(MainWindow *ui) : _scene(), _style{ui} {}

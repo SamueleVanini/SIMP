@@ -13,10 +13,10 @@ class Canvas : public QWidget
     Q_OBJECT
 
 public:
-    Canvas(QWidget *parent = 0, std::shared_ptr<Tool*> activeTool = nullptr, int width = 800, int height = 600);
+    Canvas(QWidget *parent = 0, const std::shared_ptr<Tool>& activeTool = nullptr, int width = 800, int height = 600);
     virtual ~Canvas();
     void setBackgroundColor(QColor color);
-    void setActiveTool(Tool *tool);
+    void setActiveTool(const std::shared_ptr<Tool>& activeTool);
 
 protected:
     void paintEvent(QPaintEvent *event) override;
@@ -25,7 +25,7 @@ protected:
     void resizeEvent(QResizeEvent *event) override;
 
 private:
-    std::shared_ptr<Tool*> _activeTool;
+    std::shared_ptr<Tool> _activeTool;
     int _width;
     int _height;
 };

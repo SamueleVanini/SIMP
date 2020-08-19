@@ -71,9 +71,9 @@ private:
     QAction *selectAction;
     QAction *drawLineAction;
 
-    std::shared_ptr<SelectionTool*> _selectionTool;
-    std::shared_ptr<DrawLineTool*> _drawLineTool;
-    std::shared_ptr<DeleteTool*> _deleteTool;
+    std::shared_ptr<SelectionTool> _selectionTool;
+    std::shared_ptr<DrawLineTool> _drawLineTool;
+    std::shared_ptr<DeleteTool> _deleteTool;
 };
 
 

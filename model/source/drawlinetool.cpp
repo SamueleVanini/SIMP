@@ -5,7 +5,7 @@
 #include <QMouseEvent>
 
 
-DrawLineTool::DrawLineTool() : _clickPressed(false) {}
+DrawLineTool::DrawLineTool() : _line(nullptr), _clickPressed(false) {}
 
 DrawLineTool::~DrawLineTool()
 {

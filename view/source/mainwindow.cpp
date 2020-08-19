@@ -9,9 +9,9 @@ MainWindow::MainWindow(QWidget *parent)
     createMenu();
     createLeftToolbar();
     singleton = Singleton::getInstance(this);
-    _selectionTool = std::make_shared<SelectionTool*>;
-    _drawLineTool = std::make_shared<DrawLineTool*>;
-    _deleteTool = std::make_shared<DeleteTool*>;
+    _selectionTool = std::make_shared<SelectionTool>();
+    _drawLineTool = std::make_shared<DrawLineTool>();
+    _deleteTool = std::make_shared<DeleteTool>();
     canvas = new Canvas(this, _selectionTool, 800, 600);
     setCentralWidget(canvas);
 }
