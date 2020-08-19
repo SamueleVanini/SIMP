@@ -16,6 +16,13 @@ class Tool : public QObject
 public:
     Tool();
     virtual ~Tool();
+
+    /**
+     * @brief handleEvent event handler per i tool, ogni volta che arriva un evento
+     *        in base al tipo di quest'ultimo chiama il metodo corretto
+     * @param event evento scatenato nel canvas che viene passato alla classe Tool
+     * @return risultato se l'evento è stato accettato e quindi gestito o rifiutato
+     */
     bool handleEvent(QEvent *event);
 
 signals:
@@ -27,6 +34,7 @@ protected:
     virtual void mouseMove(QMouseEvent*) =0;
     virtual void mouseRelease(QMouseEvent*) =0;
 
+    //ultima entità con cui ha interagito un tool
     static Entity *_lastEntity;
 };
 

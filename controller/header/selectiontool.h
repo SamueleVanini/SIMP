@@ -25,7 +25,6 @@ protected:
     void mouseRelease(QMouseEvent *event) override;
 
 private:
-    Entity* getSelectedEntity();
     bool _isMousePressed;
     bool _hasMoved;
 };
