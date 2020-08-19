@@ -1,5 +1,5 @@
 #include "view/header/mainwindow.h"
-#include <QInputDialog>
+
 
 #include <iostream>
 
@@ -11,12 +11,21 @@ MainWindow::MainWindow(QWidget *parent)
     createMenu();
     createLeftToolbar();
     scene = new Scene();
-    canvas = new Canvas(this, scene);
+
+    QScrollArea *scrollArea = new QScrollArea(this);
+    scrollArea->setBackgroundRole(QPalette::Dark);
+    canvas = new Canvas(scrollArea, scene);
+    scrollArea->setWidget(canvas);
+    scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+
+
     auto style = new EnvStyle(this);
     _selectionTool = new SelectionTool(scene, style);
     _drawLineTool = new DrawLineTool(scene, style);
     canvas->setActiveTool(_selectionTool);
-    setCentralWidget(canvas);
+    setCentralWidget(scrollArea);
+    scrollArea->show();
 
 
 }
@@ -220,7 +229,11 @@ void MainWindow::on_newAction_triggered()
 void MainWindow::on_saveAction_triggered()
 {
     if (!isCanvasDimensioned)
+    {
         canvasDimensionDialog();
+        isCanvasDimensioned = true;
+    }
+
     std::cout<<"Save Action"<<std::endl;
     return;
 }
@@ -273,6 +286,9 @@ void MainWindow::on_pickColorAction_triggered()
 
 void MainWindow::on_canvasChanged()
 {
+    //se ci sono modifiche pendenti e isDirty non le segna -
+    if (!isDirty)
+        isDirty=true;
     return;
 }
 

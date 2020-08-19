@@ -22,6 +22,8 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QActionGroup>
+#include <QInputDialog>
+#include <QScrollArea>
 
 class MainWindow : public QMainWindow
 {
