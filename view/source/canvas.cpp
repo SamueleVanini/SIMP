@@ -3,6 +3,7 @@
 #include "QPainter"
 #include "QMouseEvent"
 #include <QScrollArea>
+#include <QLayout>
 
 Canvas::Canvas(QWidget *parent, Scene *scene, Tool *activeTool) : QWidget(parent), _scene(scene), _activeTool(activeTool)
 {

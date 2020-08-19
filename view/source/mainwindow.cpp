@@ -6,6 +6,18 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), lineColor(Qt::black), lineWidth(2), isDirty(false), isCanvasDimensioned(false)
 {
+    /*QMainWindow::setMinimumSize(600, 300);
+    createAction();
+    createMenu();
+    createLeftToolbar();
+    scene = new Scene();
+    canvas = new Canvas(this, scene);
+    auto style = new EnvStyle(this);
+    _selectionTool = new SelectionTool(scene, style);
+    _drawLineTool = new DrawLineTool(scene, style);
+    canvas->setActiveTool(_selectionTool);
+    setCentralWidget(canvas);*/
+
     QMainWindow::setMinimumSize(600, 300);
     createAction();
     createMenu();
@@ -18,7 +30,6 @@ MainWindow::MainWindow(QWidget *parent)
     scrollArea->setWidget(canvas);
     scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-
 
     auto style = new EnvStyle(this);
     _selectionTool = new SelectionTool(scene, style);
@@ -130,10 +141,21 @@ void MainWindow::createLeftToolbar()
     select->setIcon(QIcon(":/rec/Icons/CursorIcon.png"));
     connect(select, &QAction::triggered, this, &MainWindow::on_selectAction_triggered);
 
-    QAction* drawLine = new QAction("Draw", group);
+    QAction* drawLine = new QAction("Line", group);
     drawLine->setCheckable(true);
     drawLine->setIcon(QIcon(":/rec/Icons/LineIcon.png"));
     connect(drawLine, &QAction::triggered, this, &MainWindow::on_drawLineAction_triggered);
+
+    QAction* drawCircle= new QAction("Circle", group);
+    drawCircle->setCheckable(true);
+    drawCircle->setIcon(QIcon(":/rec/Icons/CircleIcon.png"));
+    connect(drawCircle, &QAction::triggered, this, &MainWindow::on_drawLineAction_triggered);
+
+    QAction* drawRectangle = new QAction("Rectangle", group);
+    drawRectangle->setCheckable(true);
+    drawRectangle->setIcon(QIcon(":/rec/Icons/RectangleIcon.png"));
+    connect(drawRectangle, &QAction::triggered, this, &MainWindow::on_drawLineAction_triggered);
+
 
     QAction* deleteLine = new QAction("Delete", group);
     deleteLine->setCheckable(true);
@@ -151,10 +173,22 @@ void MainWindow::createLeftToolbar()
     leftToolbar->addWidget(getLineColor);
     QAction* setColor= new QAction(lineColor.name());
     getLineColor->setAction(setColor);
+    getLineColor->setColor(lineColor.name());
     connect(setColor, &QAction::triggered, this, &MainWindow::on_pickColorAction_triggered);
 
-    QLabel *label2 = new QLabel(QString("Line width"));
+    QLabel *label2 = new QLabel(QString("Fill color"));
     leftToolbar->addWidget(label2);
+
+    getFillColor = new colorButton();
+    leftToolbar->addWidget(getFillColor);
+    QAction* setFillColor= new QAction(lineColor.name());
+    getFillColor->setAction(setFillColor);
+    getLineColor->setColor(lineColor.name());
+    connect(setFillColor, &QAction::triggered, this, &MainWindow::on_pickColorAction_triggered);
+
+    QLabel *label3 = new QLabel(QString("Line width"));
+    leftToolbar->addWidget(label3);
+
     QSpinBox *lineWidthSpinBox = new QSpinBox;
     lineWidthSpinBox->setRange(1, 10);
     lineWidthSpinBox->setSingleStep(1);

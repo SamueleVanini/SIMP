@@ -75,7 +75,9 @@ private:
     QMenu *menu;
     QToolBar *leftToolbar;
     colorButton *getLineColor;
+    colorButton *getFillColor;
     QColor lineColor; //colore della linea
+    QColor fillColor;
     unsigned int lineWidth; //spessore della linea
 
     bool isDirty; //dirty bit per segnalare la presenza di modifiche non salvate
