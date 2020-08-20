@@ -1,15 +1,13 @@
 #include "view/header/mainwindow.h"
-
-
 #include <iostream>
 
+#define DEFAULT_CANVAS_WIDTH 600
+#define DEFAULT_CANVAS_HEIGHT 300
+
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), lineColor(Qt::black), lineWidth(2), isDirty(false), isCanvasDimensioned(false)
+    : QMainWindow(parent), lineColor(Qt::black), lineWidth(2), isDirty(false), isCanvasDimensioned(false), scrollArea(new QScrollArea)
 {
-
-
-
-    //QMainWindow::setMinimumSize(800, 600);
+    QMainWindow::setMinimumSize(DEFAULT_CANVAS_WIDTH, DEFAULT_CANVAS_HEIGHT);
     createAction();
     createMenu();
     createLeftToolbar();
@@ -18,46 +16,18 @@ MainWindow::MainWindow(QWidget *parent)
     _drawLineTool = std::make_shared<DrawLineTool>();
     _deleteTool = std::make_shared<DeleteTool>();
     _drawCircleTool = std::make_shared<DrawCircleTool>();
-    canvas = new Canvas(nullptr, _selectionTool, 600, 300);
 
-    QHBoxLayout *layout = new QHBoxLayout();
-    layout->addWidget(canvas);
-
-    QWidget *contenitore = new QWidget(this);
-    contenitore->setLayout(layout);
-
-    QScrollArea *scrollArea = new QScrollArea(contenitore);
-    scrollArea->setLayout(layout);
+    canvas = new Canvas(nullptr, _selectionTool, DEFAULT_CANVAS_WIDTH, DEFAULT_CANVAS_HEIGHT);
+    canvas->setBackgroundColor(Qt::white);
+    scrollArea->setBackgroundRole(QPalette::Background);
+    canvas->setFixedSize(QSize(DEFAULT_CANVAS_WIDTH,DEFAULT_CANVAS_HEIGHT));
+    canvas->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     scrollArea->setWidget(canvas);
-    scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-    //canvas->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    scrollArea->setWidgetResizable(true);
+    scrollArea->setVisible(true);
+    setCentralWidget(scrollArea);
 
-    setCentralWidget(contenitore);
-    //contenitore->show();
-
-
-
-    /*QWidget *myCanvas = new QWidget(this);
-
-
-
-    QHBoxLayout *myLayout = new QHBoxLayout(myCanvas);
-    myLayout->addWidget(canvas);
-
-
-    /*QScrollArea *scrollArea = new QScrollArea(myCanvas);
-    scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-
-    /*scrollArea->setBackgroundRole(QPalette::Dark);
-    scrollArea->setLayout(myLayout);
-    scrollArea->setWidget(canvas);
     scrollArea->show();
-
-    setCentralWidget(myCanvas);
-    //myCanvas->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);*/
-
 }
 
 MainWindow::~MainWindow()
@@ -108,8 +78,8 @@ void MainWindow::canvasDimensionDialog()
 
     }else
     {
-        canvasWidth=600;
-        canvasHeight=300;
+        canvasWidth=DEFAULT_CANVAS_WIDTH;
+        canvasHeight=DEFAULT_CANVAS_HEIGHT;
         return;
     }
 }
@@ -358,7 +328,7 @@ void MainWindow::on_pickFillColorAction_triggered()
         fillColor=colorPicked;
         getFillColor->setColor(fillColor);
         std::cout<<fillColor.name().toStdString()<<std::endl;
-        emit lineColorChaneged(fillColor);
+        emit fillColorChaneged(fillColor);
     }
 
 }

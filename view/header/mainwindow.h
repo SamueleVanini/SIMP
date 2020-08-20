@@ -37,6 +37,7 @@ public:
 
 signals:
     void lineColorChaneged(QColor color);
+    void fillColorChaneged(QColor color);
     void lineThicknessChanged(int value);
 
 
@@ -77,6 +78,8 @@ private:
 
     Scene *scene;
 
+
+
     QMenu *menu;
     QToolBar *leftToolbar;
     colorButton *getLineColor;
@@ -87,6 +90,8 @@ private:
 
     bool isDirty; //dirty bit per segnalare la presenza di modifiche non salvate
     bool isCanvasDimensioned;//fornisce l' informazione se il canvas e` gia` stato dimensionato definitivamente
+
+    QScrollArea *scrollArea;
 
     QAction *newAction;
     QAction *saveAction;
