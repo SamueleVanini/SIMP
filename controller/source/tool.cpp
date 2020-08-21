@@ -22,6 +22,7 @@ bool Tool::handleEvent(QEvent *event)
         case QEvent::MouseButtonRelease:
             me = reinterpret_cast<QMouseEvent *>(event);
             mouseRelease(me);
+            emit canvasModified();
             return true;
         default:
             return false;

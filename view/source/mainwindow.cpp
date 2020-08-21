@@ -265,6 +265,7 @@ void MainWindow::on_newAction_triggered()
 
 void MainWindow::on_saveAction_triggered()
 {
+    isDirty=false;
     std::cout<<"Save Action"<<std::endl;
     return;
 }
