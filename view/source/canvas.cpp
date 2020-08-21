@@ -73,5 +73,6 @@ void Canvas::setCanvasDimension(int width, int height)
 void Canvas::changeCanvasDimension(unsigned int width, unsigned int height) {
     //resizeEvent(new QResizeEvent(QSize(int(width), int(height)), QSize(int(_width), int(_height))));
     setFixedSize(width, height);
+    setCanvasDimension(width, height);
     std::cout<<"on_canvasDimensionChanged"<<std::endl;
 }

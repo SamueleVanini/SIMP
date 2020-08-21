@@ -1,6 +1,6 @@
 #include "controller/header/tool.h"
 
-Tool::Tool() {}
+Tool::Tool(){}
 
 Tool::~Tool()
 {
