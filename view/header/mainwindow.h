@@ -36,9 +36,10 @@ public:
 
 
 signals:
-    void lineColorChaneged(QColor color);
-    void fillColorChaneged(QColor color);
+    void lineColorChanged(QColor color);
+    void fillColorChanged(QColor color);
     void lineThicknessChanged(int value);
+    void canvasDimensionChanged(unsigned int width, unsigned int height);
 
 
 private slots:
@@ -48,6 +49,7 @@ private slots:
     void on_exitAction_triggered();
     //slot menu Edit
     void on_deleteAction_triggered();
+    void on_resizeAction_triggered();
     //slot menu Draw
     void on_selectAction_triggered();
     void on_drawLineAction_triggered();
@@ -57,6 +59,7 @@ private slots:
     void on_pickColorAction_triggered();
     void on_pickFillColorAction_triggered();
     void on_canvasChanged();
+
 
 
 protected:
@@ -97,6 +100,7 @@ private:
     QAction *saveAction;
     QAction *exitAction;
     QAction *deleteAction;
+    QAction *resizeAction;
     QAction *selectAction;
     QAction *drawLineAction;
     QAction *drawCircleAction;

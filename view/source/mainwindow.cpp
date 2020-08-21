@@ -11,11 +11,14 @@ MainWindow::MainWindow(QWidget *parent)
     createAction();
     createMenu();
     createLeftToolbar();
+    canvasWidth=DEFAULT_CANVAS_WIDTH;
+    canvasHeight=DEFAULT_CANVAS_HEIGHT;
     singleton = Singleton::getInstance(this);
     _selectionTool = std::make_shared<SelectionTool>();
     _drawLineTool = std::make_shared<DrawLineTool>();
     _deleteTool = std::make_shared<DeleteTool>();
     _drawCircleTool = std::make_shared<DrawCircleTool>();
+    //_drawRectangleTool = std::make_shared<DrawRectangleTool>();
 
     canvas = new Canvas(nullptr, _selectionTool, DEFAULT_CANVAS_WIDTH, DEFAULT_CANVAS_HEIGHT);
     canvas->setBackgroundColor(Qt::white);
@@ -27,6 +30,15 @@ MainWindow::MainWindow(QWidget *parent)
     scrollArea->setVisible(true);
     setCentralWidget(scrollArea);
 
+
+    connect(resizeAction, SIGNAL(triggered()), this, SLOT(on_resizeAction_triggered()));
+    connect(this, SIGNAL(canvasDimensionChanged(unsigned int, unsigned int)), canvas, SLOT(changeCanvasDimension(unsigned int, unsigned int)));
+
+    //se disegno una figura aggiorno lo stato del canvas
+    connect(_drawLineTool.get(), SIGNAL(canvasModified()), this, SLOT(on_canvasChanged()));
+    connect(_drawCircleTool.get(), SIGNAL(canvasModified()), this, SLOT(on_canvasChanged()));
+    //connect(_drawRectangleTool.get(), SIGNAL(canvasModified()), this, SLOT(on_canvasChanged()));
+
     scrollArea->show();
 }
 
@@ -35,32 +47,31 @@ MainWindow::~MainWindow()
     delete canvas;
 }
 
+void MainWindow::on_resizeAction_triggered()
+{
+    canvasDimensionDialog();
+    emit canvasDimensionChanged(canvasWidth, canvasHeight);
+}
 
 void MainWindow::canvasDimensionDialog()
 {
     QDialog dialog(this);
     QFormLayout form(&dialog);
 
-    form.addRow(new QLabel("You need to dimension your canvas before saving. \n"
-                           "Please enter width and heigth or set default dimensions."));
-
-    int dimensions[2];
+    form.addRow(new QLabel("Enter new dimensions:"));
 
     QSpinBox *width = new QSpinBox(&dialog);
     width->setRange(1, 100000);
     width->setSingleStep(1);
-    width->setValue(600);
+    width->setValue(canvasWidth);
     QString label1 = QString("Width");
     form.addRow(label1, width);
 
     QSpinBox *height = new QSpinBox(&dialog);
     height->setRange(1, 100000);
-    height->setValue(300);
+    height->setValue(canvasHeight);
     QString label2 = QString("Heigth");
     form.addRow(label2, height);
-
-    dimensions[0] = width->value();
-    dimensions[1] = height->value();
 
     // Add some standard buttons (Cancel/Ok) at the bottom of the dialog
     QDialogButtonBox buttonBox(QDialogButtonBox::Save | QDialogButtonBox::Close,
@@ -72,8 +83,8 @@ void MainWindow::canvasDimensionDialog()
     // Show the dialog as modal
     if (dialog.exec() == QDialog::Accepted)
     {
-        canvasWidth=dimensions[0];
-        canvasHeight=dimensions[1];
+        canvasWidth=width->value();
+        canvasHeight=height->value();
         return;
 
     }else
@@ -91,8 +102,8 @@ void MainWindow::canvasDimensionDialog()
 bool MainWindow::exitPrompt()
 {
     if (isDirty) {
-
         QMessageBox *exitDialog = new QMessageBox(this);
+        exitDialog->setIcon(QMessageBox::Question);
         exitDialog->setText("There are unsaved changes. Do you want to save before exit?");
         QAbstractButton *save = exitDialog->addButton("Exit and save", QMessageBox::AcceptRole);
         QAbstractButton *cancel = exitDialog->addButton("Cancel", QMessageBox::RejectRole);
@@ -110,12 +121,7 @@ bool MainWindow::exitPrompt()
 }
 
 
-void MainWindow::closeEvent(QCloseEvent *event)
-{
-    if (exitPrompt() == false)
-        event->ignore();
 
-}
 
 void MainWindow::createLeftToolbar()
 {
@@ -198,6 +204,7 @@ void MainWindow::createMenu()
     menu->addAction(exitAction);
     menu = menuBar()->addMenu(tr("&Edit"));
     menu->addAction(deleteAction);
+    menu->addAction(resizeAction);
     menu = menuBar()->addMenu(tr("&Draw"));
     menu->addAction(drawLineAction);
 }
@@ -229,6 +236,10 @@ void MainWindow::createAction()
     deleteAction->setStatusTip(tr("delete"));
     connect(deleteAction, SIGNAL(triggered()), this, SLOT(on_deleteAction_triggered()));
 
+    //resizeAction
+    resizeAction = new QAction(tr("&Resize Canvas"), this);
+    resizeAction->setStatusTip(tr("Resize Canvas"));
+
     //select
     selectAction = new QAction(tr("&Select"), this);
     selectAction->setStatusTip(tr("Select"));
@@ -254,12 +265,6 @@ void MainWindow::on_newAction_triggered()
 
 void MainWindow::on_saveAction_triggered()
 {
-    if (!isCanvasDimensioned)
-    {
-        canvasDimensionDialog();
-        isCanvasDimensioned = true;
-    }
-
     std::cout<<"Save Action"<<std::endl;
     return;
 }
@@ -286,6 +291,7 @@ void MainWindow::on_deleteAction_triggered()
     std::cout<<"Delete Action"<<std::endl;
     return;
 }
+
 
 void MainWindow::on_drawLineAction_triggered()
 {
@@ -315,7 +321,7 @@ void MainWindow::on_pickColorAction_triggered()
         lineColor=colorPicked;
         getLineColor->setColor(lineColor);
         std::cout<<lineColor.name().toStdString()<<std::endl;
-        emit lineColorChaneged(lineColor);
+        emit lineColorChanged(lineColor);
     }
 
 }
@@ -328,14 +334,14 @@ void MainWindow::on_pickFillColorAction_triggered()
         fillColor=colorPicked;
         getFillColor->setColor(fillColor);
         std::cout<<fillColor.name().toStdString()<<std::endl;
-        emit fillColorChaneged(fillColor);
+        emit fillColorChanged(fillColor);
     }
 
 }
 
 void MainWindow::on_canvasChanged()
 {
-    //se ci sono modifiche pendenti e isDirty non le segna -
+    //se ci sono modifiche pendenti e isDirty non le segna ->aggiorno isDirty
     if (!isDirty)
         isDirty=true;
     return;
@@ -346,4 +352,10 @@ void MainWindow::uncheckAllToolbar()
     drawLineAction->setChecked(false);
     selectAction->setChecked(false);
     deleteAction->setChecked(false);
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    if (exitPrompt() == false)
+        event->ignore();
 }
