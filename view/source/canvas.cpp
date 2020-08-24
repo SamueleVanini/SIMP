@@ -11,8 +11,6 @@
 Canvas::Canvas(QWidget *parent, const std::shared_ptr<Tool>& activeTool, int width, int height) : QWidget(parent), _activeTool(activeTool), _width(width), _height(height)
 {
     setBackgroundColor(Qt::white);
-    //setFixedSize(width, height);
-
 }
 
 Canvas::~Canvas()
@@ -71,8 +69,8 @@ void Canvas::setCanvasDimension(int width, int height)
 }
 
 void Canvas::changeCanvasDimension(unsigned int width, unsigned int height) {
-    //resizeEvent(new QResizeEvent(QSize(int(width), int(height)), QSize(int(_width), int(_height))));
     setFixedSize(width, height);
     setCanvasDimension(width, height);
+    resizeEvent(nullptr);
     std::cout<<"on_canvasDimensionChanged"<<std::endl;
 }

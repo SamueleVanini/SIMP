@@ -49,6 +49,7 @@ private slots:
     void on_exitAction_triggered();
     //slot menu Edit
     void on_deleteAction_triggered();
+    void on_deleteAllAction_triggered();
     void on_resizeAction_triggered();
     //slot menu Draw
     void on_selectAction_triggered();
@@ -74,13 +75,12 @@ private:
     bool exitPrompt();
 
     Singleton *singleton;
-    Canvas *canvas;
 
+    Canvas *canvas;
     unsigned int canvasWidth;
     unsigned int canvasHeight;
 
     Scene *scene;
-
 
 
     QMenu *menu;
@@ -93,6 +93,7 @@ private:
 
     bool isDirty; //dirty bit per segnalare la presenza di modifiche non salvate
     bool isCanvasDimensioned;//fornisce l' informazione se il canvas e` gia` stato dimensionato definitivamente
+    QString saveFile;
 
     QScrollArea *scrollArea;
 
@@ -100,6 +101,7 @@ private:
     QAction *saveAction;
     QAction *exitAction;
     QAction *deleteAction;
+    QAction *deleteAllAction;
     QAction *resizeAction;
     QAction *selectAction;
     QAction *drawLineAction;

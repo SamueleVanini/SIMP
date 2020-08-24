@@ -77,3 +77,7 @@ Entity* Scene::findSelectedEntity()
     return nullptr;
 }
 
+void Scene::deleteAll()
+{
+   _scene.erase(_scene.begin(), _scene.end());
+}

@@ -5,7 +5,7 @@
 #define DEFAULT_CANVAS_HEIGHT 300
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), lineColor(Qt::black), lineWidth(2), isDirty(false), isCanvasDimensioned(false), scrollArea(new QScrollArea)
+    : QMainWindow(parent), lineColor(Qt::black), fillColor(Qt::white), lineWidth(2), isDirty(false), isCanvasDimensioned(false), saveFile(), scrollArea(new QScrollArea)
 {
     QMainWindow::setMinimumSize(DEFAULT_CANVAS_WIDTH, DEFAULT_CANVAS_HEIGHT);
     createAction();
@@ -21,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent)
     //_drawRectangleTool = std::make_shared<DrawRectangleTool>();
 
     canvas = new Canvas(nullptr, _selectionTool, DEFAULT_CANVAS_WIDTH, DEFAULT_CANVAS_HEIGHT);
-    canvas->setBackgroundColor(Qt::white);
+    //canvas->setBackgroundColor(Qt::white);
     scrollArea->setBackgroundRole(QPalette::Background);
     canvas->setFixedSize(QSize(DEFAULT_CANVAS_WIDTH,DEFAULT_CANVAS_HEIGHT));
     canvas->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -116,6 +116,14 @@ bool MainWindow::exitPrompt()
             on_saveAction_triggered();
             return true;
         }
+    }else {
+        QMessageBox *exitDialog = new QMessageBox(this);
+        exitDialog->setIcon(QMessageBox::Question);
+        exitDialog->setText("Do you really want to exit?");
+        QAbstractButton *exit = exitDialog->addButton("Exit", QMessageBox::DestructiveRole);
+        exitDialog->addButton("Cancel", QMessageBox::RejectRole);
+        exitDialog->exec();
+        return exitDialog->clickedButton()==exit;
     }
     return true;
 }
@@ -127,7 +135,7 @@ void MainWindow::createLeftToolbar()
 {
     leftToolbar=new QToolBar();
     QMainWindow::addToolBar(Qt::LeftToolBarArea, leftToolbar);
-    leftToolbar->setOrientation(Qt::Vertical);
+    leftToolbar->setAllowedAreas(Qt::LeftToolBarArea);
     QActionGroup *group = new QActionGroup(leftToolbar);
 
     QAction* select = new QAction("select", group);
@@ -145,10 +153,10 @@ void MainWindow::createLeftToolbar()
     drawCircle->setIcon(QIcon(":/rec/Icons/CircleIcon.png"));
     connect(drawCircle, &QAction::triggered, this, &MainWindow::on_drawCircleAction_triggered);
 
-    QAction* drawRectangle = new QAction("Rectangle", group);
+    /*QAction* drawRectangle = new QAction("Rectangle", group);
     drawRectangle->setCheckable(true);
     drawRectangle->setIcon(QIcon(":/rec/Icons/RectangleIcon.png"));
-    connect(drawRectangle, &QAction::triggered, this, &MainWindow::on_drawLineAction_triggered);
+    connect(drawRectangle, &QAction::triggered, this, &MainWindow::on_drawLineAction_triggered);*/
 
 
     QAction* deleteLine = new QAction("Delete", group);
@@ -203,7 +211,7 @@ void MainWindow::createMenu()
     menu->addAction(saveAction);
     menu->addAction(exitAction);
     menu = menuBar()->addMenu(tr("&Edit"));
-    menu->addAction(deleteAction);
+    menu->addAction(deleteAllAction);
     menu->addAction(resizeAction);
     menu = menuBar()->addMenu(tr("&Draw"));
     menu->addAction(drawLineAction);
@@ -233,8 +241,13 @@ void MainWindow::createAction()
     //delete
     deleteAction = new QAction(tr("&Delete"), this);
     deleteAction->setShortcuts(QKeySequence::Delete);
-    deleteAction->setStatusTip(tr("delete"));
+    deleteAction->setStatusTip(tr("Delete"));
     connect(deleteAction, SIGNAL(triggered()), this, SLOT(on_deleteAction_triggered()));
+
+    deleteAllAction = new QAction(tr("&Delete all"), this);
+    deleteAllAction->setShortcut(Qt::CTRL + Qt::Key_Delete);
+    deleteAllAction->setStatusTip(tr("Delete all"));
+    connect(deleteAllAction, SIGNAL(triggered()), this, SLOT(on_deleteAllAction_triggered()));
 
     //resizeAction
     resizeAction = new QAction(tr("&Resize Canvas"), this);
@@ -259,13 +272,32 @@ void MainWindow::createAction()
 //azioni menu file
 void MainWindow::on_newAction_triggered()
 {
+    if (isDirty)
+    {
+        exitPrompt();
+    }
+    uncheckAllToolbar();
+    selectAction->setEnabled(true);
+    canvas->setActiveTool(_selectionTool);
+    //aggiunger la funzione per eliminare la scena
+    on_deleteAllAction_triggered();
+
     std::cout<<"New Action"<<std::endl;
-    return;
+
 }
 
 void MainWindow::on_saveAction_triggered()
 {
-    isDirty=false;
+    if (saveFile==nullptr)
+    {
+        saveFile = QFileDialog::getSaveFileName(this, tr("Save File"), "/home/Pictures/untitled.png", tr("Images (*.png)"));
+        //di default salva png nella cartella pictures come untitled.png. cambiare i formati e la directory a piacimento.
+        isDirty=false;
+    }else
+    {
+        isDirty=false; //ipotizziamo abbia salvato, poi dovra` essere veramente implementato il salvataggio
+    }
+
     std::cout<<"Save Action"<<std::endl;
     return;
 }
@@ -290,6 +322,19 @@ void MainWindow::on_deleteAction_triggered()
     deleteAction->setChecked(true);
     canvas->setActiveTool(_deleteTool);
     std::cout<<"Delete Action"<<std::endl;
+    return;
+}
+
+void MainWindow::on_deleteAllAction_triggered()
+{
+     //cancella l'intero canvas e riporta l' interfaccia allo stato iniziale
+    //scene->deleteAll();
+    Singleton::getInstance(nullptr)->getActualSceneInstance().deleteAll();
+    canvas->repaint();
+    uncheckAllToolbar();
+    selectAction->setEnabled(true);
+    canvas->setActiveTool(_selectionTool);
+    std::cout<<"Delete All Action"<<std::endl;
     return;
 }
 
@@ -360,3 +405,4 @@ void MainWindow::closeEvent(QCloseEvent *event)
     if (exitPrompt() == false)
         event->ignore();
 }
+

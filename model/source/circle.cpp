@@ -12,6 +12,7 @@ void Circle::draw(QPainter *painter) const
     painter->setPen(pen);
     painter->drawEllipse(_centre, _radius, _radius);
 
+
     if(_selected)
     {
         QBrush brush;
