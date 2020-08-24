@@ -1,19 +1,9 @@
 <RCC>
     <qresource prefix="/rec">
         <file>Icons/LineIcon.png</file>
-        <file>Icons/bringForward.png</file>
-        <file>Icons/bringToFront.png</file>
         <file>Icons/CircleIcon.png</file>
         <file>Icons/CursorIcon.png</file>
-        <file>Icons/new.png</file>
-        <file>Icons/open.png</file>
         <file>Icons/RectangleIcon.png</file>
-        <file>Icons/redo.png</file>
-        <file>Icons/save.png</file>
-        <file>Icons/sendBackward.png</file>
-        <file>Icons/sendToBack.png</file>
-        <file>Icons/trash_can.png</file>
-        <file>Icons/undo.png</file>
-        <file>Icons/colorPalette.png</file>
+        <file>Icons/eraser.png</file>
     </qresource>
 </RCC>

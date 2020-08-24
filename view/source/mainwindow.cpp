@@ -36,7 +36,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     //se disegno una figura aggiorno lo stato del canvas
     connect(_drawLineTool.get(), SIGNAL(canvasModified()), this, SLOT(on_canvasChanged()));
+    connect(_drawLineTool.get(), SIGNAL(canvasModified()), this, SLOT(on_canvasChanged()));
     connect(_drawCircleTool.get(), SIGNAL(canvasModified()), this, SLOT(on_canvasChanged()));
+    connect(_deleteTool.get(), SIGNAL(canvasModified()), this, SLOT(on_canvasChanged()));
     //connect(_drawRectangleTool.get(), SIGNAL(canvasModified()), this, SLOT(on_canvasChanged()));
 
     scrollArea->show();
@@ -161,7 +163,7 @@ void MainWindow::createLeftToolbar()
 
     QAction* deleteLine = new QAction("Delete", group);
     deleteLine->setCheckable(true);
-    deleteLine->setIcon(QIcon(":/rec/Icons/trash_can.png"));
+    deleteLine->setIcon(QIcon(":/rec/Icons/eraser.png"));
     connect(deleteLine, &QAction::triggered, this, &MainWindow::on_deleteAction_triggered);
 
 
@@ -279,8 +281,10 @@ void MainWindow::on_newAction_triggered()
     uncheckAllToolbar();
     selectAction->setEnabled(true);
     canvas->setActiveTool(_selectionTool);
-    //aggiunger la funzione per eliminare la scena
     on_deleteAllAction_triggered();
+    isDirty=false;
+    isCanvasDimensioned=false;
+    saveFile= QString();
 
     std::cout<<"New Action"<<std::endl;
 
