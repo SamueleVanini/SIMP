@@ -4,6 +4,6 @@
         <file>Icons/CircleIcon.png</file>
         <file>Icons/CursorIcon.png</file>
         <file>Icons/RectangleIcon.png</file>
-        <file>Icons/eraser.png</file>
+        <file>Icons/Eraser.png</file>
     </qresource>
 </RCC>

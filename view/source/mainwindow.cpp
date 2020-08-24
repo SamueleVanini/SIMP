@@ -163,7 +163,7 @@ void MainWindow::createLeftToolbar()
 
     QAction* deleteLine = new QAction("Delete", group);
     deleteLine->setCheckable(true);
-    deleteLine->setIcon(QIcon(":/rec/Icons/eraser.png"));
+    deleteLine->setIcon(QIcon(":/rec/Icons/Eraser.png"));
     connect(deleteLine, &QAction::triggered, this, &MainWindow::on_deleteAction_triggered);
 
 
