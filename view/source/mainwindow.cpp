@@ -206,7 +206,7 @@ void MainWindow::createLeftToolbar()
 }
 
 /**
-@brief crea il menu sul*/
+@brief crea il menu nella parte superiore*/
 void MainWindow::createMenu()
 {
     menu = menuBar()->addMenu(tr("&File"));
@@ -220,6 +220,8 @@ void MainWindow::createMenu()
     menu->addAction(drawLineAction);
 }
 
+/**
+@brief crea e collega le varie azioni*/
 void MainWindow::createAction()
 {
 
@@ -274,6 +276,9 @@ void MainWindow::createAction()
 }
 
 //azioni menu file
+
+/**
+@brief salva le modifiche del progetto corrente e resetta il canvas per poter */
 void MainWindow::on_newAction_triggered()
 {
     if (isDirty)
@@ -285,79 +290,87 @@ void MainWindow::on_newAction_triggered()
     canvas->setActiveTool(_selectionTool);
     on_deleteAllAction_triggered();
     isDirty=false;
+    emit canvasDimensionChanged(600, 300);
+    lineColor=Qt::black;
+    fillColor=Qt::white;
     isCanvasDimensioned=false;
     saveFile= QString();
-
-    std::cout<<"New Action"<<std::endl;
-
 }
 
 void MainWindow::on_saveAction_triggered()
 {
     if (saveFile==nullptr)
     {
-        saveFile = QFileDialog::getSaveFileName(this, tr("Save File"), "/home/Student/Pictures/untitled.png", tr("Images (*.png)"));
+        saveFile = QFileDialog::getSaveFileName(this, tr("Save File"), "/home/student/Pictures/untitled.png", tr("Images (*.png)"));
         //di default salva png nella cartella pictures come untitled.png. cambiare i formati e la directory a piacimento.
-
-        canvas->grab().save(saveFile);
-
-        isDirty=false;
+        if (saveFile == nullptr) //se l'utente e` uscito dal dialogo senza fornire il path allora esci
+        {
+            return;
+        }else
+        {
+            canvas->grab().save(saveFile); //altrimenti salvo il canvas e resetto il dirty bit
+            isDirty=false;
+        }
     }else
     {
         canvas->grab().save(saveFile);
-        isDirty=false; //ipotizziamo abbia salvato, poi dovra` essere veramente implementato il salvataggio
+        isDirty=false;
     }
-
-    std::cout<<"Save Action"<<std::endl;
     return;
 }
+
 void MainWindow::on_exitAction_triggered()
 {
     close();
 }
 
-//azioni menu Draw
+/**
+@brief attiva il tool per la selezione
+*/
 void MainWindow::on_selectAction_triggered()
 {
     uncheckAllToolbar();
     selectAction->setEnabled(true);
     canvas->setActiveTool(_selectionTool);
-    std::cout<<"Select Action"<<std::endl;
     return;
 }
 
+/**
+@brief attiva il tool per l'eliminazione*/
 void MainWindow::on_deleteAction_triggered()
 {
     uncheckAllToolbar();
     deleteAction->setChecked(true);
     canvas->setActiveTool(_deleteTool);
-    std::cout<<"Delete Action"<<std::endl;
     return;
 }
 
+/**
+@brief elimina il canvas*/
 void MainWindow::on_deleteAllAction_triggered()
 {
-     //cancella l'intero canvas e riporta l' interfaccia allo stato iniziale
-    //scene->deleteAll();
+    //cancella l'intero canvas e riporta l' interfaccia allo stato iniziale
     Singleton::getInstance(nullptr)->getActualSceneInstance().deleteAll();
     canvas->repaint();
     uncheckAllToolbar();
     selectAction->setEnabled(true);
     canvas->setActiveTool(_selectionTool);
-    std::cout<<"Delete All Action"<<std::endl;
     return;
 }
 
-
+/**
+@brief attiva il tool per il disegno delle linee*/
 void MainWindow::on_drawLineAction_triggered()
 {
     uncheckAllToolbar();
     drawLineAction->setEnabled(true);
     canvas->setActiveTool(_drawLineTool);
-    std::cout<<"Draw Line Action"<<std::endl;
     return;
 }
 
+
+/**
+@brief attiva il tool per il disegno dei cerchi*/
 void MainWindow::on_drawCircleAction_triggered()
 {
     uncheckAllToolbar();
@@ -369,6 +382,8 @@ void MainWindow::on_drawCircleAction_triggered()
 
 //azioni di supporto
 
+/**
+@brief permette la scelta del colore delle linee*/
 void MainWindow::on_pickColorAction_triggered()
 {
     QColor colorPicked = QColorDialog::getColor(Qt::black, this, "Choose Color");
@@ -376,12 +391,13 @@ void MainWindow::on_pickColorAction_triggered()
     {
         lineColor=colorPicked;
         getLineColor->setColor(lineColor);
-        std::cout<<lineColor.name().toStdString()<<std::endl;
         emit lineColorChanged(lineColor);
     }
 
 }
 
+/**
+@brief permette la scelta del colore di riempimento*/
 void MainWindow::on_pickFillColorAction_triggered()
 {
     QColor colorPicked = QColorDialog::getColor(Qt::white, this, "Choose Color");
@@ -389,12 +405,13 @@ void MainWindow::on_pickFillColorAction_triggered()
     {
         fillColor=colorPicked;
         getFillColor->setColor(fillColor);
-        std::cout<<fillColor.name().toStdString()<<std::endl;
         emit fillColorChanged(fillColor);
     }
 
 }
 
+/**
+@brief aggiorna lo stato del canvas in caso di modifiche*/
 void MainWindow::on_canvasChanged()
 {
     //se ci sono modifiche pendenti e isDirty non le segna ->aggiorno isDirty
@@ -403,6 +420,8 @@ void MainWindow::on_canvasChanged()
     return;
 }
 
+/**
+@brief resetta la toolbar*/
 void MainWindow::uncheckAllToolbar()
 {
     drawLineAction->setChecked(false);
@@ -410,6 +429,8 @@ void MainWindow::uncheckAllToolbar()
     deleteAction->setChecked(false);
 }
 
+/**
+@brief gestisce la chiusura dell'applicazione*/
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     if (exitPrompt() == false)
