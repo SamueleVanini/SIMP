@@ -22,11 +22,12 @@ Scene::~Scene()
 
 Entity* Scene::getEntityFromPosition(int x, int y)
 {
-    for(auto cit = _scene.begin(); cit != _scene.end(); ++cit)
+    //for(auto cit = _scene.begin(); cit != _scene.end(); ++cit)
+    for(unsigned i=_scene.size(); i-- >0;)
     {
-        if((*cit)->contains(x,y))
+        if((_scene[i])->contains(x,y))
         {
-            return *cit;
+            return _scene[i];
         }
     }
     return nullptr;

@@ -218,6 +218,7 @@ void MainWindow::createMenu()
     menu->addAction(resizeAction);
     menu = menuBar()->addMenu(tr("&Draw"));
     menu->addAction(drawLineAction);
+    menu->addAction(drawCircleAction);
 }
 
 /**
@@ -245,14 +246,13 @@ void MainWindow::createAction()
 
     //delete
     deleteAction = new QAction(tr("&Delete"), this);
-    deleteAction->setShortcuts(QKeySequence::Delete);
-    deleteAction->setStatusTip(tr("Delete"));
+    deleteAction->setStatusTip(tr("Press to delete"));
     connect(deleteAction, SIGNAL(triggered()), this, SLOT(on_deleteAction_triggered()));
 
     //deleteAll
     deleteAllAction = new QAction(tr("&Delete all"), this);
     deleteAllAction->setShortcut(Qt::CTRL + Qt::Key_Delete);
-    deleteAllAction->setStatusTip(tr("Delete all"));
+    deleteAllAction->setStatusTip(tr("Press CTRL+DEL to delete all"));
     connect(deleteAllAction, SIGNAL(triggered()), this, SLOT(on_deleteAllAction_triggered()));
 
     //resizeAction
@@ -261,17 +261,17 @@ void MainWindow::createAction()
 
     //select
     selectAction = new QAction(tr("&Select"), this);
-    selectAction->setStatusTip(tr("Select"));
+    selectAction->setStatusTip(tr("Press to Select"));
     connect(selectAction, SIGNAL(triggered()), this, SLOT(on_selectAction_triggered()));
 
     //drawLine
     drawLineAction = new QAction(tr("&Draw line"), this);
-    drawLineAction->setStatusTip(tr("Draw line"));
+    drawLineAction->setStatusTip(tr("Press to draw a line"));
     connect(drawLineAction, SIGNAL(triggered()), this, SLOT(on_drawLineAction_triggered()));
 
     //drawCircle
     drawCircleAction = new QAction(tr("&Draw circle"), this);
-    drawCircleAction->setStatusTip(tr("Draw circle"));
+    drawCircleAction->setStatusTip(tr("Press to draw a circle"));
     connect(drawCircleAction, SIGNAL(triggered()), this, SLOT(on_drawCircleAction_triggered()));
 }
 
@@ -292,8 +292,14 @@ void MainWindow::on_newAction_triggered()
     isDirty=false;
     emit canvasDimensionChanged(600, 300);
     lineColor=Qt::black;
+    getLineColor->setColor(lineColor);
+    emit lineColorChanged(lineColor);
     fillColor=Qt::white;
+    getFillColor->setColor(fillColor);
+    emit fillColorChanged(fillColor);
     isCanvasDimensioned=false;
+    emit canvasDimensionChanged(600,300);
+    emit lineThicknessChanged(2);
     saveFile= QString();
 }
 
@@ -376,7 +382,6 @@ void MainWindow::on_drawCircleAction_triggered()
     uncheckAllToolbar();
     drawCircleAction->setChecked(true);
     canvas->setActiveTool(_drawCircleTool);
-    std::cout<<"Draw Circle Action"<<std::endl;
     return;
 }
 
@@ -417,6 +422,7 @@ void MainWindow::on_canvasChanged()
     //se ci sono modifiche pendenti e isDirty non le segna ->aggiorno isDirty
     if (!isDirty)
         isDirty=true;
+
     return;
 }
 
