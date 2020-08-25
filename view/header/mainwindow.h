@@ -85,8 +85,8 @@ private:
 
     QMenu *menu;
     QToolBar *leftToolbar;
-    colorButton *getLineColor;
-    colorButton *getFillColor;
+    ColorButton *getLineColor;
+    ColorButton *getFillColor;
     QColor lineColor; //colore della linea
     QColor fillColor;
     unsigned int lineWidth; //spessore della linea

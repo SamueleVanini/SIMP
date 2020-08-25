@@ -2,14 +2,16 @@
 
 #include <QPainter>
 
-Circle::Circle(const QPoint &centre, int radius, QColor lineColor, int lineThickness, bool selected)
-     : Entity(lineColor, Qt::black, lineThickness, selected), _centre(centre), _radius(radius) {}
+Circle::Circle(const QPoint &centre, int radius, QColor lineColor, QColor fillColor, int lineThickness, bool selected)
+     : Entity(lineColor, fillColor, lineThickness, selected), _centre(centre), _radius(radius) {}
 
 void Circle::draw(QPainter *painter) const
 {
     QPen pen(getLineColor());
+    QBrush brush(getFillColor());
     pen.setWidth(_lineThickness);
     painter->setPen(pen);
+    painter->setBrush(brush);
     painter->drawEllipse(_centre, _radius, _radius);
 
 
