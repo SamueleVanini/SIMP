@@ -5,9 +5,9 @@
 
 EnvStyle::EnvStyle(MainWindow *ui, QColor lineColor, QColor fillColor, int thickness): _ui(ui), _lineColor(lineColor), _fillColor(fillColor), _thickness(thickness)
 {
-    connect(_ui, SIGNAL(lineColorChaneged(QColor)), this, SLOT(changeLineColor(QColor)));
+    connect(_ui, SIGNAL(lineColorChanged(QColor)), this, SLOT(changeLineColor(QColor)));
     connect(_ui, SIGNAL(lineThicknessChanged(int)), this, SLOT(changeLineThickness(int)));
-    //connect(_ui, SIGNAL(fillColorChaneged(QColor)), this, SLOT(changeFillColor(QColor)));
+    connect(_ui, SIGNAL(fillColorChanged(QColor)), this, SLOT(changeFillColor(QColor)));
 }
 
 /*

@@ -55,6 +55,8 @@ public:
      */
     Entity* findSelectedEntity();
 
+    void deleteAll();
+
 private:
     Scene();
     ~Scene();

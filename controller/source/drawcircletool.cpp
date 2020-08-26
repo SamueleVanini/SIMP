@@ -15,7 +15,7 @@ void DrawCircleTool::mousePress(QMouseEvent *event)
     _circle = new Circle(event->pos());
     _circle->setLineColor(Singleton::getInstance(nullptr)->getActualStyleInstance().getLineColor());
     _circle->setLineThickness(Singleton::getInstance(nullptr)->getActualStyleInstance().getThickness());
-    //_circle->setFillColor(Singleton::getInstance(nullptr)->getActualStyleInstance().getFillColor());
+    _circle->setFillColor(Singleton::getInstance(nullptr)->getActualStyleInstance().getFillColor());
     //Se inserisco una nuova shape l'ultima inserta nella scena va deselezionata
     if(_lastEntity)
         _lastEntity->setSelected(false);
