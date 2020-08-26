@@ -6,8 +6,6 @@
 #include <QScrollArea>
 #include <QLayout>
 
-#include <iostream>
-
 Canvas::Canvas(QWidget *parent, const std::shared_ptr<Tool>& activeTool, int width, int height) : QWidget(parent), _activeTool(activeTool), _width(width), _height(height)
 {
     setBackgroundColor(Qt::white);
@@ -59,7 +57,6 @@ bool Canvas::event(QEvent *event)
 void Canvas::resizeEvent(QResizeEvent *event)
 {
     QWidget::resizeEvent(event);
-    std::cout << width() << " " << height();
 }
 
 void Canvas::setCanvasDimension(int width, int height)
@@ -72,5 +69,4 @@ void Canvas::changeCanvasDimension(unsigned int width, unsigned int height) {
     setFixedSize(width, height);
     setCanvasDimension(width, height);
     resizeEvent(nullptr);
-    std::cout<<"on_canvasDimensionChanged"<<std::endl;
 }

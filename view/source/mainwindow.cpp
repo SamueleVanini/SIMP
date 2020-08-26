@@ -1,5 +1,4 @@
 #include "view/header/mainwindow.h"
-#include <iostream>
 
 #define DEFAULT_CANVAS_WIDTH 600
 #define DEFAULT_CANVAS_HEIGHT 300
