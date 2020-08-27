@@ -194,7 +194,7 @@ void MainWindow::createLeftToolbar()
     leftToolbar->addWidget(label3);
 
     QSpinBox *lineWidthSpinBox = new QSpinBox;
-    lineWidthSpinBox->setRange(1, 10);
+    lineWidthSpinBox->setRange(1, 20);
     lineWidthSpinBox->setSingleStep(1);
     lineWidthSpinBox->setValue(lineWidth);
     leftToolbar->addWidget(lineWidthSpinBox);
