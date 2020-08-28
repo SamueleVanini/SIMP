@@ -14,11 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
     createAction();
     createMenu();
     createLeftToolbar();
-    singleton = Singleton::getInstance(this);
-    _selectionTool = std::make_shared<SelectionTool>();
-    _drawLineTool = std::make_shared<DrawLineTool>();
-    _deleteTool = std::make_shared<DeleteTool>();
-    _drawCircleTool = std::make_shared<DrawCircleTool>();
+    createTools();
 
     canvas = new Canvas(nullptr, _selectionTool, DEFAULT_CANVAS_WIDTH, DEFAULT_CANVAS_HEIGHT);
     scrollArea->setBackgroundRole(QPalette::Background);
@@ -28,23 +24,27 @@ MainWindow::MainWindow(QWidget *parent)
     scrollArea->setWidgetResizable(true);
     scrollArea->setVisible(true);
     setCentralWidget(scrollArea);
-
-
     connect(resizeAction, SIGNAL(triggered()), this, SLOT(on_resizeAction_triggered()));
     connect(this, SIGNAL(canvasDimensionChanged(unsigned int, unsigned int)), canvas, SLOT(changeCanvasDimension(unsigned int, unsigned int)));
-
-    //se disegno una figura aggiorno lo stato del canvas
-    connect(_drawLineTool.get(), SIGNAL(canvasModified()), this, SLOT(on_canvasChanged()));
-    connect(_drawLineTool.get(), SIGNAL(canvasModified()), this, SLOT(on_canvasChanged()));
-    connect(_drawCircleTool.get(), SIGNAL(canvasModified()), this, SLOT(on_canvasChanged()));
-    connect(_deleteTool.get(), SIGNAL(canvasModified()), this, SLOT(on_canvasChanged()));
-
     scrollArea->show();
 }
 
 MainWindow::~MainWindow()
 {
     delete canvas;
+}
+
+void MainWindow::createTools() {
+    singleton = Singleton::getInstance(this);
+    _selectionTool = std::make_shared<SelectionTool>();
+    _drawLineTool = std::make_shared<DrawLineTool>();
+    _deleteTool = std::make_shared<DeleteTool>();
+    _drawCircleTool = std::make_shared<DrawCircleTool>();
+    //se disegno una figura aggiorno lo stato del canvas
+    connect(_drawLineTool.get(), SIGNAL(canvasModified()), this, SLOT(on_canvasChanged()));
+    connect(_drawLineTool.get(), SIGNAL(canvasModified()), this, SLOT(on_canvasChanged()));
+    connect(_drawCircleTool.get(), SIGNAL(canvasModified()), this, SLOT(on_canvasChanged()));
+    connect(_deleteTool.get(), SIGNAL(canvasModified()), this, SLOT(on_canvasChanged()));
 }
 
 /**

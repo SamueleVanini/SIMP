@@ -70,6 +70,7 @@ private:
     void createMenu(); //crea il menu` superiore
     void createAction();//collega ogni action al suo corrispondente slot
     void createLeftToolbar();//crea la toolbar sinistra
+    void createTools();
     void uncheckAllToolbar();
     void canvasDimensionDialog();
     bool exitPrompt();
