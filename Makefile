@@ -35,7 +35,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = P2Project1.0.0
-DISTDIR = /home/student/P2/ProjectP2/.tmp/P2Project1.0.0
+DISTDIR = /home/student/Project/test/.tmp/P2Project1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-O1
 LIBS          = $(SUBLIBS) -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread 
@@ -52,19 +52,55 @@ OBJECTS_DIR   = ./
 
 SOURCES       = main.cpp \
 		view/source/mainwindow.cpp \
+		view/source/canvas.cpp \
+		view/source/colorbutton.cpp \
 		model/source/entity.cpp \
 		model/source/line.cpp \
-		view/source/canvas.cpp \
-		model/source/drawlinetool.cpp moc_mainwindow.cpp \
-		moc_canvas.cpp
+		model/source/scene.cpp \
+		model/source/singleton.cpp \
+		model/source/circle.cpp \
+		model/source/rectangle.cpp \
+		controller/source/drawlinetool.cpp \
+		controller/source/selectiontool.cpp \
+		controller/source/tool.cpp \
+		controller/source/envstyle.cpp \
+		controller/source/deletetool.cpp \
+		controller/source/saveimage.cpp \
+		controller/source/drawrectangletool.cpp \
+		controller/source/drawcircletool.cpp qrc_resources.cpp \
+		moc_mainwindow.cpp \
+		moc_canvas.cpp \
+		moc_colorbutton.cpp \
+		moc_tool.cpp \
+		moc_selectiontool.cpp \
+		moc_envstyle.cpp \
+		moc_saveimage.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
+		canvas.o \
+		colorbutton.o \
 		entity.o \
 		line.o \
-		canvas.o \
+		scene.o \
+		singleton.o \
+		circle.o \
+		rectangle.o \
 		drawlinetool.o \
+		selectiontool.o \
+		tool.o \
+		envstyle.o \
+		deletetool.o \
+		saveimage.o \
+		drawrectangletool.o \
+		drawcircletool.o \
+		qrc_resources.o \
 		moc_mainwindow.o \
-		moc_canvas.o
+		moc_canvas.o \
+		moc_colorbutton.o \
+		moc_tool.o \
+		moc_selectiontool.o \
+		moc_envstyle.o \
+		moc_saveimage.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
@@ -95,6 +131,8 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_input_support_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_kms_support_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_linuxaccessibility_support_private.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_multimedia.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_multimediawidgets.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_network.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_network_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_opengl.pri \
@@ -119,7 +157,6 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_config.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_post.prf \
-		../.qmake.stash \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exclusive_builds.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/toolchain.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_pre.prf \
@@ -139,19 +176,42 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
 		P2Project.pro view/header/mainwindow.h \
+		view/header/canvas.h \
+		view/header/colorbutton.h \
 		model/header/trasformable.h \
 		model/header/selectable.h \
 		model/header/drawable.h \
 		model/header/entity.h \
 		model/header/line.h \
-		view/header/canvas.h \
-		model/header/tool.h \
-		model/header/drawlinetool.h main.cpp \
+		model/header/circle.h \
+		model/header/scene.h \
+		model/header/singleton.h \
+		model/header/rectangle.h \
+		controller/header/tool.h \
+		controller/header/drawlinetool.h \
+		controller/header/selectiontool.h \
+		controller/header/envstyle.h \
+		controller/header/deletetool.h \
+		controller/header/saveimage.h \
+		controller/header/drawrectangletool.h \
+		controller/header/drawcircletool.h main.cpp \
 		view/source/mainwindow.cpp \
+		view/source/canvas.cpp \
+		view/source/colorbutton.cpp \
 		model/source/entity.cpp \
 		model/source/line.cpp \
-		view/source/canvas.cpp \
-		model/source/drawlinetool.cpp
+		model/source/scene.cpp \
+		model/source/singleton.cpp \
+		model/source/circle.cpp \
+		model/source/rectangle.cpp \
+		controller/source/drawlinetool.cpp \
+		controller/source/selectiontool.cpp \
+		controller/source/tool.cpp \
+		controller/source/envstyle.cpp \
+		controller/source/deletetool.cpp \
+		controller/source/saveimage.cpp \
+		controller/source/drawrectangletool.cpp \
+		controller/source/drawcircletool.cpp
 QMAKE_TARGET  = P2Project
 DESTDIR       = 
 TARGET        = P2Project
@@ -193,6 +253,8 @@ Makefile: P2Project.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.co
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_input_support_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_kms_support_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_linuxaccessibility_support_private.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_multimedia.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_multimediawidgets.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_network.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_network_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_opengl.pri \
@@ -217,7 +279,6 @@ Makefile: P2Project.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.co
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_config.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_post.prf \
-		../.qmake.stash \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exclusive_builds.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/toolchain.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_pre.prf \
@@ -237,6 +298,7 @@ Makefile: P2Project.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.co
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
 		P2Project.pro \
+		resources.qrc \
 		/usr/lib/x86_64-linux-gnu/libQt5Widgets.prl \
 		/usr/lib/x86_64-linux-gnu/libQt5Gui.prl \
 		/usr/lib/x86_64-linux-gnu/libQt5Core.prl
@@ -271,6 +333,8 @@ Makefile: P2Project.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.co
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_input_support_private.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_kms_support_private.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_linuxaccessibility_support_private.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_multimedia.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_multimediawidgets.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_network.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_network_private.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_opengl.pri:
@@ -295,7 +359,6 @@ Makefile: P2Project.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.co
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_config.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_post.prf:
-../.qmake.stash:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exclusive_builds.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/toolchain.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_pre.prf:
@@ -315,6 +378,7 @@ Makefile: P2Project.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.co
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf:
 P2Project.pro:
+resources.qrc:
 /usr/lib/x86_64-linux-gnu/libQt5Widgets.prl:
 /usr/lib/x86_64-linux-gnu/libQt5Gui.prl:
 /usr/lib/x86_64-linux-gnu/libQt5Core.prl:
@@ -332,9 +396,10 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
+	$(COPY_FILE) --parents resources.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents view/header/mainwindow.h model/header/trasformable.h model/header/selectable.h model/header/drawable.h model/header/entity.h model/header/line.h view/header/canvas.h model/header/tool.h model/header/drawlinetool.h $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp view/source/mainwindow.cpp model/source/entity.cpp model/source/line.cpp view/source/canvas.cpp model/source/drawlinetool.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents view/header/mainwindow.h view/header/canvas.h view/header/colorbutton.h model/header/trasformable.h model/header/selectable.h model/header/drawable.h model/header/entity.h model/header/line.h model/header/circle.h model/header/scene.h model/header/singleton.h model/header/rectangle.h controller/header/tool.h controller/header/drawlinetool.h controller/header/selectiontool.h controller/header/envstyle.h controller/header/deletetool.h controller/header/saveimage.h controller/header/drawrectangletool.h controller/header/drawcircletool.h $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp view/source/mainwindow.cpp view/source/canvas.cpp view/source/colorbutton.cpp model/source/entity.cpp model/source/line.cpp model/source/scene.cpp model/source/singleton.cpp model/source/circle.cpp model/source/rectangle.cpp controller/source/drawlinetool.cpp controller/source/selectiontool.cpp controller/source/tool.cpp controller/source/envstyle.cpp controller/source/deletetool.cpp controller/source/saveimage.cpp controller/source/drawrectangletool.cpp controller/source/drawcircletool.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -344,6 +409,7 @@ clean: compiler_clean
 
 distclean: clean 
 	-$(DEL_FILE) $(TARGET) 
+	-$(DEL_FILE) .qmake.stash
 	-$(DEL_FILE) Makefile
 
 
@@ -357,31 +423,112 @@ check: first
 
 benchmark: first
 
-compiler_rcc_make_all:
+compiler_rcc_make_all: qrc_resources.cpp
 compiler_rcc_clean:
+	-$(DEL_FILE) qrc_resources.cpp
+qrc_resources.cpp: resources.qrc \
+		/usr/lib/qt5/bin/rcc \
+		Icons/Eraser.png \
+		Icons/CursorIcon.png \
+		Icons/RectangleIcon.png \
+		Icons/LineIcon.png \
+		Icons/CircleIcon.png
+	/usr/lib/qt5/bin/rcc -name resources resources.qrc -o qrc_resources.cpp
+
 compiler_moc_predefs_make_all: moc_predefs.h
 compiler_moc_predefs_clean:
 	-$(DEL_FILE) moc_predefs.h
 moc_predefs.h: /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 	g++ -pipe -O2 -Wall -W -dM -E -o moc_predefs.h /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_mainwindow.cpp moc_canvas.cpp
+compiler_moc_header_make_all: moc_mainwindow.cpp moc_canvas.cpp moc_colorbutton.cpp moc_tool.cpp moc_selectiontool.cpp moc_envstyle.cpp moc_saveimage.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_mainwindow.cpp moc_canvas.cpp
-moc_mainwindow.cpp: view/header/mainwindow.h \
+	-$(DEL_FILE) moc_mainwindow.cpp moc_canvas.cpp moc_colorbutton.cpp moc_tool.cpp moc_selectiontool.cpp moc_envstyle.cpp moc_saveimage.cpp
+moc_mainwindow.cpp: view/header/canvas.h \
+		model/header/entity.h \
+		model/header/selectable.h \
+		model/header/drawable.h \
+		model/header/trasformable.h \
+		controller/header/tool.h \
+		model/header/singleton.h \
+		model/header/scene.h \
+		controller/header/envstyle.h \
+		view/header/colorbutton.h \
+		controller/header/selectiontool.h \
+		controller/header/drawlinetool.h \
+		model/header/line.h \
+		controller/header/drawcircletool.h \
+		model/header/circle.h \
+		controller/header/drawrectangletool.h \
+		model/header/rectangle.h \
+		controller/header/deletetool.h \
+		controller/header/saveimage.h \
+		view/header/mainwindow.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/student/P2/ProjectP2 -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include view/header/mainwindow.h -o moc_mainwindow.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/student/Project/test -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include view/header/mainwindow.h -o moc_mainwindow.cpp
 
 moc_canvas.cpp: model/header/entity.h \
 		model/header/selectable.h \
 		model/header/drawable.h \
 		model/header/trasformable.h \
-		model/header/tool.h \
+		controller/header/tool.h \
+		model/header/singleton.h \
+		model/header/scene.h \
+		controller/header/envstyle.h \
 		view/header/canvas.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/student/P2/ProjectP2 -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include view/header/canvas.h -o moc_canvas.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/student/Project/test -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include view/header/canvas.h -o moc_canvas.cpp
+
+moc_colorbutton.cpp: view/header/colorbutton.h \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/student/Project/test -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include view/header/colorbutton.h -o moc_colorbutton.cpp
+
+moc_tool.cpp: model/header/singleton.h \
+		model/header/scene.h \
+		model/header/entity.h \
+		model/header/selectable.h \
+		model/header/drawable.h \
+		model/header/trasformable.h \
+		controller/header/envstyle.h \
+		controller/header/tool.h \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/student/Project/test -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include controller/header/tool.h -o moc_tool.cpp
+
+moc_selectiontool.cpp: controller/header/tool.h \
+		model/header/singleton.h \
+		model/header/scene.h \
+		model/header/entity.h \
+		model/header/selectable.h \
+		model/header/drawable.h \
+		model/header/trasformable.h \
+		controller/header/envstyle.h \
+		controller/header/selectiontool.h \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/student/Project/test -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include controller/header/selectiontool.h -o moc_selectiontool.cpp
+
+moc_envstyle.cpp: controller/header/envstyle.h \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/student/Project/test -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include controller/header/envstyle.h -o moc_envstyle.cpp
+
+moc_saveimage.cpp: view/header/canvas.h \
+		model/header/entity.h \
+		model/header/selectable.h \
+		model/header/drawable.h \
+		model/header/trasformable.h \
+		controller/header/tool.h \
+		model/header/singleton.h \
+		model/header/scene.h \
+		controller/header/envstyle.h \
+		controller/header/saveimage.h \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/student/Project/test -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include controller/header/saveimage.h -o moc_saveimage.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -393,15 +540,67 @@ compiler_yacc_impl_make_all:
 compiler_yacc_impl_clean:
 compiler_lex_make_all:
 compiler_lex_clean:
-compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean 
+compiler_clean: compiler_rcc_clean compiler_moc_predefs_clean compiler_moc_header_clean 
 
 ####### Compile
 
-main.o: main.cpp view/header/mainwindow.h
+main.o: main.cpp view/header/mainwindow.h \
+		view/header/canvas.h \
+		model/header/entity.h \
+		model/header/selectable.h \
+		model/header/drawable.h \
+		model/header/trasformable.h \
+		controller/header/tool.h \
+		model/header/singleton.h \
+		model/header/scene.h \
+		controller/header/envstyle.h \
+		view/header/colorbutton.h \
+		controller/header/selectiontool.h \
+		controller/header/drawlinetool.h \
+		model/header/line.h \
+		controller/header/drawcircletool.h \
+		model/header/circle.h \
+		controller/header/drawrectangletool.h \
+		model/header/rectangle.h \
+		controller/header/deletetool.h \
+		controller/header/saveimage.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
-mainwindow.o: view/source/mainwindow.cpp view/header/mainwindow.h
+mainwindow.o: view/source/mainwindow.cpp view/header/mainwindow.h \
+		view/header/canvas.h \
+		model/header/entity.h \
+		model/header/selectable.h \
+		model/header/drawable.h \
+		model/header/trasformable.h \
+		controller/header/tool.h \
+		model/header/singleton.h \
+		model/header/scene.h \
+		controller/header/envstyle.h \
+		view/header/colorbutton.h \
+		controller/header/selectiontool.h \
+		controller/header/drawlinetool.h \
+		model/header/line.h \
+		controller/header/drawcircletool.h \
+		model/header/circle.h \
+		controller/header/drawrectangletool.h \
+		model/header/rectangle.h \
+		controller/header/deletetool.h \
+		controller/header/saveimage.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o view/source/mainwindow.cpp
+
+canvas.o: view/source/canvas.cpp view/header/canvas.h \
+		model/header/entity.h \
+		model/header/selectable.h \
+		model/header/drawable.h \
+		model/header/trasformable.h \
+		controller/header/tool.h \
+		model/header/singleton.h \
+		model/header/scene.h \
+		controller/header/envstyle.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o canvas.o view/source/canvas.cpp
+
+colorbutton.o: view/source/colorbutton.cpp view/header/colorbutton.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o colorbutton.o view/source/colorbutton.cpp
 
 entity.o: model/source/entity.cpp model/header/entity.h \
 		model/header/selectable.h \
@@ -416,29 +615,164 @@ line.o: model/source/line.cpp model/header/line.h \
 		model/header/trasformable.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o line.o model/source/line.cpp
 
-canvas.o: view/source/canvas.cpp view/header/canvas.h \
+scene.o: model/source/scene.cpp model/header/scene.h \
+		model/header/entity.h \
+		model/header/selectable.h \
+		model/header/drawable.h \
+		model/header/trasformable.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o scene.o model/source/scene.cpp
+
+singleton.o: model/source/singleton.cpp model/header/singleton.h \
+		model/header/scene.h \
 		model/header/entity.h \
 		model/header/selectable.h \
 		model/header/drawable.h \
 		model/header/trasformable.h \
-		model/header/tool.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o canvas.o view/source/canvas.cpp
+		controller/header/envstyle.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o singleton.o model/source/singleton.cpp
 
-drawlinetool.o: model/source/drawlinetool.cpp model/header/drawlinetool.h \
+circle.o: model/source/circle.cpp model/header/circle.h \
+		model/header/entity.h \
+		model/header/selectable.h \
+		model/header/drawable.h \
+		model/header/trasformable.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o circle.o model/source/circle.cpp
+
+rectangle.o: model/source/rectangle.cpp model/header/rectangle.h \
+		model/header/entity.h \
+		model/header/selectable.h \
+		model/header/drawable.h \
+		model/header/trasformable.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o rectangle.o model/source/rectangle.cpp
+
+drawlinetool.o: controller/source/drawlinetool.cpp controller/header/drawlinetool.h \
 		model/header/line.h \
 		model/header/entity.h \
 		model/header/selectable.h \
 		model/header/drawable.h \
 		model/header/trasformable.h \
-		model/header/tool.h \
+		controller/header/tool.h \
+		model/header/singleton.h \
+		model/header/scene.h \
+		controller/header/envstyle.h \
 		view/header/canvas.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o drawlinetool.o model/source/drawlinetool.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o drawlinetool.o controller/source/drawlinetool.cpp
+
+selectiontool.o: controller/source/selectiontool.cpp controller/header/selectiontool.h \
+		controller/header/tool.h \
+		model/header/singleton.h \
+		model/header/scene.h \
+		model/header/entity.h \
+		model/header/selectable.h \
+		model/header/drawable.h \
+		model/header/trasformable.h \
+		controller/header/envstyle.h \
+		view/header/canvas.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o selectiontool.o controller/source/selectiontool.cpp
+
+tool.o: controller/source/tool.cpp controller/header/tool.h \
+		model/header/singleton.h \
+		model/header/scene.h \
+		model/header/entity.h \
+		model/header/selectable.h \
+		model/header/drawable.h \
+		model/header/trasformable.h \
+		controller/header/envstyle.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tool.o controller/source/tool.cpp
+
+envstyle.o: controller/source/envstyle.cpp controller/header/envstyle.h \
+		view/header/mainwindow.h \
+		view/header/canvas.h \
+		model/header/entity.h \
+		model/header/selectable.h \
+		model/header/drawable.h \
+		model/header/trasformable.h \
+		controller/header/tool.h \
+		model/header/singleton.h \
+		model/header/scene.h \
+		view/header/colorbutton.h \
+		controller/header/selectiontool.h \
+		controller/header/drawlinetool.h \
+		model/header/line.h \
+		controller/header/drawcircletool.h \
+		model/header/circle.h \
+		controller/header/drawrectangletool.h \
+		model/header/rectangle.h \
+		controller/header/deletetool.h \
+		controller/header/saveimage.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o envstyle.o controller/source/envstyle.cpp
+
+deletetool.o: controller/source/deletetool.cpp controller/header/deletetool.h \
+		controller/header/tool.h \
+		model/header/singleton.h \
+		model/header/scene.h \
+		model/header/entity.h \
+		model/header/selectable.h \
+		model/header/drawable.h \
+		model/header/trasformable.h \
+		controller/header/envstyle.h \
+		view/header/canvas.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o deletetool.o controller/source/deletetool.cpp
+
+saveimage.o: controller/source/saveimage.cpp controller/header/saveimage.h \
+		view/header/canvas.h \
+		model/header/entity.h \
+		model/header/selectable.h \
+		model/header/drawable.h \
+		model/header/trasformable.h \
+		controller/header/tool.h \
+		model/header/singleton.h \
+		model/header/scene.h \
+		controller/header/envstyle.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o saveimage.o controller/source/saveimage.cpp
+
+drawrectangletool.o: controller/source/drawrectangletool.cpp controller/header/drawrectangletool.h \
+		controller/header/tool.h \
+		model/header/singleton.h \
+		model/header/scene.h \
+		model/header/entity.h \
+		model/header/selectable.h \
+		model/header/drawable.h \
+		model/header/trasformable.h \
+		controller/header/envstyle.h \
+		model/header/rectangle.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o drawrectangletool.o controller/source/drawrectangletool.cpp
+
+drawcircletool.o: controller/source/drawcircletool.cpp controller/header/drawcircletool.h \
+		model/header/circle.h \
+		model/header/entity.h \
+		model/header/selectable.h \
+		model/header/drawable.h \
+		model/header/trasformable.h \
+		controller/header/tool.h \
+		model/header/singleton.h \
+		model/header/scene.h \
+		controller/header/envstyle.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o drawcircletool.o controller/source/drawcircletool.cpp
+
+qrc_resources.o: qrc_resources.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_resources.o qrc_resources.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
 
 moc_canvas.o: moc_canvas.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_canvas.o moc_canvas.cpp
+
+moc_colorbutton.o: moc_colorbutton.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_colorbutton.o moc_colorbutton.cpp
+
+moc_tool.o: moc_tool.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_tool.o moc_tool.cpp
+
+moc_selectiontool.o: moc_selectiontool.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_selectiontool.o moc_selectiontool.cpp
+
+moc_envstyle.o: moc_envstyle.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_envstyle.o moc_envstyle.cpp
+
+moc_saveimage.o: moc_saveimage.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_saveimage.o moc_saveimage.cpp
 
 ####### Install
 
