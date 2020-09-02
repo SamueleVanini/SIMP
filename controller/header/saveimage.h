@@ -1,19 +1,21 @@
 #ifndef SAVEIMAGE_H
 #define SAVEIMAGE_H
 
-#include <QImage>
+#include "view/header/canvas.h"
+#include <QObject>
 #include <QString>
 
-class SaveImage
+class SaveImage : public QObject
 {
+    Q_OBJECT
+
 public:
-    SaveImage(int width = 800, int height = 600);
-    ~SaveImage();
+    SaveImage() = default;
+    virtual ~SaveImage() {}
 
-    bool saveImage(const QString&);
+public slots:
+    void saveImage(const QString&, Canvas*);
 
-private:
-    QImage _image;
 };
 
 #endif // SAVEIMAGE_H

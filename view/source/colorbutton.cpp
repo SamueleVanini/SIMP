@@ -1,17 +1,16 @@
 #include "view/header/colorbutton.h"
 
-colorButton::colorButton(QWidget *parent) :
-    QPushButton(parent)
+ColorButton::ColorButton(QWidget *parent) : QPushButton(parent)
 {}
 
-void colorButton::setAction(QAction *action)
+void ColorButton::setAction(QAction *action)
 {
     // if I've got already an action associated to the button
     // remove all connections
     if (actionOwner && actionOwner != action) {
         disconnect(actionOwner, &QAction::changed,
-                   this, &colorButton::updateButtonStatusFromAction);
-        disconnect(this, &colorButton::clicked,
+                   this, &ColorButton::updateButtonStatusFromAction);
+        disconnect(this, &ColorButton::clicked,
                    actionOwner, &QAction::trigger);
     }
 
@@ -25,15 +24,15 @@ void colorButton::setAction(QAction *action)
     // so that when the action is changed the
     // button is changed too!
     connect(action, &QAction::changed,
-            this, &colorButton::updateButtonStatusFromAction);
+            this, &ColorButton::updateButtonStatusFromAction);
 
     // connect the button to the slot that forwards the
     // signal to the action
-    connect(this, &colorButton::clicked,
+    connect(this, &ColorButton::clicked,
             actionOwner, &QAction::trigger);
 }
 
-void colorButton::setColor(QColor color)
+void ColorButton::setColor(QColor color)
 {
     setText(color.name());
     setStyleSheet(QString("background-color: %1")
@@ -41,7 +40,7 @@ void colorButton::setColor(QColor color)
     setPalette(QPalette(color));
 }
 
-void colorButton::updateButtonStatusFromAction()
+void ColorButton::updateButtonStatusFromAction()
 {
     if (!actionOwner)
         return;

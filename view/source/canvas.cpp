@@ -3,8 +3,8 @@
 
 #include "QPainter"
 #include "QMouseEvent"
-
-#include <iostream>
+#include <QScrollArea>
+#include <QLayout>
 
 Canvas::Canvas(QWidget *parent, const std::shared_ptr<Tool>& activeTool, int width, int height) : QWidget(parent), _activeTool(activeTool), _width(width), _height(height)
 {
@@ -49,7 +49,7 @@ bool Canvas::event(QEvent *event)
 
     bool result = _activeTool->handleEvent(event);
 
-    repaint();
+    update();
 
     return result;
 }
@@ -57,5 +57,16 @@ bool Canvas::event(QEvent *event)
 void Canvas::resizeEvent(QResizeEvent *event)
 {
     QWidget::resizeEvent(event);
-    std::cout << width() << " " << height();
+}
+
+void Canvas::setCanvasDimension(int width, int height)
+{
+    _width=width;
+    _height=height;
+}
+
+void Canvas::changeCanvasDimension(unsigned int width, unsigned int height) {
+    setFixedSize(width, height);
+    setCanvasDimension(width, height);
+    resizeEvent(nullptr);
 }

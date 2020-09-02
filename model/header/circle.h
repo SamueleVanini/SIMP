@@ -7,7 +7,7 @@ class Circle : public Entity
 {
 public:
 
-    Circle(const QPoint &p1, int radius = 1, QColor lineColor = Qt::black, int lineThickness = 4, bool selected = false);
+    Circle(const QPoint &p1, int _radius = 1, QColor lineColor = Qt::black, QColor fillColor = Qt::white, int lineThickness = 4, bool selected = false);
 
     /**
      * @brief draw metodo impiegato per disegnare il cerchio

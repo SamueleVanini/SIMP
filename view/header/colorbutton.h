@@ -1,10 +1,6 @@
 #ifndef COLORBUTTON_H
 #define COLORBUTTON_H
 
-#endif // COLORBUTTON_H
-
-#ifndef ACTIONBUTTON_H
-#define ACTIONBUTTON_H
 
 #include <QAction>
 #include <QPushButton>
@@ -18,7 +14,7 @@
  * such changes, and when the button is clicked the action
  * is triggered.
  */
-class colorButton : public QPushButton
+class ColorButton : public QPushButton
 {
     Q_OBJECT
 private:
@@ -27,7 +23,7 @@ private:
 
 public:
     // Default constructor. Parent the widget parent of this button
-    explicit colorButton(QWidget *parent = nullptr);
+    explicit ColorButton(QWidget *parent = nullptr);
 
     /*!
      * Set the action owner of this button, that is the action
@@ -50,4 +46,4 @@ public slots:
     void updateButtonStatusFromAction();
 };
 
-#endif // ACTIONBUTTON_H
+#endif // COLORBUTTON_H

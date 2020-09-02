@@ -17,6 +17,10 @@ public:
     virtual ~Canvas();
     void setBackgroundColor(QColor color);
     void setActiveTool(const std::shared_ptr<Tool>& activeTool);
+    void setCanvasDimension(int width, int height);
+
+public slots:
+    void changeCanvasDimension(unsigned int width, unsigned int height);
 
 protected:
     void paintEvent(QPaintEvent *event) override;
