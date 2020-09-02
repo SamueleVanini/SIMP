@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
     _drawLineTool = std::make_shared<DrawLineTool>();
     _deleteTool = std::make_shared<DeleteTool>();
     _drawCircleTool = std::make_shared<DrawCircleTool>();
-
+    _drawRectangleTool = std::make_shared<DrawRectangleTool>();
     canvas = new Canvas(nullptr, _selectionTool, DEFAULT_CANVAS_WIDTH, DEFAULT_CANVAS_HEIGHT);
     scrollArea->setBackgroundRole(QPalette::Background);
     canvas->setFixedSize(QSize(DEFAULT_CANVAS_WIDTH,DEFAULT_CANVAS_HEIGHT));
@@ -164,6 +164,10 @@ void MainWindow::createLeftToolbar()
     drawCircle->setIcon(QIcon(":/rec/Icons/CircleIcon.png"));
     connect(drawCircle, &QAction::triggered, this, &MainWindow::on_drawCircleAction_triggered);
 
+    QAction* drawRectangle = new QAction("Rectangle", group);
+    drawRectangle->setCheckable(true);
+    drawRectangle->setIcon(QIcon(":/rec/Icons/RectangleIcon.png"))
+    connect(drawRectangle, &QAction::triggered, this, &MainWindow::on_drawRectangleAction_triggered);
     QAction* deleteLine = new QAction("Delete", group);
     deleteLine->setCheckable(true);
     deleteLine->setIcon(QIcon(":/rec/Icons/Eraser.png"));
@@ -274,6 +278,11 @@ void MainWindow::createAction()
     drawCircleAction = new QAction(tr("&Draw circle"), this);
     drawCircleAction->setStatusTip(tr("Press to draw a circle"));
     connect(drawCircleAction, SIGNAL(triggered()), this, SLOT(on_drawCircleAction_triggered()));
+
+    //drawRectangle
+    drawRectangleAction = new QAction(tr("&Draw Rectangle"), this);
+    drawRectangleAction->setStatusTip(tr("Draw Rectangle"));
+    connect(drawRectangleAction, SIGNAL(triggered()), this, SLOT(on_drawRectangleAction_triggered()));
 }
 
 //azioni menu file
@@ -384,6 +393,15 @@ void MainWindow::on_drawCircleAction_triggered()
     uncheckAllToolbar();
     drawCircleAction->setChecked(true);
     canvas->setActiveTool(_drawCircleTool);
+    return;
+}
+
+void MainWindow::on_drawRectangleAction_triggered()
+{
+    uncheckAllToolbar();
+    drawRectangleAction->setChecked(true);
+    canvas->setActiveTool(_drawRectangleTool);
+    std::cout<<"Draw Rectangle Action"<<std::endl;
     return;
 }
 

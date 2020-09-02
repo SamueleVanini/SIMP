@@ -6,6 +6,7 @@
 #include "controller/header/selectiontool.h"
 #include "controller/header/drawlinetool.h"
 #include "controller/header/drawcircletool.h"
+#include "controller/header/drawrectangletool.h"
 #include "model/header/singleton.h"
 #include "controller/header/deletetool.h"
 #include "controller/header/saveimage.h"
@@ -55,6 +56,7 @@ private slots:
     void on_selectAction_triggered();
     void on_drawLineAction_triggered();
     void on_drawCircleAction_triggered();
+    void on_drawRectangleAction_triggered();
 
     //azioni di supporto
     void on_pickColorAction_triggered();
@@ -104,6 +106,7 @@ private:
     QAction *selectAction;
     QAction *drawLineAction;
     QAction *drawCircleAction;
+    QAction *drawRectangleAction;
 
 
     //ho appena realizzato che serve uno slot tipo on_lineDrawn_triggered per modificare il valore di isDirty
@@ -111,8 +114,9 @@ private:
     std::shared_ptr<SelectionTool> _selectionTool;
     std::shared_ptr<DrawLineTool> _drawLineTool;
     std::shared_ptr<DeleteTool> _deleteTool;
-    std::shared_ptr<DrawCircleTool> _drawCircleTool;
-
+    std::shared_ptr<DrawCircleTool> _drawCircleTool
+    std::shared_ptr<DrawRectangleTool> _drawRectangleTool;
+    
 };
 
 
