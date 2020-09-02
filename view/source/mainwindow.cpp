@@ -166,7 +166,7 @@ void MainWindow::createLeftToolbar()
 
     QAction* drawRectangle = new QAction("Rectangle", group);
     drawRectangle->setCheckable(true);
-    drawRectangle->setIcon(QIcon(":/rec/Icons/RectangleIcon.png"))
+    drawRectangle->setIcon(QIcon(":/rec/Icons/RectangleIcon.png"));
     connect(drawRectangle, &QAction::triggered, this, &MainWindow::on_drawRectangleAction_triggered);
     QAction* deleteLine = new QAction("Delete", group);
     deleteLine->setCheckable(true);
@@ -401,7 +401,6 @@ void MainWindow::on_drawRectangleAction_triggered()
     uncheckAllToolbar();
     drawRectangleAction->setChecked(true);
     canvas->setActiveTool(_drawRectangleTool);
-    std::cout<<"Draw Rectangle Action"<<std::endl;
     return;
 }
 

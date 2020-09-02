@@ -33,14 +33,14 @@ SOURCES += \
 		model/source/scene.cpp \
 		model/source/singleton.cpp \
 		model/source/circle.cpp \
-    model/header/rectangle.h \
+		model/source/rectangle.cpp \
 		controller/source/drawlinetool.cpp \
 		controller/source/selectiontool.cpp \
 		controller/source/tool.cpp \
 		controller/source/envstyle.cpp \
 		controller/source/deletetool.cpp \
 		controller/source/saveimage.cpp \
-    controller/source/drawrectangletool.cpp
+		controller/source/drawrectangletool.cpp \
 		controller/source/drawcircletool.cpp
 
 HEADERS += \
@@ -55,14 +55,14 @@ HEADERS += \
 		model/header/circle.h \
 		model/header/scene.h \
 		model/header/singleton.h \
+		model/header/rectangle.h \
 		controller/header/tool.h \
 		controller/header/drawlinetool.h \
 		controller/header/selectiontool.h \
 		controller/header/envstyle.h \
 		controller/header/deletetool.h \
 		controller/header/saveimage.h \
-    model/header/rectangle.h \
-    controller/header/drawrectangletool.h
+		controller/header/drawrectangletool.h \
 		controller/header/drawcircletool.h
 
 RESOURCES += \

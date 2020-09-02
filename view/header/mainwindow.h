@@ -114,7 +114,7 @@ private:
     std::shared_ptr<SelectionTool> _selectionTool;
     std::shared_ptr<DrawLineTool> _drawLineTool;
     std::shared_ptr<DeleteTool> _deleteTool;
-    std::shared_ptr<DrawCircleTool> _drawCircleTool
+    std::shared_ptr<DrawCircleTool> _drawCircleTool;
     std::shared_ptr<DrawRectangleTool> _drawRectangleTool;
     
 };
