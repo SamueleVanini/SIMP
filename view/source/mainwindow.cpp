@@ -10,16 +10,40 @@ MainWindow::MainWindow(QWidget *parent)
       lineColor(Qt::black), fillColor(Qt::white), lineWidth(2), isDirty(false), isCanvasDimensioned(false),
       saveFile(), scrollArea(new QScrollArea)
 {
+    singleton = Singleton::getInstance(this);
     QMainWindow::setMinimumSize(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT);
     createAction();
     createMenu();
     createLeftToolbar();
-    singleton = Singleton::getInstance(this);
+    createCentralWidget();
+    createTools();
+
+    //segnale per salvare l'immagine creata
+    connect(this, SIGNAL(saveImageSignal(QString, Canvas*)), &_saveImageTool, SLOT(saveImage(QString,Canvas*)));
+
+}
+
+MainWindow::~MainWindow()
+{
+    delete canvas;
+}
+
+void MainWindow::createTools()
+{
     _selectionTool = std::make_shared<SelectionTool>();
     _drawLineTool = std::make_shared<DrawLineTool>();
     _deleteTool = std::make_shared<DeleteTool>();
     _drawCircleTool = std::make_shared<DrawCircleTool>();
     _drawRectangleTool = std::make_shared<DrawRectangleTool>();
+    //se disegno una figura aggiorno lo stato del canvas
+    connect(_drawLineTool.get(), SIGNAL(canvasModified()), this, SLOT(on_canvasChanged()));
+    connect(_drawLineTool.get(), SIGNAL(canvasModified()), this, SLOT(on_canvasChanged()));
+    connect(_drawCircleTool.get(), SIGNAL(canvasModified()), this, SLOT(on_canvasChanged()));
+    connect(_deleteTool.get(), SIGNAL(canvasModified()), this, SLOT(on_canvasChanged()));
+}
+
+void MainWindow::createCentralWidget()
+{
     canvas = new Canvas(nullptr, _selectionTool, DEFAULT_CANVAS_WIDTH, DEFAULT_CANVAS_HEIGHT);
     scrollArea->setBackgroundRole(QPalette::Background);
     canvas->setFixedSize(QSize(DEFAULT_CANVAS_WIDTH,DEFAULT_CANVAS_HEIGHT));
@@ -28,25 +52,9 @@ MainWindow::MainWindow(QWidget *parent)
     scrollArea->setWidgetResizable(true);
     scrollArea->setVisible(true);
     setCentralWidget(scrollArea);
-
-    //segnale per salvare l'immagine creata
-    connect(this, SIGNAL(saveImageSignal(QString, Canvas*)), &_saveImageTool, SLOT(saveImage(QString,Canvas*)));
-
     connect(resizeAction, SIGNAL(triggered()), this, SLOT(on_resizeAction_triggered()));
     connect(this, SIGNAL(canvasDimensionChanged(unsigned int, unsigned int)), canvas, SLOT(changeCanvasDimension(unsigned int, unsigned int)));
-
-    //se disegno una figura aggiorno lo stato del canvas
-    connect(_drawLineTool.get(), SIGNAL(canvasModified()), this, SLOT(on_canvasChanged()));
-    connect(_drawLineTool.get(), SIGNAL(canvasModified()), this, SLOT(on_canvasChanged()));
-    connect(_drawCircleTool.get(), SIGNAL(canvasModified()), this, SLOT(on_canvasChanged()));
-    connect(_deleteTool.get(), SIGNAL(canvasModified()), this, SLOT(on_canvasChanged()));
-
     scrollArea->show();
-}
-
-MainWindow::~MainWindow()
-{
-    delete canvas;
 }
 
 /**
