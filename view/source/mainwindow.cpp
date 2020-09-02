@@ -29,6 +29,8 @@ MainWindow::MainWindow(QWidget *parent)
     scrollArea->setVisible(true);
     setCentralWidget(scrollArea);
 
+    //segnale per salvare l'immagine creata
+    connect(this, SIGNAL(saveImageSignal(QString, Canvas*)), &_saveImageTool, SLOT(saveImage(QString,Canvas*)));
 
     connect(resizeAction, SIGNAL(triggered()), this, SLOT(on_resizeAction_triggered()));
     connect(this, SIGNAL(canvasDimensionChanged(unsigned int, unsigned int)), canvas, SLOT(changeCanvasDimension(unsigned int, unsigned int)));
@@ -313,13 +315,14 @@ void MainWindow::on_saveAction_triggered()
             return;
         }else
         {
-            canvas->grab().save(saveFile); //altrimenti salvo il canvas e resetto il dirty bit
-            isDirty=false;
+            //canvas->grab().save(saveFile); //altrimenti salvo il canvas e resetto il dirty bit
+            emit saveImageSignal(saveFile, canvas);
+            isDirty = false;
         }
     }else
     {
-        canvas->grab().save(saveFile);
-        isDirty=false;
+        emit saveImageSignal(saveFile, canvas);
+        isDirty = false;
     }
     return;
 }

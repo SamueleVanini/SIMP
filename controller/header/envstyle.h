@@ -27,7 +27,6 @@ signals:
 
 private:
     EnvStyle(MainWindow *ui, QColor lineColor = Qt::black, QColor fillColor = Qt::white, int thickness = 2);
-    //EnvStyle(const EnvStyle&);
     void setLineColor(QColor color);
     void setFillColor(QColor color);
     void setThickness(int value);

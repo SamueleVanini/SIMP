@@ -3,13 +3,12 @@
 
 #include "view/header/canvas.h"
 #include "view/header/colorbutton.h"
-#include "model/header/scene.h"
 #include "controller/header/selectiontool.h"
 #include "controller/header/drawlinetool.h"
 #include "controller/header/drawcircletool.h"
 #include "model/header/singleton.h"
 #include "controller/header/deletetool.h"
-#include "controller/header/envstyle.h"
+#include "controller/header/saveimage.h"
 
 #include <memory>
 #include <QtWidgets>
@@ -40,6 +39,7 @@ signals:
     void fillColorChanged(QColor color);
     void lineThicknessChanged(int value);
     void canvasDimensionChanged(unsigned int width, unsigned int height);
+    void saveImageSignal(const QString&, Canvas*);
 
 
 private slots:
@@ -80,9 +80,6 @@ private:
     unsigned int canvasWidth;
     unsigned int canvasHeight;
 
-    Scene *scene;
-
-
     QMenu *menu;
     QToolBar *leftToolbar;
     ColorButton *getLineColor;
@@ -94,6 +91,7 @@ private:
     bool isDirty; //dirty bit per segnalare la presenza di modifiche non salvate
     bool isCanvasDimensioned;//fornisce l' informazione se il canvas e` gia` stato dimensionato definitivamente
     QString saveFile;
+    SaveImage _saveImageTool;
 
     QScrollArea *scrollArea;
 
