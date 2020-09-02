@@ -8,8 +8,10 @@ Rectangle::Rectangle(const QPoint &vertex, int width, int height, QColor lineCol
 void Rectangle::draw(QPainter *painter) const
 {
     QPen pen(getLineColor());
+    QBrush brush(getFillColor());
     pen.setWidth(_lineThickness);
     painter->setPen(pen);
+    painter->setBrush(brush);
     painter->drawRect(_topLeftVertex.x(), _topLeftVertex.y(), _width, _height);
 
     if(_selected)

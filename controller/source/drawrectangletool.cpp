@@ -15,7 +15,7 @@ void DrawRectangleTool::mousePress(QMouseEvent *event)
     _rectangle = new Rectangle(event->pos());
     _rectangle->setLineColor(Singleton::getInstance(nullptr)->getActualStyleInstance().getLineColor());
     _rectangle->setLineThickness(Singleton::getInstance(nullptr)->getActualStyleInstance().getThickness());
-    //_circle->setFillColor(Singleton::getInstance(nullptr)->getActualStyleInstance().getFillColor());
+    _rectangle->setFillColor(Singleton::getInstance(nullptr)->getActualStyleInstance().getFillColor());
     //Se inserisco una nuova shape l'ultima inserta nella scena va deselezionata
     if(_lastEntity)
         _lastEntity->setSelected(false);
