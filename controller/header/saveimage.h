@@ -11,7 +11,7 @@ class SaveImage : public QObject
 
 public:
     SaveImage() = default;
-    virtual ~SaveImage() {}
+    ~SaveImage() = default;
 
 public slots:
     void saveImage(const QString&, Canvas*);
