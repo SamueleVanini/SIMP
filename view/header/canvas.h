@@ -13,7 +13,7 @@ class Canvas : public QWidget
     Q_OBJECT
 
 public:
-    Canvas(QWidget *parent = 0, const std::shared_ptr<Tool>& activeTool = nullptr, int width = 800, int height = 600);
+    Canvas(QWidget *parent = 0, const std::shared_ptr<Tool>& activeTool = nullptr, int width = 600, int height = 300);
     virtual ~Canvas();
     void setBackgroundColor(QColor color);
     void setActiveTool(const std::shared_ptr<Tool>& activeTool);

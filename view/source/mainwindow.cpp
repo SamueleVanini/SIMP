@@ -37,7 +37,7 @@ void MainWindow::createTools()
     _drawRectangleTool = std::make_shared<DrawRectangleTool>();
     //se disegno una figura aggiorno lo stato del canvas
     connect(_drawLineTool.get(), SIGNAL(canvasModified()), this, SLOT(on_canvasChanged()));
-    connect(_drawLineTool.get(), SIGNAL(canvasModified()), this, SLOT(on_canvasChanged()));
+    connect(_drawRectangleTool.get(), SIGNAL(canvasModified()), this, SLOT(on_canvasChanged()));
     connect(_drawCircleTool.get(), SIGNAL(canvasModified()), this, SLOT(on_canvasChanged()));
     connect(_deleteTool.get(), SIGNAL(canvasModified()), this, SLOT(on_canvasChanged()));
 }
