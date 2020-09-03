@@ -13,8 +13,9 @@ MainWindow::MainWindow(QWidget *parent)
     singleton = Singleton::getInstance(this);
     QMainWindow::setMinimumSize(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT);
     createAction();
-    createMenu();
     createLeftToolbar();
+    createMenu();
+
     createCentralWidget();
     createTools();
 
@@ -28,198 +29,7 @@ MainWindow::~MainWindow()
     delete canvas;
 }
 
-void MainWindow::createTools()
-{
-    _selectionTool = std::make_shared<SelectionTool>();
-    _drawLineTool = std::make_shared<DrawLineTool>();
-    _deleteTool = std::make_shared<DeleteTool>();
-    _drawCircleTool = std::make_shared<DrawCircleTool>();
-    _drawRectangleTool = std::make_shared<DrawRectangleTool>();
-    //se disegno una figura aggiorno lo stato del canvas
-    connect(_drawLineTool.get(), SIGNAL(canvasModified()), this, SLOT(on_canvasChanged()));
-    connect(_drawRectangleTool.get(), SIGNAL(canvasModified()), this, SLOT(on_canvasChanged()));
-    connect(_drawCircleTool.get(), SIGNAL(canvasModified()), this, SLOT(on_canvasChanged()));
-    connect(_deleteTool.get(), SIGNAL(canvasModified()), this, SLOT(on_canvasChanged()));
-}
 
-void MainWindow::createCentralWidget()
-{
-    canvas = new Canvas(nullptr, _selectionTool, DEFAULT_CANVAS_WIDTH, DEFAULT_CANVAS_HEIGHT);
-    scrollArea->setBackgroundRole(QPalette::Background);
-    canvas->setFixedSize(QSize(DEFAULT_CANVAS_WIDTH,DEFAULT_CANVAS_HEIGHT));
-    canvas->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    scrollArea->setWidget(canvas);
-    scrollArea->setWidgetResizable(true);
-    scrollArea->setVisible(true);
-    setCentralWidget(scrollArea);
-    connect(resizeAction, SIGNAL(triggered()), this, SLOT(on_resizeAction_triggered()));
-    connect(this, SIGNAL(canvasDimensionChanged(unsigned int, unsigned int)), canvas, SLOT(changeCanvasDimension(unsigned int, unsigned int)));
-    scrollArea->show();
-}
-
-/**
-@brief on_resizeAction_triggered viene chiamato quando viene ridimensionato il canvas. Fa scegliere all'utente le nuove dimensioni del canvas
-e successivamente emette il segnale canvasDimensionChanghed
-*/
-void MainWindow::on_resizeAction_triggered()
-{
-    canvasDimensionDialog();
-    emit canvasDimensionChanged(canvasWidth, canvasHeight);
-    return;
-}
-
-/**
-@brief un metodo che mediante un semplice dialogo permette all'utente di modificare le dimensioni del canvas*/
-void MainWindow::canvasDimensionDialog()
-{
-    QDialog dialog(this);
-    QFormLayout form(&dialog);
-
-    form.addRow(new QLabel("Enter new dimensions:"));
-
-    QSpinBox *width = new QSpinBox(&dialog);
-    width->setRange(1, 100000);
-    width->setSingleStep(1);
-    width->setValue(canvasWidth);
-    QString label1 = QString("Width");
-    form.addRow(label1, width);
-
-    QSpinBox *height = new QSpinBox(&dialog);
-    height->setRange(1, 100000);
-    height->setValue(canvasHeight);
-    QString label2 = QString("Heigth");
-    form.addRow(label2, height);
-
-    QDialogButtonBox buttonBox(QDialogButtonBox::Save | QDialogButtonBox::Close,
-                               Qt::Horizontal, &dialog);
-    form.addRow(&buttonBox);
-    QObject::connect(&buttonBox, SIGNAL(accepted()), &dialog, SLOT(accept()));
-    QObject::connect(&buttonBox, SIGNAL(rejected()), &dialog, SLOT(reject()));
-
-    if (dialog.exec() == QDialog::Accepted)
-    {
-        canvasWidth=width->value();
-        canvasHeight=height->value();
-        return;
-
-    }else
-    {
-        canvasWidth=DEFAULT_CANVAS_WIDTH;
-        canvasHeight=DEFAULT_CANVAS_HEIGHT;
-        return;
-    }
-}
-
-
-
-
-/**
-@brief exitPrompt si occupa di gestire l'uscita sicura dall'applicazione. Se ci sono modifiche pendenti chiede
-di salvarle prima di uscire, altrimenti evita l'uscita accidentale dall'applicazione
-@return indicazione se l'utente ha deciso di uscire
-*/
-bool MainWindow::exitPrompt()
-{
-    if (isDirty) {
-        QMessageBox *exitDialog = new QMessageBox(this);
-        exitDialog->setIcon(QMessageBox::Question);
-        exitDialog->setText("There are unsaved changes. Do you want to save before exit?");
-        QAbstractButton *save = exitDialog->addButton("Exit and save", QMessageBox::AcceptRole);
-        QAbstractButton *cancel = exitDialog->addButton("Cancel", QMessageBox::RejectRole);
-        exitDialog->addButton("Exit whitout saving", QMessageBox::DestructiveRole);
-        exitDialog->exec();
-        if (exitDialog->clickedButton()== cancel)
-            return false;
-        if (exitDialog->clickedButton()== save)
-        {
-            on_saveAction_triggered();
-            return true;
-        }
-    }else {
-        QMessageBox *exitDialog = new QMessageBox(this);
-        exitDialog->setIcon(QMessageBox::Question);
-        exitDialog->setText("Do you really want to exit?");
-        QAbstractButton *exit = exitDialog->addButton("Exit", QMessageBox::DestructiveRole);
-        exitDialog->addButton("Cancel", QMessageBox::RejectRole);
-        exitDialog->exec();
-        return exitDialog->clickedButton()==exit;
-    }
-    return true;
-}
-
-/**
-@brief crea la toolbar che si presenta sulla sinistra dello schermo.
-*/
-void MainWindow::createLeftToolbar()
-{
-    leftToolbar=new QToolBar();
-    QMainWindow::addToolBar(Qt::LeftToolBarArea, leftToolbar);
-    leftToolbar->setAllowedAreas(Qt::LeftToolBarArea);
-    QActionGroup *group = new QActionGroup(leftToolbar);
-
-    QAction* select = new QAction("select", group);
-    select->setCheckable(true);
-    select->setChecked(true);
-    select->setIcon(QIcon(":/rec/Icons/CursorIcon.png"));
-    connect(select, &QAction::triggered, this, &MainWindow::on_selectAction_triggered);
-
-    QAction* drawLine = new QAction("Line", group);
-    drawLine->setCheckable(true);
-    drawLine->setIcon(QIcon(":/rec/Icons/LineIcon.png"));
-    connect(drawLine, &QAction::triggered, this, &MainWindow::on_drawLineAction_triggered);
-    QAction* drawCircle= new QAction("Circle", group);
-    drawCircle->setCheckable(true);
-    drawCircle->setIcon(QIcon(":/rec/Icons/CircleIcon.png"));
-    connect(drawCircle, &QAction::triggered, this, &MainWindow::on_drawCircleAction_triggered);
-
-    QAction* drawRectangle = new QAction("Rectangle", group);
-    drawRectangle->setCheckable(true);
-    drawRectangle->setIcon(QIcon(":/rec/Icons/RectangleIcon.png"));
-    connect(drawRectangle, &QAction::triggered, this, &MainWindow::on_drawRectangleAction_triggered);
-    QAction* deleteLine = new QAction("Delete", group);
-    deleteLine->setCheckable(true);
-    deleteLine->setIcon(QIcon(":/rec/Icons/Eraser.png"));
-    connect(deleteLine, &QAction::triggered, this, &MainWindow::on_deleteAction_triggered);
-
-    leftToolbar->addActions(group->actions());
-    leftToolbar->addSeparator();
-
-    QLabel *label1 = new QLabel(QString("Line color"));
-    leftToolbar->addWidget(label1);
-
-    getLineColor = new ColorButton();
-    leftToolbar->addWidget(getLineColor);
-    QAction* setColor= new QAction(lineColor.name());
-    getLineColor->setAction(setColor);
-    getLineColor->setColor(lineColor.name());
-    connect(setColor, &QAction::triggered, this, &MainWindow::on_pickColorAction_triggered);
-
-    QLabel *label2 = new QLabel(QString("Fill color"));
-    leftToolbar->addWidget(label2);
-
-    getFillColor = new ColorButton();
-    leftToolbar->addWidget(getFillColor);
-    QAction* setFillColor= new QAction(fillColor.name());
-    getFillColor->setAction(setFillColor);
-    getFillColor->setColor(fillColor.name());
-    connect(setFillColor, &QAction::triggered, this, &MainWindow::on_pickFillColorAction_triggered);
-
-    QLabel *label3 = new QLabel(QString("Line width"));
-    leftToolbar->addWidget(label3);
-
-    QSpinBox *lineWidthSpinBox = new QSpinBox;
-    lineWidthSpinBox->setRange(1, 10);
-    lineWidthSpinBox->setSingleStep(1);
-    lineWidthSpinBox->setValue(lineWidth);
-    leftToolbar->addWidget(lineWidthSpinBox);
-    connect(lineWidthSpinBox, SIGNAL(valueChanged(int)), this, SIGNAL(lineThicknessChanged(int)));
-
-
-
-}
-
-/**
-@brief crea il menu nella parte superiore*/
 void MainWindow::createMenu()
 {
     menu = menuBar()->addMenu(tr("&File"));
@@ -232,10 +42,10 @@ void MainWindow::createMenu()
     menu = menuBar()->addMenu(tr("&Draw"));
     menu->addAction(drawLineAction);
     menu->addAction(drawCircleAction);
+    menu->addAction(drawRectangleAction);
 }
 
-/**
-@brief crea e collega le varie azioni*/
+
 void MainWindow::createAction()
 {
 
@@ -293,10 +103,188 @@ void MainWindow::createAction()
     connect(drawRectangleAction, SIGNAL(triggered()), this, SLOT(on_drawRectangleAction_triggered()));
 }
 
+void MainWindow::createLeftToolbar()
+{
+    leftToolbar=new QToolBar();
+    QMainWindow::addToolBar(Qt::LeftToolBarArea, leftToolbar);
+    leftToolbar->setAllowedAreas(Qt::LeftToolBarArea);
+
+    QActionGroup *group = new QActionGroup(leftToolbar);
+
+    group->addAction(selectAction);
+    selectAction->setCheckable(true);
+    selectAction->setChecked(true);
+    selectAction->setIcon(QIcon(":/rec/Icons/CursorIcon.png"));
+    connect(selectAction, &QAction::triggered, this, &MainWindow::on_selectAction_triggered);
+
+
+    group->addAction(drawLineAction);
+    drawLineAction->setCheckable(true);
+    drawLineAction->setIcon(QIcon(":/rec/Icons/LineIcon.png"));
+    connect(drawLineAction, &QAction::triggered, this, &MainWindow::on_drawLineAction_triggered);
+
+    group->addAction(drawCircleAction);
+    drawCircleAction->setCheckable(true);
+    drawCircleAction->setIcon(QIcon(":/rec/Icons/CircleIcon.png"));
+    connect(drawCircleAction, &QAction::triggered, this, &MainWindow::on_drawCircleAction_triggered);
+
+    group->addAction(drawRectangleAction);
+    drawRectangleAction->setCheckable(true);
+    drawRectangleAction->setIcon(QIcon(":/rec/Icons/RectangleIcon.png"));
+    connect(drawRectangleAction, &QAction::triggered, this, &MainWindow::on_drawRectangleAction_triggered);
+
+    group->addAction(deleteAction);
+    deleteAction->setCheckable(true);
+    deleteAction->setIcon(QIcon(":/rec/Icons/Eraser.png"));
+    connect(deleteAction, &QAction::triggered, this, &MainWindow::on_deleteAction_triggered);
+
+    leftToolbar->addActions(group->actions());
+    leftToolbar->addSeparator();
+
+    QLabel *label1 = new QLabel(QString("Line color"));
+    leftToolbar->addWidget(label1);
+
+    getLineColor = new ColorButton();
+    leftToolbar->addWidget(getLineColor);
+    QAction* setColor= new QAction(lineColor.name());
+    getLineColor->setAction(setColor);
+    getLineColor->setColor(lineColor.name());
+    connect(setColor, &QAction::triggered, this, &MainWindow::on_pickColorAction_triggered);
+
+    QLabel *label2 = new QLabel(QString("Fill color"));
+    leftToolbar->addWidget(label2);
+
+    getFillColor = new ColorButton();
+    leftToolbar->addWidget(getFillColor);
+    QAction* setFillColor= new QAction(fillColor.name());
+    getFillColor->setAction(setFillColor);
+    getFillColor->setColor(fillColor.name());
+    connect(setFillColor, &QAction::triggered, this, &MainWindow::on_pickFillColorAction_triggered);
+
+    QLabel *label3 = new QLabel(QString("Line width"));
+    leftToolbar->addWidget(label3);
+
+    QSpinBox *lineWidthSpinBox = new QSpinBox;
+    lineWidthSpinBox->setRange(1, 10);
+    lineWidthSpinBox->setSingleStep(1);
+    lineWidthSpinBox->setValue(lineWidth);
+    leftToolbar->addWidget(lineWidthSpinBox);
+    connect(lineWidthSpinBox, SIGNAL(valueChanged(int)), this, SIGNAL(lineThicknessChanged(int)));
+}
+
+void MainWindow::createTools()
+{
+    _selectionTool = std::make_shared<SelectionTool>();
+    _drawLineTool = std::make_shared<DrawLineTool>();
+    _deleteTool = std::make_shared<DeleteTool>();
+    _drawCircleTool = std::make_shared<DrawCircleTool>();
+    _drawRectangleTool = std::make_shared<DrawRectangleTool>();
+    //se disegno una figura aggiorno lo stato del canvas
+    connect(_drawLineTool.get(), SIGNAL(canvasModified()), this, SLOT(on_canvasChanged()));
+    connect(_drawRectangleTool.get(), SIGNAL(canvasModified()), this, SLOT(on_canvasChanged()));
+    connect(_drawCircleTool.get(), SIGNAL(canvasModified()), this, SLOT(on_canvasChanged()));
+    connect(_deleteTool.get(), SIGNAL(canvasModified()), this, SLOT(on_canvasChanged()));
+}
+
+void MainWindow::createCentralWidget()
+{
+    canvas = new Canvas(nullptr, _selectionTool, DEFAULT_CANVAS_WIDTH, DEFAULT_CANVAS_HEIGHT);
+    scrollArea->setBackgroundRole(QPalette::Background);
+    canvas->setFixedSize(QSize(DEFAULT_CANVAS_WIDTH,DEFAULT_CANVAS_HEIGHT));
+    canvas->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    scrollArea->setWidget(canvas);
+    scrollArea->setWidgetResizable(true);
+    scrollArea->setVisible(true);
+    setCentralWidget(scrollArea);
+    connect(resizeAction, SIGNAL(triggered()), this, SLOT(on_resizeAction_triggered()));
+    connect(this, SIGNAL(canvasDimensionChanged(unsigned int, unsigned int)), canvas, SLOT(changeCanvasDimension(unsigned int, unsigned int)));
+    scrollArea->show();
+}
+
+
+void MainWindow::uncheckAllToolbar()
+{
+    drawLineAction->setChecked(false);
+    drawCircleAction->setChecked(false);
+    drawRectangleAction->setChecked(false);
+    selectAction->setChecked(false);
+    deleteAction->setChecked(false);
+}
+
+
+void MainWindow::canvasDimensionDialog()
+{
+    QDialog dialog(this);
+    QFormLayout form(&dialog);
+
+    form.addRow(new QLabel("Enter new dimensions:"));
+
+    QSpinBox *width = new QSpinBox(&dialog);
+    width->setRange(1, 100000);
+    width->setSingleStep(1);
+    width->setValue(canvasWidth);
+    QString label1 = QString("Width");
+    form.addRow(label1, width);
+
+    QSpinBox *height = new QSpinBox(&dialog);
+    height->setRange(1, 100000);
+    height->setValue(canvasHeight);
+    QString label2 = QString("Heigth");
+    form.addRow(label2, height);
+
+    QDialogButtonBox buttonBox(QDialogButtonBox::Save | QDialogButtonBox::Close,
+                               Qt::Horizontal, &dialog);
+    form.addRow(&buttonBox);
+    QObject::connect(&buttonBox, SIGNAL(accepted()), &dialog, SLOT(accept()));
+    QObject::connect(&buttonBox, SIGNAL(rejected()), &dialog, SLOT(reject()));
+
+    if (dialog.exec() == QDialog::Accepted)
+    {
+        canvasWidth=width->value();
+        canvasHeight=height->value();
+        return;
+
+    }else
+    {
+        canvasWidth=DEFAULT_CANVAS_WIDTH;
+        canvasHeight=DEFAULT_CANVAS_HEIGHT;
+        return;
+    }
+}
+
+bool MainWindow::exitPrompt()
+{
+    if (isDirty) {
+        QMessageBox *exitDialog = new QMessageBox(this);
+        exitDialog->setIcon(QMessageBox::Question);
+        exitDialog->setText("There are unsaved changes. Do you want to save before exit?");
+        QAbstractButton *save = exitDialog->addButton("Exit and save", QMessageBox::AcceptRole);
+        QAbstractButton *cancel = exitDialog->addButton("Cancel", QMessageBox::RejectRole);
+        exitDialog->addButton("Exit whitout saving", QMessageBox::DestructiveRole);
+        exitDialog->exec();
+        if (exitDialog->clickedButton()== cancel)
+            return false;
+        if (exitDialog->clickedButton()== save)
+        {
+            on_saveAction_triggered();
+            return true;
+        }
+    }else {
+        QMessageBox *exitDialog = new QMessageBox(this);
+        exitDialog->setIcon(QMessageBox::Question);
+        exitDialog->setText("Do you really want to exit?");
+        QAbstractButton *exit = exitDialog->addButton("Exit", QMessageBox::DestructiveRole);
+        exitDialog->addButton("Cancel", QMessageBox::RejectRole);
+        exitDialog->exec();
+        return exitDialog->clickedButton()==exit;
+    }
+    return true;
+}
+
+
 //azioni menu file
 
-/**
-@brief salva le modifiche del progetto corrente e resetta il canvas per poter */
+
 void MainWindow::on_newAction_triggered()
 {
     if (isDirty)
@@ -326,21 +314,13 @@ void MainWindow::on_saveAction_triggered()
     if (saveFile==nullptr)
     {
         saveFile = QFileDialog::getSaveFileName(this, tr("Save File"), "/home/student/Pictures/untitled.png", tr("Images (*.png)"));
-        //di default salva png nella cartella pictures come untitled.png. cambiare i formati e la directory a piacimento.
         if (saveFile == nullptr) //se l'utente e` uscito dal dialogo senza fornire il path allora esci
         {
             return;
-        }else
-        {
-            //canvas->grab().save(saveFile); //altrimenti salvo il canvas e resetto il dirty bit
-            emit saveImageSignal(saveFile, canvas);
-            isDirty = false;
         }
-    }else
-    {
-        emit saveImageSignal(saveFile, canvas);
-        isDirty = false;
     }
+    emit saveImageSignal(saveFile, canvas);
+    isDirty = false;
     return;
 }
 
@@ -349,19 +329,7 @@ void MainWindow::on_exitAction_triggered()
     close();
 }
 
-/**
-@brief attiva il tool per la selezione
-*/
-void MainWindow::on_selectAction_triggered()
-{
-    uncheckAllToolbar();
-    selectAction->setEnabled(true);
-    canvas->setActiveTool(_selectionTool);
-    return;
-}
 
-/**
-@brief attiva il tool per l'eliminazione*/
 void MainWindow::on_deleteAction_triggered()
 {
     uncheckAllToolbar();
@@ -370,11 +338,9 @@ void MainWindow::on_deleteAction_triggered()
     return;
 }
 
-/**
-@brief elimina il canvas*/
+
 void MainWindow::on_deleteAllAction_triggered()
 {
-    //cancella l'intero canvas e riporta l' interfaccia allo stato iniziale
     Singleton::getInstance(nullptr)->getActualSceneInstance().deleteAll();
     canvas->repaint();
     uncheckAllToolbar();
@@ -383,8 +349,24 @@ void MainWindow::on_deleteAllAction_triggered()
     return;
 }
 
-/**
-@brief attiva il tool per il disegno delle linee*/
+
+void MainWindow::on_resizeAction_triggered()
+{
+    canvasDimensionDialog();
+    emit canvasDimensionChanged(canvasWidth, canvasHeight);
+    return;
+}
+
+
+void MainWindow::on_selectAction_triggered()
+{
+    uncheckAllToolbar();
+    selectAction->setEnabled(true);
+    canvas->setActiveTool(_selectionTool);
+    return;
+}
+
+
 void MainWindow::on_drawLineAction_triggered()
 {
     uncheckAllToolbar();
@@ -394,8 +376,6 @@ void MainWindow::on_drawLineAction_triggered()
 }
 
 
-/**
-@brief attiva il tool per il disegno dei cerchi*/
 void MainWindow::on_drawCircleAction_triggered()
 {
     uncheckAllToolbar();
@@ -412,10 +392,8 @@ void MainWindow::on_drawRectangleAction_triggered()
     return;
 }
 
-//azioni di supporto
 
-/**
-@brief permette la scelta del colore delle linee*/
+
 void MainWindow::on_pickColorAction_triggered()
 {
     QColor colorPicked = QColorDialog::getColor(Qt::black, this, "Choose Color");
@@ -428,8 +406,7 @@ void MainWindow::on_pickColorAction_triggered()
 
 }
 
-/**
-@brief permette la scelta del colore di riempimento*/
+
 void MainWindow::on_pickFillColorAction_triggered()
 {
     QColor colorPicked = QColorDialog::getColor(Qt::white, this, "Choose Color");
@@ -442,28 +419,16 @@ void MainWindow::on_pickFillColorAction_triggered()
 
 }
 
-/**
-@brief aggiorna lo stato del canvas in caso di modifiche*/
+
 void MainWindow::on_canvasChanged()
 {
-    //se ci sono modifiche pendenti e isDirty non le segna ->aggiorno isDirty
     if (!isDirty)
         isDirty=true;
-
     return;
 }
 
-/**
-@brief resetta la toolbar*/
-void MainWindow::uncheckAllToolbar()
-{
-    drawLineAction->setChecked(false);
-    selectAction->setChecked(false);
-    deleteAction->setChecked(false);
-}
 
-/**
-@brief gestisce la chiusura dell'applicazione*/
+
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     if (exitPrompt() == false)
