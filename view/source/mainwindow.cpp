@@ -52,54 +52,54 @@ void MainWindow::createAction()
     //new
     newAction = new QAction(tr("&New"), this);
     newAction->setShortcuts(QKeySequence::New);
-    newAction->setStatusTip(tr("New"));
+    newAction->setToolTip(tr("New"));
     connect(newAction, SIGNAL(triggered()), this, SLOT(on_newAction_triggered()));
 
     //save
     saveAction = new QAction(tr("&Save"), this);
     saveAction->setShortcuts(QKeySequence::Save);
-    saveAction->setStatusTip(tr("Save"));
+    saveAction->setToolTip(tr("Save"));
     connect(saveAction, SIGNAL(triggered()), this, SLOT(on_saveAction_triggered()));
 
     //exit
     exitAction = new QAction(tr("&Exit"), this);
     exitAction->setShortcuts(QKeySequence::Quit);
-    exitAction->setStatusTip(tr("Quit"));
+    exitAction->setToolTip(tr("Quit"));
     connect(exitAction, SIGNAL(triggered()), this, SLOT(on_exitAction_triggered()));
 
     //delete
     deleteAction = new QAction(tr("&Delete"), this);
-    deleteAction->setStatusTip(tr("Press to delete"));
+    deleteAction->setToolTip(tr("Press to delete"));
     connect(deleteAction, SIGNAL(triggered()), this, SLOT(on_deleteAction_triggered()));
 
     //deleteAll
     deleteAllAction = new QAction(tr("&Delete all"), this);
     deleteAllAction->setShortcut(Qt::CTRL + Qt::Key_Delete);
-    deleteAllAction->setStatusTip(tr("Press CTRL+DEL to delete all"));
+    deleteAllAction->setToolTip(tr("Press CTRL+DEL to delete all"));
     connect(deleteAllAction, SIGNAL(triggered()), this, SLOT(on_deleteAllAction_triggered()));
 
     //resizeAction
     resizeAction = new QAction(tr("&Resize Canvas"), this);
-    resizeAction->setStatusTip(tr("Resize Canvas"));
+    resizeAction->setToolTip(tr("Resize Canvas"));
 
     //select
     selectAction = new QAction(tr("&Select"), this);
-    selectAction->setStatusTip(tr("Press to Select"));
+    selectAction->setToolTip(tr("Press to Select"));
     connect(selectAction, SIGNAL(triggered()), this, SLOT(on_selectAction_triggered()));
 
     //drawLine
     drawLineAction = new QAction(tr("&Draw line"), this);
-    drawLineAction->setStatusTip(tr("Press to draw a line"));
+    drawLineAction->setToolTip(tr("Press to draw a line"));
     connect(drawLineAction, SIGNAL(triggered()), this, SLOT(on_drawLineAction_triggered()));
 
     //drawCircle
     drawCircleAction = new QAction(tr("&Draw circle"), this);
-    drawCircleAction->setStatusTip(tr("Press to draw a circle"));
+    drawCircleAction->setToolTip(tr("Press to draw a circle"));
     connect(drawCircleAction, SIGNAL(triggered()), this, SLOT(on_drawCircleAction_triggered()));
 
     //drawRectangle
     drawRectangleAction = new QAction(tr("&Draw Rectangle"), this);
-    drawRectangleAction->setStatusTip(tr("Draw Rectangle"));
+    drawRectangleAction->setToolTip(tr("Press to draw a rectangle"));
     connect(drawRectangleAction, SIGNAL(triggered()), this, SLOT(on_drawRectangleAction_triggered()));
 }
 
@@ -204,10 +204,10 @@ void MainWindow::createCentralWidget()
 
 void MainWindow::uncheckAllToolbar()
 {
+    selectAction->setChecked(false);
     drawLineAction->setChecked(false);
     drawCircleAction->setChecked(false);
     drawRectangleAction->setChecked(false);
-    selectAction->setChecked(false);
     deleteAction->setChecked(false);
 }
 
@@ -361,7 +361,7 @@ void MainWindow::on_resizeAction_triggered()
 void MainWindow::on_selectAction_triggered()
 {
     uncheckAllToolbar();
-    selectAction->setEnabled(true);
+    selectAction->setChecked(true);
     canvas->setActiveTool(_selectionTool);
     return;
 }
@@ -370,7 +370,7 @@ void MainWindow::on_selectAction_triggered()
 void MainWindow::on_drawLineAction_triggered()
 {
     uncheckAllToolbar();
-    drawLineAction->setEnabled(true);
+    drawLineAction->setChecked(true);
     canvas->setActiveTool(_drawLineTool);
     return;
 }
