@@ -13,17 +13,9 @@ class Entity : public Drawable, public Selectable, public Transformable
 {
 public:
 
-    Entity(QColor lineColor = Qt::black, QColor fillColor = Qt::white, int lineThickness = 4, bool selected = false);
+    Entity(const QColor& lineColor = Qt::black, const QColor& fillColor = Qt::white, int lineThickness = 4, bool selected = false);
 
     virtual ~Entity();
-
-    /**
-     * @brief date delle coordinate dicono se quel punto appartiene all'oggetto
-     * @param x coordinata ascissa
-     * @param y coordinata ordinata
-     * @return indicazione true/false
-     */
-    virtual bool contains(int x, int y) const = 0;
 
     /**
      * @brief setSelected cambia lo stato di selezione con val
@@ -66,8 +58,16 @@ public:
      */
     int getLineThickness() const;
 
+    /**
+     * @brief setFillColor setta il colore di riempimento dell'oggetto
+     * @param color colore di riempimento
+     */
     void setFillColor(const QColor &color);
 
+    /**
+     * @brief getFillColor ritorna il colore di riempimento dell'oggetto
+     * @return  QColor colore di riempimento
+     */
     QColor getFillColor() const;
 
 protected:

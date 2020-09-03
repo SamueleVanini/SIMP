@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
       lineColor(Qt::black), fillColor(Qt::white), lineWidth(2), isDirty(false), isCanvasDimensioned(false),
       saveFile(), scrollArea(new QScrollArea)
 {
-    singleton = Singleton::getInstance(this);
+    Singleton::getInstance(this);
     QMainWindow::setMinimumSize(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT);
     createAction();
     createLeftToolbar();

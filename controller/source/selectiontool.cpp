@@ -4,9 +4,9 @@
 
 SelectionTool::SelectionTool() : _isMousePressed(false), _hasMoved(false)
 {
-    connect(&(Singleton::getInstance(nullptr)->getActualStyleInstance()), SIGNAL(lineColorChanged(QColor)), this, SLOT(changeLineColor(QColor)));
-    connect(&(Singleton::getInstance(nullptr)->getActualStyleInstance()), SIGNAL(fillColorChanged(QColor)), this, SLOT(changeFillColor(QColor)));
-    connect(&(Singleton::getInstance(nullptr)->getActualStyleInstance()), SIGNAL(thicknessChanged(int)), this, SLOT(changeLineThickness(int)));
+    connect(&(Singleton::getInstance()->getActualStyleInstance()), SIGNAL(lineColorChanged(QColor)), this, SLOT(changeLineColor(QColor)));
+    connect(&(Singleton::getInstance()->getActualStyleInstance()), SIGNAL(fillColorChanged(QColor)), this, SLOT(changeFillColor(QColor)));
+    connect(&(Singleton::getInstance()->getActualStyleInstance()), SIGNAL(thicknessChanged(int)), this, SLOT(changeLineThickness(int)));
 
 }
 
@@ -25,7 +25,7 @@ void SelectionTool::mousePress(QMouseEvent *event)
     }
 
     //cerca la entity che si vuole selezionare per applicare lo stato di selezionata
-    _lastEntity = Singleton::getInstance(nullptr)->getActualSceneInstance().getEntityFromPosition(event->pos().x(), event->pos().y());
+    _lastEntity = Singleton::getInstance()->getActualSceneInstance().getEntityFromPosition(event->pos().x(), event->pos().y());
 
     if (_lastEntity != nullptr) {
         _lastEntity->toogleSelect();
@@ -50,7 +50,7 @@ void SelectionTool::mouseRelease(QMouseEvent *event)
 
 void SelectionTool::changeLineColor(QColor color)
 {
-    Entity *e = Singleton::getInstance(nullptr)->getActualSceneInstance().findSelectedEntity();
+    Entity *e = Singleton::getInstance()->getActualSceneInstance().findSelectedEntity();
     if(e)
     {
         e->setLineColor(color);
@@ -59,7 +59,7 @@ void SelectionTool::changeLineColor(QColor color)
 
 void SelectionTool::changeFillColor(QColor color)
 {
-    Entity *e = Singleton::getInstance(nullptr)->getActualSceneInstance().findSelectedEntity();
+    Entity *e = Singleton::getInstance()->getActualSceneInstance().findSelectedEntity();
     if(e)
     {
         e->setFillColor(color);
@@ -68,7 +68,7 @@ void SelectionTool::changeFillColor(QColor color)
 
 void SelectionTool::changeLineThickness(int value)
 {
-    Entity *e = Singleton::getInstance(nullptr)->getActualSceneInstance().findSelectedEntity();
+    Entity *e = Singleton::getInstance()->getActualSceneInstance().findSelectedEntity();
     if(e)
     {
         e->setLineThickness(value);

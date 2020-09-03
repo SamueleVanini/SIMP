@@ -55,6 +55,9 @@ public:
      */
     Entity* findSelectedEntity();
 
+    /**
+     * @brief deleteAll eminita tutte le Entity presenti nella scena
+     */
     void deleteAll();
 
 private:

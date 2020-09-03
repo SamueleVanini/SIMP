@@ -21,5 +21,5 @@ void DeleteTool::mouseMove(QMouseEvent *event)
 
 void DeleteTool::mouseRelease(QMouseEvent *event)
 {
-    Singleton::getInstance(nullptr)->getActualSceneInstance().deleteEntityFromPosition(event->pos().x(), event->pos().y());
+    Singleton::getInstance()->getActualSceneInstance().deleteEntityFromPosition(event->pos().x(), event->pos().y());
 }

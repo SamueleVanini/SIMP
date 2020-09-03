@@ -13,14 +13,14 @@ void DrawCircleTool::mousePress(QMouseEvent *event)
     _clickPressed = true;
 
     _circle = new Circle(event->pos());
-    _circle->setLineColor(Singleton::getInstance(nullptr)->getActualStyleInstance().getLineColor());
-    _circle->setLineThickness(Singleton::getInstance(nullptr)->getActualStyleInstance().getThickness());
-    _circle->setFillColor(Singleton::getInstance(nullptr)->getActualStyleInstance().getFillColor());
+    _circle->setLineColor(Singleton::getInstance()->getActualStyleInstance().getLineColor());
+    _circle->setLineThickness(Singleton::getInstance()->getActualStyleInstance().getThickness());
+    _circle->setFillColor(Singleton::getInstance()->getActualStyleInstance().getFillColor());
     //Se inserisco una nuova shape l'ultima inserta nella scena va deselezionata
     if(_lastEntity)
         _lastEntity->setSelected(false);
     _lastEntity = _circle;
-    Singleton::getInstance(nullptr)->getActualSceneInstance().addEntity(_circle);
+    Singleton::getInstance()->getActualSceneInstance().addEntity(_circle);
 }
 
 void DrawCircleTool::mouseMove(QMouseEvent *event)

@@ -2,7 +2,7 @@
 
 #include <QPainter>
 
-Circle::Circle(const QPoint &centre, int radius, QColor lineColor, QColor fillColor, int lineThickness, bool selected)
+Circle::Circle(const QPoint &centre, int radius, const QColor& lineColor, const QColor& fillColor, int lineThickness, bool selected)
      : Entity(lineColor, fillColor, lineThickness, selected), _centre(centre), _radius(radius) {}
 
 void Circle::draw(QPainter *painter) const
@@ -21,7 +21,7 @@ void Circle::draw(QPainter *painter) const
         QPen pen(Qt::DotLine);
         pen.setWidth(2);
         painter->setBrush(brush);
-        pen.setColor(QColor(250, 150, 150));
+        pen.setColor(QColor(Qt::black));
         painter->setPen(pen);
         painter->drawRect(getBoundary());
     }

@@ -150,8 +150,6 @@ private:
      */
     bool exitPrompt();
 
-    Singleton *singleton;
-
     Canvas *canvas;
     unsigned int canvasWidth;
     unsigned int canvasHeight;

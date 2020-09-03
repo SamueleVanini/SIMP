@@ -7,7 +7,7 @@ class Line : public Entity
 {
 public:
 
-    Line(const QPoint &p1, const QPoint &p2, QColor lineColor = Qt::black, int lineThickness = 4, bool selected = false);
+    Line(const QPoint &p1, const QPoint &p2, const QColor& lineColor = Qt::black, int lineThickness = 4, bool selected = false);
 
     /**
      * @brief draw metodo impiegato per disegnare la linea

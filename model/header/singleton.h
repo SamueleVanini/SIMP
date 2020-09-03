@@ -3,6 +3,8 @@
 
 #include "model/header/scene.h"
 #include "controller/header/envstyle.h"
+#include <exception>
+#include <string>
 
 /**
  * @brief La classe Singleton svolge il compito di manager per le risorse uniche e condivise del programma
@@ -15,10 +17,11 @@ public:
     /**
      * @brief getInstance funzione statica per avere l'istanza del maneger (è unica e condivisa per tutti
      *        i controller del programma)
-     * @param ui puntatore alla MainWindow, necessaria per inizializzare EnvStyle (collegare signal e slot)
+     * @param ui puntatore alla MainWindow, necessaria solo la prima volta in cui si chiama getInstance()
+     *        per inizializzare EnvStyle (collegare signal e slot)
      * @return ritorna l'unica istanza del Singleton
      */
-    static Singleton* getInstance(MainWindow *ui);
+    static Singleton* getInstance(MainWindow *ui = nullptr);
 
     /**
      * @brief getActualSceneInstance ritorna l'istanza condivisa della scena
@@ -57,6 +60,22 @@ private:
     static Singleton *_singleton;
     Scene _scene;
     EnvStyle _style;
+};
+
+class SingletonException : public std::exception
+{
+public:
+
+    SingletonException(std::string message) : _message(message) {}
+    SingletonException(const SingletonException& s) : _message(s.what()) {}
+    ~SingletonException(){}
+
+    const char* what() const throw()
+    {
+        return _message.c_str();
+    }
+private:
+    std::string _message;
 };
 
 #endif // SINGLETON_H

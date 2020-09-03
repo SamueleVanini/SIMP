@@ -2,8 +2,8 @@
 
 #include <QPainter>
 
-Rectangle::Rectangle(const QPoint &vertex, int width, int height, QColor lineColor, int lineThickness, bool selected)
-     : Entity(lineColor, Qt::black, lineThickness, selected), _topLeftVertex(vertex), _width(width), _height(height) {}
+Rectangle::Rectangle(const QPoint &vertex, int width, int height, const QColor& lineColor, const QColor& fillColor, int lineThickness, bool selected)
+     : Entity(lineColor, fillColor, lineThickness, selected), _topLeftVertex(vertex), _width(width), _height(height) {}
 
 void Rectangle::draw(QPainter *painter) const
 {
@@ -20,9 +20,9 @@ void Rectangle::draw(QPainter *painter) const
         QPen pen(Qt::DotLine);
         pen.setWidth(2);
         painter->setBrush(brush);
-        pen.setColor(QColor(250, 150, 150));
+        pen.setColor(QColor(Qt::black));
         painter->setPen(pen);
-        painter->drawRect(getBoundary());
+        painter->drawRect(getBoundary().adjusted(-3, -3, 3, 3));
     }
 }
 

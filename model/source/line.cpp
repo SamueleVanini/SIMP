@@ -2,7 +2,7 @@
 #include <QPainter>
 #include <cmath>
 
-Line::Line(const QPoint &p1, const QPoint &p2, QColor lineColor, int lineThickness, bool selected)
+Line::Line(const QPoint &p1, const QPoint &p2, const QColor& lineColor, int lineThickness, bool selected)
     : Entity(lineColor, Qt::black, lineThickness, selected), _p1(p1), _p2(p2) {}
 
 void Line::draw(QPainter *painter) const
@@ -20,7 +20,7 @@ void Line::draw(QPainter *painter) const
         QPen pen(Qt::DotLine);
         pen.setWidth(2);
         painter->setBrush(brush);
-        pen.setColor(QColor(250, 150, 150));
+        pen.setColor(QColor(Qt::black));
         painter->setPen(pen);
         painter->drawRect(getBoundary());
     }

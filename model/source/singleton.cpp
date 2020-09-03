@@ -9,7 +9,7 @@ Singleton* Singleton::getInstance(MainWindow *ui)
 
         if(!ui)
         {
-            //lancia eccezione
+            throw SingletonException("Singleton istanziato la prima volta senza MainWindow");
         }
         else
         {

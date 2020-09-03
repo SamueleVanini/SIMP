@@ -16,8 +16,8 @@ void DrawLineTool::mousePress(QMouseEvent *event)
     _clickPressed = true;
 
     _line = new Line(event->pos(), event->pos());
-    _line->setLineColor(Singleton::getInstance(nullptr)->getActualStyleInstance().getLineColor());
-    _line->setLineThickness(Singleton::getInstance(nullptr)->getActualStyleInstance().getThickness());
+    _line->setLineColor(Singleton::getInstance()->getActualStyleInstance().getLineColor());
+    _line->setLineThickness(Singleton::getInstance()->getActualStyleInstance().getThickness());
     //Se inserisco una nuova shape l'ultima inserta nella scena va deselezionata
     if(_lastEntity)
         _lastEntity->setSelected(false);
