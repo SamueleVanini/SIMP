@@ -28,6 +28,13 @@ void Canvas::setActiveTool(const std::shared_ptr<Tool>& tool)
     _activeTool = tool;
 }
 
+void Canvas::changeCanvasDimension(unsigned int width, unsigned int height) {
+    setFixedSize(width, height);
+    _width=width;
+    _height=height;
+    resizeEvent(nullptr);
+}
+
 void Canvas::paintEvent(QPaintEvent *pe)
 {
     Q_UNUSED(pe)
@@ -52,21 +59,4 @@ bool Canvas::event(QEvent *event)
     update();
 
     return result;
-}
-
-void Canvas::resizeEvent(QResizeEvent *event)
-{
-    QWidget::resizeEvent(event);
-}
-
-void Canvas::setCanvasDimension(int width, int height)
-{
-    _width=width;
-    _height=height;
-}
-
-void Canvas::changeCanvasDimension(unsigned int width, unsigned int height) {
-    setFixedSize(width, height);
-    setCanvasDimension(width, height);
-    resizeEvent(nullptr);
 }
