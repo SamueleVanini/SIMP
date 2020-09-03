@@ -179,6 +179,7 @@ void MainWindow::createTools()
     _deleteTool = std::make_shared<DeleteTool>();
     _drawCircleTool = std::make_shared<DrawCircleTool>();
     _drawRectangleTool = std::make_shared<DrawRectangleTool>();
+    canvas->setActiveTool(_selectionTool);
     //se disegno una figura aggiorno lo stato del canvas
     connect(_drawLineTool.get(), SIGNAL(canvasModified()), this, SLOT(on_canvasChanged()));
     connect(_drawRectangleTool.get(), SIGNAL(canvasModified()), this, SLOT(on_canvasChanged()));
